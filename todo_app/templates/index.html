@@ -29,6 +29,9 @@
       {% for item in items%}
       <li>
         {{item.id}} - {{item.status}} - {{item.title}}
+        {% if item.status != 'Completed'%}
+        - <a href="/markcomplete/{{ item.id }}" class="btn btn-secondary btn-sm">Mark Complete</a>
+        {% endif %}
       </li>
       {%endfor%}
     </ul>
