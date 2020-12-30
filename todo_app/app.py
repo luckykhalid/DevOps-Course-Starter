@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect
 from todo_app.flask_config import Config
-from todo_app.data.session_items import get_items, add_item, get_item, save_item, get_current_sort_order, set_current_sort_order
+from todo_app.data.session_items import get_items, add_item, get_item, save_item, get_current_sort_order, set_current_sort_order, delete_item
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -37,6 +37,12 @@ def sort_by(sortby):
     current_sort_order['column'] = sortby
     items = get_items()
     return render_template('index.html', items=items, sort=current_sort_order)
+
+
+@app.route('/deleteitem/<id>')
+def remove_item(id):
+    delete_item(id)
+    return redirect('/')
 
 
 if __name__ == '__main__':

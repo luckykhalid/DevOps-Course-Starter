@@ -83,3 +83,22 @@ def save_item(item):
     session['items'] = updated_items
 
     return item
+
+
+def delete_item(id):
+    """
+    Deletes the item with the specified ID.
+
+    Args:
+        id: The ID of the item.
+
+    Returns:
+        Noting is returned
+    """
+    item = get_item(id)
+
+    # Remove item from the list if exists
+    if item != None:
+        items = get_items()
+        items.remove(item)
+        session['items'] = items

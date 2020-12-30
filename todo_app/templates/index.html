@@ -28,10 +28,17 @@
     <div class="container">
       <div class="row">
         <div class="col">
-          <a href="/sortby/id" class="list-group-item list-group-item-action{{' active' if sort.column == 'id' else ''}}" aria-current="true">Id</a>
+          <a href="/sortby/id"
+            class="list-group-item list-group-item-action{{' active' if sort.column == 'id' else ''}}"
+            aria-current="true">Id</a>
         </div>
-        <div class="col-7"> <a href="/sortby/title" class="list-group-item list-group-item-action{{' active' if sort.column == 'title' else ''}}">Title</a></div>
-        <div class="col"> <a href="/sortby/status" class="list-group-item list-group-item-action{{' active' if sort.column == 'status' else ''}}">Status</a></div>
+        <div class="col-7"> <a href="/sortby/title"
+            class="list-group-item list-group-item-action{{' active' if sort.column == 'title' else ''}}">Title</a>
+        </div>
+        <div class="col"> <a href="/sortby/status"
+            class="list-group-item list-group-item-action{{' active' if sort.column == 'status' else ''}}">Status</a>
+        </div>
+        <div class="col"> </div>
         <div class="col"> </div>
       </div>
       {% for item in items%}
@@ -49,6 +56,9 @@
           {% if item.status != 'Completed'%}
           <a href="/markcomplete/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Mark Complete</a>
           {% endif %}
+        </div>
+        <div class="col">
+          <a href="/deleteitem/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Delete</a>
         </div>
       </div>
       {%endfor%}
