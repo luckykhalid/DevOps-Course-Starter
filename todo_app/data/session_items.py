@@ -1,9 +1,21 @@
 from flask import session
+from operator import itemgetter
 
 _DEFAULT_ITEMS = [
-    { 'id': 1, 'status': 'Not Started', 'title': 'List saved todo items' },
-    { 'id': 2, 'status': 'Not Started', 'title': 'Allow new items to be added' }
+    {'id': 1, 'status': 'Not Started', 'title': 'List saved todo items'},
+    {'id': 2, 'status': 'Not Started', 'title': 'Allow new items to be added'}
 ]
+
+current_sort_order = {'column': 'id', 'descending': False}
+
+
+def get_current_sort_order():
+    return current_sort_order
+
+
+def set_current_sort_order(column, descending):
+    current_sort_order.column = column
+    current_sort_order.descending = descending
 
 
 def get_items():
@@ -13,7 +25,10 @@ def get_items():
     Returns:
         list: The list of saved items.
     """
-    return session.get('items', _DEFAULT_ITEMS)
+    items = session.get('items', _DEFAULT_ITEMS)
+    items = sorted(items, key=itemgetter(current_sort_order['column']),
+                   reverse=current_sort_order['descending'])
+    return items
 
 
 def get_item(id):
@@ -45,7 +60,7 @@ def add_item(title):
     # Determine the ID for the item based on that of the previously added item
     id = items[-1]['id'] + 1 if items else 0
 
-    item = { 'id': id, 'title': title, 'status': 'Not Started' }
+    item = {'id': id, 'title': title, 'status': 'Not Started'}
 
     # Add the item to the list
     items.append(item)
@@ -62,7 +77,8 @@ def save_item(item):
         item: The item to save.
     """
     existing_items = get_items()
-    updated_items = [item if item['id'] == existing_item['id'] else existing_item for existing_item in existing_items]
+    updated_items = [item if item['id'] == existing_item['id']
+                     else existing_item for existing_item in existing_items]
 
     session['items'] = updated_items
 
