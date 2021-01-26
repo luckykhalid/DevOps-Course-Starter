@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, send_from_directory
 from todo_app.flask_config import Config
 from todo_app.data.session_items import get_items, add_item, get_item, save_item, get_current_sort_order, delete_item, set_current_sort_order
+import os
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -36,6 +37,11 @@ def sort_by(sortby):
 def remove_item(id):
     delete_item(id)
     return redirect('/')
+
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.ico')
 
 
 if __name__ == '__main__':
