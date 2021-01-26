@@ -1,9 +1,11 @@
 from flask import session
 from operator import itemgetter
 
+STATUS_NOT_STARTED = 'Not Started'
+
 _DEFAULT_ITEMS = [
-    {'id': 1, 'status': 'Not Started', 'title': 'List saved todo items'},
-    {'id': 2, 'status': 'Not Started', 'title': 'Allow new items to be added'}
+    {'id': 1, 'status': STATUS_NOT_STARTED, 'title': 'List saved todo items'},
+    {'id': 2, 'status': STATUS_NOT_STARTED, 'title': 'Allow new items to be added'}
 ]
 
 current_sort_order = {'column': 'id', 'descending': False}
@@ -11,11 +13,6 @@ current_sort_order = {'column': 'id', 'descending': False}
 
 def get_current_sort_order():
     return current_sort_order
-
-
-def set_current_sort_order(column, descending):
-    current_sort_order.column = column
-    current_sort_order.descending = descending
 
 
 def get_items():
@@ -58,9 +55,9 @@ def add_item(title):
     items = get_items()
 
     # Determine the ID for the item based on that of the previously added item
-    id = items[-1]['id'] + 1 if items else 0
+    item_id = items[-1]['id'] + 1 if items else 0
 
-    item = {'id': id, 'title': title, 'status': 'Not Started'}
+    item = {'id': item_id, 'title': title, 'status': 'Not Started'}
 
     # Add the item to the list
     items.append(item)

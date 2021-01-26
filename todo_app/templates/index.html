@@ -24,44 +24,39 @@
   <div class="col-md-12">
     <h2>To-Do List</h2>
 
-
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <a href="/sortby/id"
-            class="list-group-item list-group-item-action{{' active' if sort.column == 'id' else ''}}"
-            aria-current="true">Id</a>
-        </div>
-        <div class="col-7"> <a href="/sortby/title"
-            class="list-group-item list-group-item-action{{' active' if sort.column == 'title' else ''}}">Title</a>
-        </div>
-        <div class="col"> <a href="/sortby/status"
-            class="list-group-item list-group-item-action{{' active' if sort.column == 'status' else ''}}">Status</a>
-        </div>
-        <div class="col"> </div>
-        <div class="col"> </div>
-      </div>
-      {% for item in items%}
-      <div class="row">
-        <div class="col">
-          {{item.id}}
-        </div>
-        <div class="col-7">
-          {{item.title}}
-        </div>
-        <div class="col">
-          {{item.status}}
-        </div>
-        <div class="col-2">
-          {% if item.status != 'Completed'%}
-          <a href="/markcomplete/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Mark Complete</a>
-          {% endif %}
-        </div>
-        <div class="col">
-          <a href="/deleteitem/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Delete</a>
-        </div>
-      </div>
-      {%endfor%}
+    <div class="table-responsive">
+      <table class="table table-hover table-striped">
+        <caption>To-Do List</caption>
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col"><a href="/sortby/id"
+                class="list-group-item list-group-item-action{{' active' if sort.column == 'id' else ''}}"
+                aria-current="true">Id</a></th>
+            <th scope="col"><a href="/sortby/title"
+                class="list-group-item list-group-item-action{{' active' if sort.column == 'title' else ''}}">Title</a>
+            </th>
+            <th scope="col"><a href="/sortby/status"
+                class="list-group-item list-group-item-action{{' active' if sort.column == 'status' else ''}}">Status</a>
+            </th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in items%}
+          <tr>
+            <th scope="row">{{item.id}}</th>
+            <td>{{item.title}}</td>
+            <td>{{item.status}}</td>
+            <td>{% if item.status != 'Completed'%}
+              <a href="/markcomplete/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Mark Complete</a>
+              {% endif %}
+            </td>
+            <td><a href="/deleteitem/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Delete</a></td>
+          </tr>
+          {%endfor%}
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
