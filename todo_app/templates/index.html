@@ -2,17 +2,63 @@
 {% block title %}To-Do App{% endblock %}
 
 {% block content %}
-  <div class="jumbotron">
-    <h1 class="display-4">To-Do App</h1>
-    <p class="lead">Just another to-do app.</p>
-  </div>
+<div class="jumbotron">
+  <h1 class="display-4">To-Do App</h1>
+  <p class="lead">Just another to-do app.</p>
+</div>
 
-  <div class="row">
-    <div class="col-md-12">
-      <h2>Items</h2>
-      <ul class="list-group mb-4">
-        <!-- List the todo items here -->
-      </ul>
+<div class="row">
+  <div class="col-md-12">
+    <h2>Add New To-Do Item</h2>
+    <form action="/" method="post" class="form-group">
+      <div class="input-group mb-3">
+        <input type="text" name="title" id="title" class="form-control" maxlength="250" placeholder="Enter Item Title"
+          aria-label="Enter Item Title" aria-describedby="inputGroup-sizing-default" required>
+        <button type="submit" id="add-item" class="btn btn-outline-primary">Add</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <h2>To-Do List</h2>
+
+    <div class="table-responsive">
+      <table class="table table-hover table-striped">
+        <caption>To-Do List</caption>
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col"><a href="/sortby/id"
+                class="list-group-item list-group-item-action{{' active' if sort.column == 'id' else ''}}"
+                aria-current="true">Id</a></th>
+            <th scope="col"><a href="/sortby/title"
+                class="list-group-item list-group-item-action{{' active' if sort.column == 'title' else ''}}">Title</a>
+            </th>
+            <th scope="col"><a href="/sortby/status"
+                class="list-group-item list-group-item-action{{' active' if sort.column == 'status' else ''}}">Status</a>
+            </th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in items%}
+          <tr>
+            <th scope="row">{{item.id}}</th>
+            <td>{{item.title}}</td>
+            <td>{{item.status}}</td>
+            <td>{% if item.status != 'Completed'%}
+              <a href="/markcomplete/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Mark Complete</a>
+              {% endif %}
+            </td>
+            <td><a href="/deleteitem/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Delete</a></td>
+          </tr>
+          {%endfor%}
+        </tbody>
+      </table>
     </div>
   </div>
+</div>
+
 {% endblock %}
