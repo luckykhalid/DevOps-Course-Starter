@@ -8,11 +8,22 @@ _DEFAULT_ITEMS = [
     {'id': 2, 'status': STATUS_NOT_STARTED, 'title': 'Allow new items to be added'}
 ]
 
-current_sort_order = {'column': 'id', 'descending': False}
+_DEFAULT_SORT_ORDER = {'column': 'id', 'descending': False}
 
 
 def get_current_sort_order():
-    return current_sort_order
+    return session.get('sortorder', _DEFAULT_SORT_ORDER)
+
+def set_current_sort_order(sortby):
+    current_sort_order = get_current_sort_order()
+    if current_sort_order['column'] == sortby:
+        current_sort_order['descending'] = not current_sort_order['descending']
+    else:
+        current_sort_order['descending'] = False
+
+    current_sort_order['column'] = sortby
+    session['sortorder'] = current_sort_order
+    return get_current_sort_order()
 
 
 def get_items():
@@ -23,6 +34,7 @@ def get_items():
         list: The list of saved items.
     """
     items = session.get('items', _DEFAULT_ITEMS)
+    current_sort_order = get_current_sort_order()
     items = sorted(items, key=itemgetter(current_sort_order['column']),
                    reverse=current_sort_order['descending'])
     return items

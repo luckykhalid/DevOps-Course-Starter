@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect
 from todo_app.flask_config import Config
-from todo_app.data.session_items import get_items, add_item, get_item, save_item, get_current_sort_order, delete_item
+from todo_app.data.session_items import get_items, add_item, get_item, save_item, get_current_sort_order, delete_item, set_current_sort_order
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -28,13 +28,7 @@ def mark_complete(id):
 
 @app.route('/sortby/<sortby>')
 def sort_by(sortby):
-    current_sort_order = get_current_sort_order()
-    if current_sort_order['column'] == sortby:
-        current_sort_order['descending'] = not current_sort_order['descending']
-    else:
-        current_sort_order['descending'] = False
-
-    current_sort_order['column'] = sortby
+    set_current_sort_order(sortby)
     return redirect('/')
 
 
