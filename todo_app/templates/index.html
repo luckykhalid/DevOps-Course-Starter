@@ -2,6 +2,7 @@
 {% block title %}Bus Borad{% endblock %}
 
 {% block content %}
+
 <div class="jumbotron">
   <h1 class="display-4">Bus Board App</h1>
   <p class="lead">Check latest Bus time.</p>
@@ -12,48 +13,38 @@
     <h2>Enter Postcode</h2>
     <form action="/" method="post" class="form-group">
       <div class="input-group mb-3">
-        <input type="text" name="title" id="title" class="form-control" maxlength="250" placeholder="Enter postcode here..."
-          aria-label="Enter Item Title" aria-describedby="inputGroup-sizing-default" required value="NW5 1TL" readonly="true">
+        <input type="text" name="title" id="title" class="form-control" maxlength="250"
+          placeholder="Enter postcode here..." aria-label="Enter Item Title"
+          aria-describedby="inputGroup-sizing-default" required value="NW5 1TL" readonly="true">
         <button type="submit" id="add-item" class="btn btn-outline-primary">Search</button>
       </div>
     </form>
+    <h2 >{{postcode_response.json().result.longitude}}</h2>
   </div>
 </div>
 
-<div class="row" hidden="true">
+<div class="row">
   <div class="col-md-12">
-    <h2>To-Do List</h2>
-
+    <h2>Buses</h2>
     <div class="table-responsive">
       <table class="table table-hover table-striped">
-        <caption>To-Do List</caption>
+        <caption>Buses</caption>
         <thead class="thead-dark">
           <tr>
-            <th scope="col"><a href="/sortby/id"
-                class="list-group-item list-group-item-action{{' active' if sort.column == 'id' else ''}}"
-                aria-current="true">Id</a></th>
-            <th scope="col"><a href="/sortby/title"
-                class="list-group-item list-group-item-action{{' active' if sort.column == 'title' else ''}}">Title</a>
-            </th>
-            <th scope="col"><a href="/sortby/status"
-                class="list-group-item list-group-item-action{{' active' if sort.column == 'status' else ''}}">Status</a>
-            </th>
-            <th scope="col"></th>
-            <th scope="col"></th>
+            <th scope="col">Line</th>
+            <th scope="col">Destination</th>
+            <th scope="col">Departure Time</th>
           </tr>
         </thead>
         <tbody>
-          {% for item in items%}
-          <tr>
-            <th scope="row">{{item.id}}</th>
-            <td>{{item.title}}</td>
-            <td>{{item.status}}</td>
-            <td>{% if item.status != 'Completed'%}
-              <a href="/markcomplete/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Mark Complete</a>
-              {% endif %}
-            </td>
-            <td><a href="/deleteitem/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Delete</a></td>
-          </tr>
+          {% for line in response.json().departures%}          
+            {% for bus in response.json().departures[line]%}
+            <tr>
+              <th scope="row">{{bus.line_name}}</th>
+              <td>{{bus.direction}}</td>
+              <td>{{bus.best_departure_estimate}}</td>
+            </tr>
+            {%endfor%}            
           {%endfor%}
         </tbody>
       </table>
