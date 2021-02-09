@@ -1,26 +1,26 @@
 {% extends "layout.html" %}
-{% block title %}To-Do App{% endblock %}
+{% block title %}Bus Borad{% endblock %}
 
 {% block content %}
 <div class="jumbotron">
-  <h1 class="display-4">To-Do App</h1>
-  <p class="lead">Just another to-do app.</p>
+  <h1 class="display-4">Bus Board App</h1>
+  <p class="lead">Check latest Bus time.</p>
 </div>
 
 <div class="row">
   <div class="col-md-12">
-    <h2>Add New To-Do Item</h2>
+    <h2>Enter Postcode</h2>
     <form action="/" method="post" class="form-group">
       <div class="input-group mb-3">
-        <input type="text" name="title" id="title" class="form-control" maxlength="250" placeholder="Enter Item Title"
-          aria-label="Enter Item Title" aria-describedby="inputGroup-sizing-default" required>
-        <button type="submit" id="add-item" class="btn btn-outline-primary">Add</button>
+        <input type="text" name="title" id="title" class="form-control" maxlength="250" placeholder="Enter postcode here..."
+          aria-label="Enter Item Title" aria-describedby="inputGroup-sizing-default" required value="NW5 1TL" readonly="true">
+        <button type="submit" id="add-item" class="btn btn-outline-primary">Search</button>
       </div>
     </form>
   </div>
 </div>
 
-<div class="row">
+<div class="row" hidden="true">
   <div class="col-md-12">
     <h2>To-Do List</h2>
 
