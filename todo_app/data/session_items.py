@@ -1,18 +1,22 @@
+from todo_app.data.trello_api import TrelloApi
 from flask import session
 from operator import itemgetter
 
 STATUS_NOT_STARTED = 'Not Started'
 
+"""
 _DEFAULT_ITEMS = [
-    {'id': 1, 'status': STATUS_NOT_STARTED, 'title': 'List saved todo items'},
-    {'id': 2, 'status': STATUS_NOT_STARTED, 'title': 'Allow new items to be added'}
+    {'id': 1, 'status': STATUS_NOT_STARTED, 'name': 'List saved todo items'},
+    {'id': 2, 'status': STATUS_NOT_STARTED, 'name': 'Allow new items to be added'}
 ]
+"""
 
-_DEFAULT_SORT_ORDER = {'column': 'id', 'descending': False}
+_DEFAULT_SORT_ORDER = {'column': 'name', 'descending': False}
 
 
 def get_current_sort_order():
     return session.get('sortorder', _DEFAULT_SORT_ORDER)
+
 
 def set_current_sort_order(sortby):
     current_sort_order = get_current_sort_order()
@@ -33,10 +37,12 @@ def get_items():
     Returns:
         list: The list of saved items.
     """
-    items = session.get('items', _DEFAULT_ITEMS)
-    current_sort_order = get_current_sort_order()
-    items = sorted(items, key=itemgetter(current_sort_order['column']),
-                   reverse=current_sort_order['descending'])
+
+    #items = session.get('items', _DEFAULT_ITEMS)
+    response = TrelloApi.get_items()
+    items = response.json()
+    #current_sort_order = get_current_sort_order()
+    #items = sorted(items, key=itemgetter(current_sort_order['column']), reverse=current_sort_order['descending'])
     return items
 
 
@@ -54,12 +60,12 @@ def get_item(id):
     return next((item for item in items if item['id'] == int(id)), None)
 
 
-def add_item(title):
+def add_item(name):
     """
-    Adds a new item with the specified title to the session.
+    Adds a new item with the specified name to the session.
 
     Args:
-        title: The title of the item.
+        name: The name of the item.
 
     Returns:
         item: The saved item.
@@ -69,7 +75,7 @@ def add_item(title):
     # Determine the ID for the item based on that of the previously added item
     item_id = items[-1]['id'] + 1 if items else 0
 
-    item = {'id': item_id, 'title': title, 'status': 'Not Started'}
+    item = {'id': item_id, 'name': name, 'status': 'Not Started'}
 
     # Add the item to the list
     items.append(item)

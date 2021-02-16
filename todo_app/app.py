@@ -15,7 +15,7 @@ def index():
 
 @app.route('/', methods=['POST'])
 def create_item():
-    add_item(request.form['title'])
+    add_item(request.form['name'])
     return index()
 
 
