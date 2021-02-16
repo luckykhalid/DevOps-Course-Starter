@@ -1,4 +1,5 @@
 import os
+from todo_app.util import change_key_in_list_of_dicts, join_lists_of_dicts
 import requests
 
 
@@ -14,13 +15,36 @@ class TrelloApi:
         raise ValueError(
             "No TRELLO_TOKEN set for Trello API calls. Did you follow the setup instructions?")
 
-    TRELLO_BOARD_ID = '60254e45c1345502980ecbf7'
-    TRELLO_LIST_TODO_ID = '60254e45c1345502980ecbf8'
-    TRELLO_LIST_DONE_ID = '60254e45c1345502980ecbfa'
+    BOARD_ID = '60254e45c1345502980ecbf7'
+    LIST_TODO_ID = '60254e45c1345502980ecbf8'
+    LIST_DONE_ID = '60254e45c1345502980ecbfa'
 
-    TRELLO_URL_GET_CARDS = f'https://api.trello.com/1/boards/{TRELLO_BOARD_ID}/cards?key={TRELLO_KEY}&token={TRELLO_TOKEN}&fields=name,idList'
+    PARAMS_ALL = {'key': TRELLO_KEY, 'token': TRELLO_TOKEN}
+
+    PARAMS_GET_CARDS_FIELDS = {'fields': 'name,idList'}
+    PARAMS_GET_CARDS = PARAMS_ALL | PARAMS_GET_CARDS_FIELDS
+    URL_GET_CARDS = f'https://api.trello.com/1/boards/{BOARD_ID}/cards'
+
+    PARAMS_GET_LISTS_FIELDS = {'fields': 'name,idBoard'}
+    PARAMS_GET_LISTS = PARAMS_ALL | PARAMS_GET_LISTS_FIELDS
+    URL_GET_LISTS = f'https://api.trello.com/1/boards/{BOARD_ID}/lists'
+
+    LISTS = None
+
+    @classmethod
+    def get_lists(cls):
+        if cls.LISTS == None:
+            lists = requests.get(
+                cls.URL_GET_LISTS, params=cls.PARAMS_GET_CARDS).json()
+            lists = change_key_in_list_of_dicts(lists, 'id', 'idList')
+            cls.LISTS = change_key_in_list_of_dicts(lists, 'name', 'nameList')
+
+        return cls.LISTS
 
     @staticmethod
     def get_items():
-        response = requests.get(TrelloApi.TRELLO_URL_GET_CARDS)
-        return response
+        cards = requests.get(
+            TrelloApi.URL_GET_CARDS, params=TrelloApi.PARAMS_GET_CARDS).json()
+        lists = TrelloApi.get_lists()
+        items = join_lists_of_dicts(cards, lists, 'idList')
+        return items

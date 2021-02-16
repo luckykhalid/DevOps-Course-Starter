@@ -40,7 +40,7 @@ def get_items():
 
     #items = session.get('items', _DEFAULT_ITEMS)
     response = TrelloApi.get_items()
-    items = response.json()
+    items = response
     #current_sort_order = get_current_sort_order()
     #items = sorted(items, key=itemgetter(current_sort_order['column']), reverse=current_sort_order['descending'])
     return items
