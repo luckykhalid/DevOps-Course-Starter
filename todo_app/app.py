@@ -22,7 +22,7 @@ def create_item():
 
 @app.route('/actions/<action>/<id>')
 def perform_item_action(action, id):
-    if action == 'start':
+    if action in ['start', 'doing']:
         TrelloApi.start_item(id)
     elif action == 'done':
         TrelloApi.done_item(id)

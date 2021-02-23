@@ -46,9 +46,14 @@
             <td>{{item.status}}</td>
             <td>
               {% if item.status == 'To Do'%}
-              <a href="/actions/start/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Start</a>
+              <a href="{{url_for('perform_item_action', action='start', id=item.id)}}"
+                class="btn btn-outline-secondary btn-sm">Start</a>
               {% elif item.status == 'Doing'%}
-              <a href="/actions/done/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Done</a>
+              <a href="{{url_for('perform_item_action', action='done', id=item.id)}}"
+                class="btn btn-outline-secondary btn-sm">Done</a>
+              {% elif item.status == 'Done'%}
+              <a href="{{url_for('perform_item_action', action='doing', id=item.id)}}"
+                class="btn btn-outline-secondary btn-sm">Restart</a>
               {% endif %}
             </td>
             <td><a href="/deleteitem/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Delete</a></td>
