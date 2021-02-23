@@ -3,30 +3,28 @@ from flask import session
 from operator import itemgetter
 
 STATUS_NOT_STARTED = 'Not Started'
+SORT_ORDER_KEY = 'sortorderfield'
+SORT_ORDER_IS_DESCENDING = 'is_descending'
 
-"""
-_DEFAULT_ITEMS = [
-    {'id': 1, 'status': STATUS_NOT_STARTED, 'name': 'List saved todo items'},
-    {'id': 2, 'status': STATUS_NOT_STARTED, 'name': 'Allow new items to be added'}
-]
-"""
-
-_DEFAULT_SORT_ORDER = {'column': 'name', 'descending': False}
+_DEFAULT_SORT_ORDER_IS_DESCENDING = False
+_DEFAULT_SORT_ORDER_KEY = 'name'
+_DEFAULT_SORT_ORDER = {SORT_ORDER_KEY: _DEFAULT_SORT_ORDER_KEY,
+                       SORT_ORDER_IS_DESCENDING: _DEFAULT_SORT_ORDER_IS_DESCENDING}
 
 
 def get_current_sort_order():
-    return session.get('sortorder', _DEFAULT_SORT_ORDER)
+    return session.get(SORT_ORDER_KEY, _DEFAULT_SORT_ORDER)
 
 
 def set_current_sort_order(sortby):
     current_sort_order = get_current_sort_order()
-    if current_sort_order['column'] == sortby:
-        current_sort_order['descending'] = not current_sort_order['descending']
+    if current_sort_order[SORT_ORDER_KEY] == sortby:
+        current_sort_order[SORT_ORDER_IS_DESCENDING] = not current_sort_order[SORT_ORDER_IS_DESCENDING]
     else:
-        current_sort_order['descending'] = False
+        current_sort_order[SORT_ORDER_IS_DESCENDING] = _DEFAULT_SORT_ORDER_IS_DESCENDING
 
-    current_sort_order['column'] = sortby
-    session['sortorder'] = current_sort_order
+    current_sort_order[SORT_ORDER_KEY] = sortby
+    session[SORT_ORDER_KEY] = current_sort_order
     return get_current_sort_order()
 
 
@@ -38,11 +36,10 @@ def get_items():
         list: The list of saved items.
     """
 
-    #items = session.get('items', _DEFAULT_ITEMS)
-    response = TrelloApi.get_items()
-    items = response
-    #current_sort_order = get_current_sort_order()
-    #items = sorted(items, key=itemgetter(current_sort_order['column']), reverse=current_sort_order['descending'])
+    items = TrelloApi.get_items_lists()
+    current_sort_order = get_current_sort_order()
+    items = sorted(items, key=itemgetter(
+        current_sort_order[SORT_ORDER_KEY]), reverse=current_sort_order[SORT_ORDER_IS_DESCENDING])
     return items
 
 

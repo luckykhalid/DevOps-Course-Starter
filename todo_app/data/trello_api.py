@@ -37,12 +37,12 @@ class TrelloApi:
             lists = requests.get(
                 cls.URL_GET_LISTS, params=cls.PARAMS_GET_CARDS).json()
             lists = change_key_in_list_of_dicts(lists, 'id', 'idList')
-            cls.LISTS = change_key_in_list_of_dicts(lists, 'name', 'nameList')
+            cls.LISTS = change_key_in_list_of_dicts(lists, 'name', 'status')
 
         return cls.LISTS
 
     @staticmethod
-    def get_items():
+    def get_items_lists():
         cards = requests.get(
             TrelloApi.URL_GET_CARDS, params=TrelloApi.PARAMS_GET_CARDS).json()
         lists = TrelloApi.get_lists()
