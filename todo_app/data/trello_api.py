@@ -48,13 +48,30 @@ class TrelloApi:
         return cls.LISTS
 
     @classmethod
-    def get_list_todo_id(cls):
+    def get_list_id(cls, list_name):
+        lists = cls.get_lists()
+        return next((item for item in lists if item['status'] == list_name), None)['idList']
+
+    @classmethod
+    def get_list_id_todo(cls):
         if cls.LIST_TODO_ID == None:
-            lists = TrelloApi.get_lists()
-            cls.LIST_TODO_ID = next(
-                (item for item in lists if item['status'] == cls.LIST_TODO_NAME), None)['idList']
+            cls.LIST_TODO_ID = cls.get_list_id(cls.LIST_TODO_NAME)
 
         return cls.LIST_TODO_ID
+
+    @classmethod
+    def get_list_id_doing(cls):
+        if cls.LIST_DOING_ID == None:
+            cls.LIST_DOING_ID = cls.get_list_id(cls.LIST_DOING_NAME)
+
+        return cls.LIST_DOING_ID
+
+    @classmethod
+    def get_list_id_done(cls):
+        if cls.LIST_DONE_ID == None:
+            cls.LIST_DONE_ID = cls.get_list_id(cls.LIST_DONE_NAME)
+
+        return cls.LIST_DONE_ID
 
     @staticmethod
     def get_items_lists():
@@ -66,7 +83,7 @@ class TrelloApi:
 
     @classmethod
     def add_item(cls, item_name):
-        list_todo_id = TrelloApi.get_list_todo_id()
+        list_todo_id = TrelloApi.get_list_id_todo()
 
         payload = {
             'idList': list_todo_id,
@@ -82,4 +99,27 @@ class TrelloApi:
         url = f'{TrelloApi.URL_CARDS}/{item_id}'
         response = requests.delete(
             url=url, params=TrelloApi.PARAMS_KEY_TOKEN)
+        return response
+
+    @staticmethod
+    def update_item_list(item_id, list_id):
+        url = f'{TrelloApi.URL_CARDS}/{item_id}'
+
+        payload = {
+            'idList': list_id
+        }
+        response = requests.put(
+            url=url, params=TrelloApi.PARAMS_KEY_TOKEN, json=payload).json()
+        return response
+
+    @staticmethod
+    def start_item(item_id):
+        list_id = TrelloApi.get_list_id_doing()
+        response = TrelloApi.update_item_list(item_id, list_id)
+        return response
+
+    @staticmethod
+    def done_item(item_id):
+        list_id = TrelloApi.get_list_id_done()
+        response = TrelloApi.update_item_list(item_id, list_id)
         return response

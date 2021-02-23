@@ -44,8 +44,11 @@
           <tr>
             <th scope="row">{{item.name}}</th>
             <td>{{item.status}}</td>
-            <td>{% if item.status != 'Completed'%}
-              <a href="/markcomplete/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Mark Complete</a>
+            <td>
+              {% if item.status == 'To Do'%}
+              <a href="/actions/start/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Start</a>
+              {% elif item.status == 'Doing'%}
+              <a href="/actions/done/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Done</a>
               {% endif %}
             </td>
             <td><a href="/deleteitem/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Delete</a></td>

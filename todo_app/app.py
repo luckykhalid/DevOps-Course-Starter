@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, send_from_directory
 from todo_app.flask_config import Config
-from todo_app.data.session_items import get_items, get_item, save_item, get_current_sort_order, set_current_sort_order
+from todo_app.data.session_items import get_items, get_current_sort_order, set_current_sort_order
 from todo_app.data.trello_api import TrelloApi
 import os
 
@@ -17,14 +17,16 @@ def index():
 @app.route('/', methods=['POST'])
 def create_item():
     TrelloApi.add_item(request.form['name'])
-    return index()
+    return redirect('/')
 
 
-@app.route('/markcomplete/<id>')
-def mark_complete(id):
-    item = get_item(id)
-    item['status'] = 'Completed'
-    save_item(item)
+@app.route('/actions/<action>/<id>')
+def perform_item_action(action, id):
+    if action == 'start':
+        TrelloApi.start_item(id)
+    elif action == 'done':
+        TrelloApi.done_item(id)
+
     return redirect('/')
 
 
