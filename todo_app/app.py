@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, send_from_directory
 from todo_app.flask_config import Config
-from todo_app.data.session_items import get_items, get_item, save_item, get_current_sort_order, delete_item, set_current_sort_order
+from todo_app.data.session_items import get_items, get_item, save_item, get_current_sort_order, set_current_sort_order
 from todo_app.data.trello_api import TrelloApi
 import os
 
@@ -36,7 +36,7 @@ def sort_by(sortby):
 
 @app.route('/deleteitem/<id>')
 def remove_item(id):
-    delete_item(id)
+    TrelloApi.delete_item(id)
     return redirect('/')
 
 

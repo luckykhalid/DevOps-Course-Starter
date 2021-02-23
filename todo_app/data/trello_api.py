@@ -33,7 +33,7 @@ class TrelloApi:
     PARAMS_GET_LISTS = PARAMS_KEY_TOKEN | PARAMS_GET_LISTS_FIELDS
     URL_GET_LISTS = f'https://api.trello.com/1/boards/{BOARD_ID}/lists'
 
-    URL_ADD_CARD = 'https://api.trello.com/1/cards'
+    URL_CARDS = 'https://api.trello.com/1/cards'
 
     LISTS = None
 
@@ -73,6 +73,13 @@ class TrelloApi:
             'name': item_name
         }
         new_card = requests.post(
-            cls.URL_ADD_CARD, params=cls.PARAMS_KEY_TOKEN, json=payload).json()
+            cls.URL_CARDS, params=cls.PARAMS_KEY_TOKEN, json=payload).json()
 
         return new_card
+
+    @staticmethod
+    def delete_item(item_id):
+        url = f'{TrelloApi.URL_CARDS}/{item_id}'
+        response = requests.delete(
+            url=url, params=TrelloApi.PARAMS_KEY_TOKEN)
+        return response
