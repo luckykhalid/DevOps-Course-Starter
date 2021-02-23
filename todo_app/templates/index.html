@@ -29,9 +29,6 @@
         <caption>To-Do List</caption>
         <thead class="thead-dark">
           <tr>
-            <th scope="col"><a href="/sortby/id"
-                class="list-group-item list-group-item-action{{' active' if sort.column == 'id' else ''}}"
-                aria-current="true">Id</a></th>
             <th scope="col"><a href="/sortby/name"
                 class="list-group-item list-group-item-action{{' active' if sort.column == 'name' else ''}}">Name</a>
             </th>
@@ -45,8 +42,7 @@
         <tbody>
           {% for item in items%}
           <tr>
-            <th scope="row">{{item.id}}</th>
-            <td>{{item.name}}</td>
+            <th scope="row">{{item.name}}</th>
             <td>{{item.status}}</td>
             <td>{% if item.status != 'Completed'%}
               <a href="/markcomplete/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Mark Complete</a>
