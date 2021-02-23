@@ -1,4 +1,3 @@
-from collections import defaultdict
 
 
 def join_lists_of_dicts(main_list, joining_list, join_key):

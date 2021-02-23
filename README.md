@@ -39,7 +39,7 @@ The `.env` file is used by flask to set environment variables when running `flas
 
 We're going to be using Trello's API to fetch and save to-do tasks. In order to call their API, you need to first [create an account](https://trello.com/signup) then generate an API key and token by following the [instructions here](https://trello.com/app-key).
 
-Update the `.env` file with Trello's API Key and Token against these variables `TRELLO_KEY` and `TRELLO_TOKEN`.
+Update the `.env` file with Trello's API Key, Token and Board Id against these variables `TRELLO_KEY`, `TRELLO_TOKEN` and `BOARD_ID`. Make sure board being used has 3 lists named `To Do`, `Doing` and `Done`.
 
 You can read the documentation for Trello's REST API [here](https://developer.atlassian.com/cloud/trello/rest/api-group-actions/).
 

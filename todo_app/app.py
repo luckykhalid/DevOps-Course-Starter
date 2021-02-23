@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, send_from_directory
 from todo_app.flask_config import Config
-from todo_app.data.session_items import get_items, get_current_sort_order, set_current_sort_order
+from todo_app.data.sort_manager import get_current_sort_order, set_current_sort_order
 from todo_app.data.trello_api import TrelloApi
 import os
 
@@ -10,7 +10,7 @@ app.config.from_object(Config)
 
 @app.route('/')
 def index():
-    items = get_items()
+    items = TrelloApi.get_items_lists()
     return render_template('index.html', items=items, sort=get_current_sort_order())
 
 
