@@ -29,8 +29,10 @@ class TrelloApi:
     LIST_DONE_ID = None
 
     FIELD_NAME_FIELDS = 'fields'
+    FIELD_NAME_ID = 'id'
     FIELD_NAME_NAME = 'name'
     FIELD_NAME_LIST_ID = 'idList'
+    FIELD_NAME_STATUS = 'status'
 
     PARAMS_KEY_TOKEN = {'key': TRELLO_KEY, 'token': TRELLO_TOKEN}
     URL_ROOT = 'https://api.trello.com/1/'
@@ -54,16 +56,16 @@ class TrelloApi:
             lists = requests.get(
                 cls.URL_GET_LISTS, params=cls.PARAMS_GET_CARDS).json()
             lists = change_key_in_list_of_dicts(
-                lists, 'id', cls.FIELD_NAME_LIST_ID)
+                lists, cls.FIELD_NAME_ID, cls.FIELD_NAME_LIST_ID)
             cls.LISTS = change_key_in_list_of_dicts(
-                lists, cls.FIELD_NAME_NAME, 'status')
+                lists, cls.FIELD_NAME_NAME, cls.FIELD_NAME_STATUS)
 
         return cls.LISTS
 
     @classmethod
     def get_list_id(cls, list_name):
         lists = cls.get_lists()
-        return next((item for item in lists if item['status'] == list_name), None)[cls.FIELD_NAME_LIST_ID]
+        return next((item for item in lists if item[cls.FIELD_NAME_STATUS] == list_name), None)[cls.FIELD_NAME_LIST_ID]
 
     @classmethod
     def get_list_id_todo(cls):
