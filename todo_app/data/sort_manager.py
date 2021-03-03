@@ -1,11 +1,12 @@
+from todo_app.data.FieldNames import FieldNames
 from flask import session
-from operator import itemgetter
+from operator import attrgetter
 
 SORT_ORDER_KEY = 'sort_order'
 SORT_ORDER_IS_DESCENDING = 'is_descending'
 
 _DEFAULT_SORT_ORDER_IS_DESCENDING = False
-_DEFAULT_SORT_ORDER_KEY = 'name'
+_DEFAULT_SORT_ORDER_KEY = FieldNames.FIELD_NAME_TITLE
 _DEFAULT_SORT_ORDER = {SORT_ORDER_KEY: _DEFAULT_SORT_ORDER_KEY,
                        SORT_ORDER_IS_DESCENDING: _DEFAULT_SORT_ORDER_IS_DESCENDING}
 
@@ -28,6 +29,6 @@ def set_current_sort_order(sortby):
 
 def sort(items):
     current_sort_order = get_current_sort_order()
-    items = sorted(items, key=itemgetter(
+    items.sort(key=attrgetter(
         current_sort_order[SORT_ORDER_KEY]), reverse=current_sort_order[SORT_ORDER_IS_DESCENDING])
     return items

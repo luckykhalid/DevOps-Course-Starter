@@ -1,5 +1,5 @@
+from todo_app.data.FieldNames import FieldNames
 from todo_app.util import change_key_in_list_of_dicts, join_lists_of_dicts
-from todo_app.data.sort_manager import sort
 import requests
 import os
 
@@ -28,21 +28,16 @@ class TrelloApi:
     LIST_DOING_ID = None
     LIST_DONE_ID = None
 
-    FIELD_NAME_FIELDS = 'fields'
-    FIELD_NAME_ID = 'id'
-    FIELD_NAME_NAME = 'name'
-    FIELD_NAME_LIST_ID = 'idList'
-    FIELD_NAME_STATUS = 'status'
-
     PARAMS_KEY_TOKEN = {'key': TRELLO_KEY, 'token': TRELLO_TOKEN}
     URL_ROOT = 'https://api.trello.com/1/'
 
     PARAMS_GET_CARDS_FIELDS = {
-        FIELD_NAME_FIELDS: f'{FIELD_NAME_NAME},{FIELD_NAME_LIST_ID}'}
+        FieldNames.FIELD_NAME_FIELDS: f'{FieldNames.FIELD_NAME_NAME},{FieldNames.FIELD_NAME_LIST_ID}'}
     PARAMS_GET_CARDS = PARAMS_KEY_TOKEN | PARAMS_GET_CARDS_FIELDS
     URL_GET_CARDS = f'{URL_ROOT}boards/{BOARD_ID}/cards'
 
-    PARAMS_GET_LISTS_FIELDS = {FIELD_NAME_FIELDS: f'{FIELD_NAME_NAME},idBoard'}
+    PARAMS_GET_LISTS_FIELDS = {
+        FieldNames.FIELD_NAME_FIELDS: f'{FieldNames.FIELD_NAME_NAME},idBoard'}
     PARAMS_GET_LISTS = PARAMS_KEY_TOKEN | PARAMS_GET_LISTS_FIELDS
     URL_GET_LISTS = f'{URL_ROOT}boards/{BOARD_ID}/lists'
 
@@ -56,16 +51,16 @@ class TrelloApi:
             lists = requests.get(
                 cls.URL_GET_LISTS, params=cls.PARAMS_GET_CARDS).json()
             lists = change_key_in_list_of_dicts(
-                lists, cls.FIELD_NAME_ID, cls.FIELD_NAME_LIST_ID)
+                lists, FieldNames.FIELD_NAME_ID, FieldNames.FIELD_NAME_LIST_ID)
             cls.LISTS = change_key_in_list_of_dicts(
-                lists, cls.FIELD_NAME_NAME, cls.FIELD_NAME_STATUS)
+                lists, FieldNames.FIELD_NAME_NAME, FieldNames.FIELD_NAME_STATUS)
 
         return cls.LISTS
 
     @classmethod
     def get_list_id(cls, list_name):
         lists = cls.get_lists()
-        return next((item for item in lists if item[cls.FIELD_NAME_STATUS] == list_name), None)[cls.FIELD_NAME_LIST_ID]
+        return next((item for item in lists if item[FieldNames.FIELD_NAME_STATUS] == list_name), None)[FieldNames.FIELD_NAME_LIST_ID]
 
     @classmethod
     def get_list_id_todo(cls):
@@ -93,8 +88,8 @@ class TrelloApi:
         cards = requests.get(
             TrelloApi.URL_GET_CARDS, params=TrelloApi.PARAMS_GET_CARDS).json()
         lists = TrelloApi.get_lists()
-        items = join_lists_of_dicts(cards, lists, TrelloApi.FIELD_NAME_LIST_ID)
-        items = sort(items)
+        items = join_lists_of_dicts(
+            cards, lists, FieldNames.FIELD_NAME_LIST_ID)
         return items
 
     @classmethod
@@ -102,8 +97,8 @@ class TrelloApi:
         list_todo_id = TrelloApi.get_list_id_todo()
 
         payload = {
-            cls.FIELD_NAME_LIST_ID: list_todo_id,
-            cls.FIELD_NAME_NAME: item_name
+            FieldNames.FIELD_NAME_LIST_ID: list_todo_id,
+            FieldNames.FIELD_NAME_NAME: item_name
         }
         new_card = requests.post(
             cls.URL_CARDS, params=cls.PARAMS_KEY_TOKEN, json=payload).json()
@@ -122,7 +117,7 @@ class TrelloApi:
         url = f'{TrelloApi.URL_CARDS}/{item_id}'
 
         payload = {
-            TrelloApi.FIELD_NAME_LIST_ID: list_id
+            FieldNames.FIELD_NAME_LIST_ID: list_id
         }
         response = requests.put(
             url=url, params=TrelloApi.PARAMS_KEY_TOKEN, json=payload).json()
