@@ -1,3 +1,4 @@
+from todo_app.ViewModel import ViewModel
 from todo_app.data.Items import Items
 from flask import Flask, render_template, request, redirect, send_from_directory
 from todo_app.flask_config import Config
@@ -8,9 +9,9 @@ app.config.from_object(Config)
 
 
 @app.route('/')
-def index():
-    items = Items.get_items()
-    return render_template('index.html', items=items, sort=Items.get_current_sort_order())
+def index():    
+    item_view_model = ViewModel(Items.get_items(), Items.get_current_sort_order())
+    return render_template('index.html', view_model=item_view_model)
 
 
 @app.route('/', methods=['POST'])
