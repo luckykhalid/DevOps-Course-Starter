@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}To-Do App{% endblock %}
+{% block name %}To-Do App{% endblock %}
 
 {% block content %}
 <div class="jumbotron">
@@ -29,9 +29,6 @@
         <caption>To-Do List</caption>
         <thead class="thead-dark">
           <tr>
-            <th scope="col"><a href="/sortby/id"
-                class="list-group-item list-group-item-action{{' active' if sort.column == 'id' else ''}}"
-                aria-current="true">Id</a></th>
             <th scope="col"><a href="/sortby/title"
                 class="list-group-item list-group-item-action{{' active' if sort.column == 'title' else ''}}">Title</a>
             </th>
@@ -45,11 +42,18 @@
         <tbody>
           {% for item in items%}
           <tr>
-            <th scope="row">{{item.id}}</th>
-            <td>{{item.title}}</td>
+            <th scope="row">{{item.title}}</th>
             <td>{{item.status}}</td>
-            <td>{% if item.status != 'Completed'%}
-              <a href="/markcomplete/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Mark Complete</a>
+            <td>
+              {% if item.status == 'To Do'%}
+              <a href="{{url_for('perform_item_action', action='start', id=item.id)}}"
+                class="btn btn-outline-secondary btn-sm">Start</a>
+              {% elif item.status == 'Doing'%}
+              <a href="{{url_for('perform_item_action', action='done', id=item.id)}}"
+                class="btn btn-outline-secondary btn-sm">Done</a>
+              {% elif item.status == 'Done'%}
+              <a href="{{url_for('perform_item_action', action='doing', id=item.id)}}"
+                class="btn btn-outline-secondary btn-sm">Restart</a>
               {% endif %}
             </td>
             <td><a href="/deleteitem/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Delete</a></td>

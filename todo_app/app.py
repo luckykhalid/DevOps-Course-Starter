@@ -1,6 +1,6 @@
+from todo_app.data.Items import Items
 from flask import Flask, render_template, request, redirect, send_from_directory
 from todo_app.flask_config import Config
-from todo_app.data.session_items import get_items, add_item, get_item, save_item, get_current_sort_order, delete_item, set_current_sort_order
 import os
 
 app = Flask(__name__)
@@ -9,33 +9,35 @@ app.config.from_object(Config)
 
 @app.route('/')
 def index():
-    items = get_items()
-    return render_template('index.html', items=items, sort=get_current_sort_order())
+    items = Items.get_items()
+    return render_template('index.html', items=items, sort=Items.get_current_sort_order())
 
 
 @app.route('/', methods=['POST'])
 def create_item():
-    add_item(request.form['title'])
-    return index()
+    Items.add_item(request.form['title'])
+    return redirect('/')
 
 
-@app.route('/markcomplete/<id>')
-def mark_complete(id):
-    item = get_item(id)
-    item['status'] = 'Completed'
-    save_item(item)
+@app.route('/actions/<action>/<id>')
+def perform_item_action(action, id):
+    if action in ['start', 'doing']:
+        Items.start_item(id)
+    elif action == 'done':
+        Items.done_item(id)
+
     return redirect('/')
 
 
 @app.route('/sortby/<sortby>')
 def sort_by(sortby):
-    set_current_sort_order(sortby)
+    Items.set_current_sort_order(sortby)
     return redirect('/')
 
 
 @app.route('/deleteitem/<id>')
 def remove_item(id):
-    delete_item(id)
+    Items.delete_item(id)
     return redirect('/')
 
 
