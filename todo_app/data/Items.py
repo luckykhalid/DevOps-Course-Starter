@@ -15,7 +15,7 @@ class Items:
         items = []
         for trello_item in trello_items:
             items.append(
-                Item(trello_item[FieldNames.FIELD_NAME_ID], trello_item[FieldNames.FIELD_NAME_NAME], trello_item[FieldNames.FIELD_NAME_STATUS]))
+                Item(trello_item[FieldNames.ID], trello_item[FieldNames.NAME], trello_item[FieldNames.STATUS]))
         items = sort(items)
         return items
 
@@ -28,7 +28,7 @@ class Items:
         return TrelloApi.delete_item(item_id)
 
     @staticmethod
-    def start_item(item_id):
+    def doing_item(item_id):
         return TrelloApi.start_item(item_id)
 
     @staticmethod

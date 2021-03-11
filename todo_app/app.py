@@ -22,8 +22,8 @@ def create_item():
 
 @app.route('/actions/<action>/<id>')
 def perform_item_action(action, id):
-    if action in ['start', 'doing']:
-        Items.start_item(id)
+    if action == 'doing':
+        Items.doing_item(id)
     elif action == 'done':
         Items.done_item(id)
 

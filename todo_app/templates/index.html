@@ -46,7 +46,7 @@
             <td>{{item.status}}</td>
             <td>
               {% if item.status == 'To Do'%}
-              <a href="{{url_for('perform_item_action', action='start', id=item.id)}}"
+              <a href="{{url_for('perform_item_action', action='doing', id=item.id)}}"
                 class="btn btn-outline-secondary btn-sm">Start</a>
               {% elif item.status == 'Doing'%}
               <a href="{{url_for('perform_item_action', action='done', id=item.id)}}"
