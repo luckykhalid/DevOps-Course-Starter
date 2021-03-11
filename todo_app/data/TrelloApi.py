@@ -88,8 +88,7 @@ class TrelloApi:
         cards = requests.get(
             TrelloApi.URL_GET_CARDS, params=TrelloApi.PARAMS_GET_CARDS).json()
         lists = TrelloApi.get_lists()
-        items = join_lists_of_dicts(
-            cards, lists, FieldNames.LIST_ID)
+        items = join_lists_of_dicts(cards, lists, FieldNames.LIST_ID)
         return items
 
     @classmethod
@@ -124,7 +123,7 @@ class TrelloApi:
         return response
 
     @staticmethod
-    def start_item(item_id):
+    def doing_item(item_id):
         list_id = TrelloApi.get_list_id_doing()
         response = TrelloApi.update_item_list(item_id, list_id)
         return response

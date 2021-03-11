@@ -29,7 +29,7 @@ class Items:
 
     @staticmethod
     def doing_item(item_id):
-        return TrelloApi.start_item(item_id)
+        return TrelloApi.doing_item(item_id)
 
     @staticmethod
     def done_item(item_id):
