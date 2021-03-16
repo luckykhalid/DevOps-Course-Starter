@@ -15,8 +15,8 @@ class Items:
         trello_items = TrelloApi.get_items_lists()
         items = []
         for trello_item in trello_items:
-            items.append(
-                Item(trello_item[FieldNames.ID], trello_item[FieldNames.NAME], trello_item[FieldNames.STATUS]))
+            items.append(Item(trello_item[FieldNames.ID], trello_item[FieldNames.NAME],
+                              trello_item[FieldNames.STATUS], trello_item[FieldNames.DATE_LAST_ACTIVITY]))
         items = sort(items)
         return items
 

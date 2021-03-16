@@ -5,3 +5,5 @@ class FieldNames:
     TITLE = 'title'
     LIST_ID = 'idList'
     STATUS = 'status'
+    DATE_LAST_ACTIVITY = 'dateLastActivity'
+    ACTIVE_TAB = 'active_tab'

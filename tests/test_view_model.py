@@ -8,9 +8,12 @@ import pytest
 @pytest.fixture
 def view_model() -> ViewModel:
     items = []
-    items.append(Item('Id01', 'Item Name 01', 'To Do'))
-    items.append(Item('Id02', 'Item Name 02', 'Doing'))
-    items.append(Item('Id03', 'Item Name 03', 'Done'))
+    items.append(Item('Id01', 'Item Name 01',
+                      'To Do', '2021-03-16T12:30:01.070Z'))
+    items.append(Item('Id02', 'Item Name 02',
+                      'Doing', '2021-03-15T12:30:01.070Z'))
+    items.append(Item('Id03', 'Item Name 03',
+                      'Done', '2021-03-14T12:30:01.070Z'))
     return ViewModel(items, None)
 
 
@@ -35,3 +38,12 @@ def test_items_done(view_model):
     items = view_model.items_done
     assert len(items) == 1
     assert items[0].status == 'Done'
+
+
+def test_active_tab(view_model):
+    active_tab = 'To Do'
+    assert view_model.active_tab == active_tab
+
+    active_tab = 'Doing'
+    view_model.active_tab = active_tab
+    assert view_model.active_tab == active_tab

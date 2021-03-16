@@ -123,6 +123,10 @@
             <th scope="col"><a href="/sortby/title"
                 class="list-group-item list-group-item-action{{' active' if view_model.sort_order.column == 'title' else ''}}">Title</a>
             </th>
+            <th scope="col"><a href="/sortby/date_last_activity"
+                class="list-group-item list-group-item-action{{' active' if view_model.sort_order.column == 'date_last_activity' else ''}}">Last
+                Updated</a>
+            </th>
             <th scope="col"><a href="/sortby/status"
                 class="list-group-item list-group-item-action{{' active' if view_model.sort_order.column == 'status' else ''}}">Status</a>
             </th>
@@ -134,6 +138,7 @@
           {% for item in view_model.items_done%}
           <tr>
             <th scope="row">{{item.title}}</th>
+            <td>{{item.date_last_activity}}</td>
             <td>{{item.status}}</td>
             <td>
               {% if item.status == 'To Do'%}

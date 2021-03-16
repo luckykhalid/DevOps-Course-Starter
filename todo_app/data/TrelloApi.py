@@ -30,7 +30,7 @@ class TrelloApi:
     URL_ROOT = 'https://api.trello.com/1/'
 
     PARAMS_GET_CARDS_FIELDS = {
-        FieldNames.FIELDS: f'{FieldNames.NAME},{FieldNames.LIST_ID}'}
+        FieldNames.FIELDS: f'{FieldNames.NAME},{FieldNames.LIST_ID},{FieldNames.DATE_LAST_ACTIVITY}'}
     PARAMS_GET_CARDS = PARAMS_KEY_TOKEN | PARAMS_GET_CARDS_FIELDS
     URL_GET_CARDS = f'{URL_ROOT}boards/{BOARD_ID}/cards'
 
