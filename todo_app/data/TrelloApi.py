@@ -1,3 +1,4 @@
+from todo_app.data.Status import Status
 from todo_app.data.FieldNames import FieldNames
 from todo_app.util import change_key_in_list_of_dicts, join_lists_of_dicts
 import requests
@@ -21,9 +22,6 @@ class TrelloApi:
         raise ValueError(
             "No BOARD_ID set for Trello API calls. Did you follow the setup instructions?")
 
-    LIST_TODO_NAME = 'To Do'
-    LIST_DOING_NAME = 'Doing'
-    LIST_DONE_NAME = 'Done'
     LIST_TODO_ID = None
     LIST_DOING_ID = None
     LIST_DONE_ID = None
@@ -46,7 +44,7 @@ class TrelloApi:
     LISTS = None
 
     @classmethod
-    def get_lists(cls):
+    def get_lists(cls) -> list:
         if cls.LISTS == None:
             lists = requests.get(
                 cls.URL_GET_LISTS, params=cls.PARAMS_GET_CARDS).json()
@@ -65,21 +63,21 @@ class TrelloApi:
     @classmethod
     def get_list_id_todo(cls):
         if cls.LIST_TODO_ID == None:
-            cls.LIST_TODO_ID = cls.get_list_id(cls.LIST_TODO_NAME)
+            cls.LIST_TODO_ID = cls.get_list_id(Status.TODO.value)
 
         return cls.LIST_TODO_ID
 
     @classmethod
     def get_list_id_doing(cls):
         if cls.LIST_DOING_ID == None:
-            cls.LIST_DOING_ID = cls.get_list_id(cls.LIST_DOING_NAME)
+            cls.LIST_DOING_ID = cls.get_list_id(Status.DOING.value)
 
         return cls.LIST_DOING_ID
 
     @classmethod
     def get_list_id_done(cls):
         if cls.LIST_DONE_ID == None:
-            cls.LIST_DONE_ID = cls.get_list_id(cls.LIST_DONE_NAME)
+            cls.LIST_DONE_ID = cls.get_list_id(Status.DONE.value)
 
         return cls.LIST_DONE_ID
 
