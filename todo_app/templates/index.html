@@ -20,10 +20,141 @@
   </div>
 </div>
 
-<div class="row">
-  <div class="col-md-12">
-    <h2>To-Do List</h2>
+<nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <a class="nav-item nav-link active" id="nav-todo-tab" data-toggle="tab" href="#nav-todo" role="tab"
+      aria-controls="nav-todo" aria-selected="true">To Do</a>
+    <a class="nav-item nav-link" id="nav-doing-tab" data-toggle="tab" href="#nav-doing" role="tab"
+      aria-controls="nav-doing" aria-selected="false">Doing</a>
+    <a class="nav-item nav-link" id="nav-done-tab" data-toggle="tab" href="#nav-done" role="tab"
+      aria-controls="nav-done" aria-selected="false">Done</a>
+    <a class="nav-item nav-link" id="nav-all-tab" data-toggle="tab" href="#nav-all" role="tab" aria-controls="nav-all"
+      aria-selected="false">All</a>
+  </div>
+</nav>
 
+<div class="tab-content" id="nav-tabContent">
+  <div class="tab-pane fade show active" id="nav-todo" role="tabpanel" aria-labelledby="nav-todo-tab">
+    <div class="table-responsive">
+      <table class="table table-hover table-striped">
+        <caption>To-Do List</caption>
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col"><a href="/sortby/title"
+                class="list-group-item list-group-item-action{{' active' if view_model.sort_order.column == 'title' else ''}}">Title</a>
+            </th>
+            <th scope="col"><a href="/sortby/status"
+                class="list-group-item list-group-item-action{{' active' if view_model.sort_order.column == 'status' else ''}}">Status</a>
+            </th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in view_model.items_to_do%}
+          <tr>
+            <th scope="row">{{item.title}}</th>
+            <td>{{item.status}}</td>
+            <td>
+              {% if item.status == 'To Do'%}
+              <a href="{{url_for('perform_item_action', action='doing', id=item.id)}}"
+                class="btn btn-outline-secondary btn-sm">Start</a>
+              {% elif item.status == 'Doing'%}
+              <a href="{{url_for('perform_item_action', action='done', id=item.id)}}"
+                class="btn btn-outline-secondary btn-sm">Done</a>
+              {% elif item.status == 'Done'%}
+              <a href="{{url_for('perform_item_action', action='doing', id=item.id)}}"
+                class="btn btn-outline-secondary btn-sm">Restart</a>
+              {% endif %}
+            </td>
+            <td><a href="/deleteitem/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Delete</a></td>
+          </tr>
+          {%endfor%}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="tab-pane fade" id="nav-doing" role="tabpanel" aria-labelledby="nav-doing-tab">
+    <div class="table-responsive">
+      <table class="table table-hover table-striped">
+        <caption>To-Do List</caption>
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col"><a href="/sortby/title"
+                class="list-group-item list-group-item-action{{' active' if view_model.sort_order.column == 'title' else ''}}">Title</a>
+            </th>
+            <th scope="col"><a href="/sortby/status"
+                class="list-group-item list-group-item-action{{' active' if view_model.sort_order.column == 'status' else ''}}">Status</a>
+            </th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in view_model.items_doing%}
+          <tr>
+            <th scope="row">{{item.title}}</th>
+            <td>{{item.status}}</td>
+            <td>
+              {% if item.status == 'To Do'%}
+              <a href="{{url_for('perform_item_action', action='doing', id=item.id)}}"
+                class="btn btn-outline-secondary btn-sm">Start</a>
+              {% elif item.status == 'Doing'%}
+              <a href="{{url_for('perform_item_action', action='done', id=item.id)}}"
+                class="btn btn-outline-secondary btn-sm">Done</a>
+              {% elif item.status == 'Done'%}
+              <a href="{{url_for('perform_item_action', action='doing', id=item.id)}}"
+                class="btn btn-outline-secondary btn-sm">Restart</a>
+              {% endif %}
+            </td>
+            <td><a href="/deleteitem/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Delete</a></td>
+          </tr>
+          {%endfor%}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="tab-pane fade" id="nav-done" role="tabpanel" aria-labelledby="nav-done-tab">
+    <div class="table-responsive">
+      <table class="table table-hover table-striped">
+        <caption>To-Do List</caption>
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col"><a href="/sortby/title"
+                class="list-group-item list-group-item-action{{' active' if view_model.sort_order.column == 'title' else ''}}">Title</a>
+            </th>
+            <th scope="col"><a href="/sortby/status"
+                class="list-group-item list-group-item-action{{' active' if view_model.sort_order.column == 'status' else ''}}">Status</a>
+            </th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in view_model.items_done%}
+          <tr>
+            <th scope="row">{{item.title}}</th>
+            <td>{{item.status}}</td>
+            <td>
+              {% if item.status == 'To Do'%}
+              <a href="{{url_for('perform_item_action', action='doing', id=item.id)}}"
+                class="btn btn-outline-secondary btn-sm">Start</a>
+              {% elif item.status == 'Doing'%}
+              <a href="{{url_for('perform_item_action', action='done', id=item.id)}}"
+                class="btn btn-outline-secondary btn-sm">Done</a>
+              {% elif item.status == 'Done'%}
+              <a href="{{url_for('perform_item_action', action='doing', id=item.id)}}"
+                class="btn btn-outline-secondary btn-sm">Restart</a>
+              {% endif %}
+            </td>
+            <td><a href="/deleteitem/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Delete</a></td>
+          </tr>
+          {%endfor%}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="tab-pane fade" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
     <div class="table-responsive">
       <table class="table table-hover table-striped">
         <caption>To-Do List</caption>

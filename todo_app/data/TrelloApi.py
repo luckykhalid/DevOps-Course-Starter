@@ -56,33 +56,33 @@ class TrelloApi:
         return cls.LISTS
 
     @classmethod
-    def get_list_id(cls, list_name):
+    def get_list_id(cls, list_name) -> str:
         lists = cls.get_lists()
         return next((item for item in lists if item[FieldNames.STATUS] == list_name), None)[FieldNames.LIST_ID]
 
     @classmethod
-    def get_list_id_todo(cls):
+    def get_list_id_todo(cls) -> str:
         if cls.LIST_TODO_ID == None:
             cls.LIST_TODO_ID = cls.get_list_id(Status.TODO.value)
 
         return cls.LIST_TODO_ID
 
     @classmethod
-    def get_list_id_doing(cls):
+    def get_list_id_doing(cls) -> str:
         if cls.LIST_DOING_ID == None:
             cls.LIST_DOING_ID = cls.get_list_id(Status.DOING.value)
 
         return cls.LIST_DOING_ID
 
     @classmethod
-    def get_list_id_done(cls):
+    def get_list_id_done(cls) -> str:
         if cls.LIST_DONE_ID == None:
             cls.LIST_DONE_ID = cls.get_list_id(Status.DONE.value)
 
         return cls.LIST_DONE_ID
 
     @staticmethod
-    def get_items_lists():
+    def get_items_lists() -> list:
         cards = requests.get(
             TrelloApi.URL_GET_CARDS, params=TrelloApi.PARAMS_GET_CARDS).json()
         lists = TrelloApi.get_lists()

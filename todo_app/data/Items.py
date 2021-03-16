@@ -1,10 +1,11 @@
+from typing import Set
 from todo_app.data.sort_manager import get_current_sort_order, set_current_sort_order, sort
 from todo_app.data.FieldNames import FieldNames
 from todo_app.data.Item import Item
 from todo_app.data.TrelloApi import TrelloApi
 
 
-"""This class represents Items wrapper hiding underneath API. UI always calls this class rather than direct interacting with backend API."""
+"""This is a wraper class hiding the underneath Trello API."""
 
 
 class Items:
