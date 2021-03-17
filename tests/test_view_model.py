@@ -62,7 +62,7 @@ def test_items_done_recent(view_model):
     items = view_model.items_done_recent
     assert len(items) == 0
 
-    # if 5 or more items then don't show all items
+    # 5 items done today and 2 in the past
     view_model.items.append(
         Item('Id03', 'Item Name 03', 'Done', datetime.now()))
     view_model.items.append(
@@ -73,6 +73,34 @@ def test_items_done_recent(view_model):
         Item('Id03', 'Item Name 03', 'Done', datetime.now()))
     view_model.items.append(
         Item('Id03', 'Item Name 03', 'Done', datetime.now()))
+    view_model.items.append(
+        Item('Id03', 'Item Name 03', 'Done', to_utc_datetime_object('2021-03-14T12:30:01.070Z')))
+    view_model.items.append(
+        Item('Id03', 'Item Name 03', 'Done', to_utc_datetime_object('2021-03-14T12:30:01.070Z')))
 
     items = view_model.items_done_recent
     assert len(items) == 5
+
+
+def test_items_done_older(view_model):
+    items = view_model.items_done_older
+    assert len(items) == 1
+
+    # 5 items done today and 2 in the past
+    view_model.items.append(
+        Item('Id03', 'Item Name 03', 'Done', datetime.now()))
+    view_model.items.append(
+        Item('Id03', 'Item Name 03', 'Done', datetime.now()))
+    view_model.items.append(
+        Item('Id03', 'Item Name 03', 'Done', datetime.now()))
+    view_model.items.append(
+        Item('Id03', 'Item Name 03', 'Done', datetime.now()))
+    view_model.items.append(
+        Item('Id03', 'Item Name 03', 'Done', datetime.now()))
+    view_model.items.append(
+        Item('Id03', 'Item Name 03', 'Done', to_utc_datetime_object('2021-03-14T12:30:01.070Z')))
+    view_model.items.append(
+        Item('Id03', 'Item Name 03', 'Done', to_utc_datetime_object('2021-03-14T12:30:01.070Z')))
+
+    items = view_model.items_done_older
+    assert len(items) == 3

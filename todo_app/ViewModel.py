@@ -28,6 +28,10 @@ class ViewModel:
     @property
     def items_done_recent(self):
         return [item for item in self.items_done if item.date_last_activity.date() == datetime.today().date()]
+    
+    @property
+    def items_done_older(self):
+        return [item for item in self.items_done if item.date_last_activity.date() < datetime.today().date()]
 
     @property
     def sort_order(self):

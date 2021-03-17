@@ -38,7 +38,7 @@
     aria-labelledby="nav-todo-tab">
     <div class="table-responsive">
       <table class="table table-hover table-striped">
-        <caption>To-Do List</caption>
+        <caption>Items not yet started</caption>
         <thead class="thead-dark">
           <tr>
             <th scope="col"><a href="/sortby/title"
@@ -79,7 +79,7 @@
     aria-labelledby="nav-doing-tab">
     <div class="table-responsive">
       <table class="table table-hover table-striped">
-        <caption>To-Do List</caption>
+        <caption>Items we are working on</caption>
         <thead class="thead-dark">
           <tr>
             <th scope="col"><a href="/sortby/title"
@@ -118,9 +118,11 @@
   </div>
   <div class="tab-pane fade{{view_model.get_active_tab_content_class('Done')}}" id="nav-done" role="tabpanel"
     aria-labelledby="nav-done-tab">
+
+    {% if view_model.show_all_done_items %}
     <div class="table-responsive">
       <table class="table table-hover table-striped">
-        <caption>To-Do List</caption>
+        <caption>Done Items</caption>
         <thead class="thead-dark">
           <tr>
             <th scope="col"><a href="/sortby/title"
@@ -161,12 +163,106 @@
         </tbody>
       </table>
     </div>
+    {% else %}
+    <details>
+      <summary>
+        <div class="table-responsive">
+          <table class="table table-hover table-striped">
+            <caption>Show Older Done Items</caption>
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col"><a href="/sortby/title"
+                    class="list-group-item list-group-item-action{{' active' if view_model.sort_order.column == 'title' else ''}}">Title</a>
+                </th>
+                <th scope="col"><a href="/sortby/date_last_activity"
+                    class="list-group-item list-group-item-action{{' active' if view_model.sort_order.column == 'date_last_activity' else ''}}">Last
+                    Updated</a>
+                </th>
+                <th scope="col"><a href="/sortby/status"
+                    class="list-group-item list-group-item-action{{' active' if view_model.sort_order.column == 'status' else ''}}">Status</a>
+                </th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in view_model.items_done_recent%}
+              <tr>
+                <th scope="row">{{item.title}}</th>
+                <td>{{item.date_last_activity}}</td>
+                <td>{{item.status}}</td>
+                <td>
+                  {% if item.status == 'To Do'%}
+                  <a href="{{url_for('perform_item_action', action='doing', id=item.id)}}"
+                    class="btn btn-outline-secondary btn-sm">Start</a>
+                  {% elif item.status == 'Doing'%}
+                  <a href="{{url_for('perform_item_action', action='done', id=item.id)}}"
+                    class="btn btn-outline-secondary btn-sm">Done</a>
+                  {% elif item.status == 'Done'%}
+                  <a href="{{url_for('perform_item_action', action='doing', id=item.id)}}"
+                    class="btn btn-outline-secondary btn-sm">Restart</a>
+                  {% endif %}
+                </td>
+                <td><a href="/deleteitem/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Delete</a></td>
+              </tr>
+              {%endfor%}
+            </tbody>
+          </table>
+        </div>
+      </summary>
+      <p>
+      <div class="table-responsive">
+        <table class="table table-hover table-striped">
+          <caption>Older Done Items</caption>
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col"><a href="/sortby/title"
+                  class="list-group-item list-group-item-action{{' active' if view_model.sort_order.column == 'title' else ''}}">Title</a>
+              </th>
+              <th scope="col"><a href="/sortby/date_last_activity"
+                  class="list-group-item list-group-item-action{{' active' if view_model.sort_order.column == 'date_last_activity' else ''}}">Last
+                  Updated</a>
+              </th>
+              <th scope="col"><a href="/sortby/status"
+                  class="list-group-item list-group-item-action{{' active' if view_model.sort_order.column == 'status' else ''}}">Status</a>
+              </th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in view_model.items_done_older%}
+            <tr>
+              <th scope="row">{{item.title}}</th>
+              <td>{{item.date_last_activity}}</td>
+              <td>{{item.status}}</td>
+              <td>
+                {% if item.status == 'To Do'%}
+                <a href="{{url_for('perform_item_action', action='doing', id=item.id)}}"
+                  class="btn btn-outline-secondary btn-sm">Start</a>
+                {% elif item.status == 'Doing'%}
+                <a href="{{url_for('perform_item_action', action='done', id=item.id)}}"
+                  class="btn btn-outline-secondary btn-sm">Done</a>
+                {% elif item.status == 'Done'%}
+                <a href="{{url_for('perform_item_action', action='doing', id=item.id)}}"
+                  class="btn btn-outline-secondary btn-sm">Restart</a>
+                {% endif %}
+              </td>
+              <td><a href="/deleteitem/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Delete</a></td>
+            </tr>
+            {%endfor%}
+          </tbody>
+        </table>
+      </div>
+      </p>
+    </details>
+    {% endif %}
   </div>
   <div class="tab-pane fade{{view_model.get_active_tab_content_class('All')}}" id="nav-all" role="tabpanel"
     aria-labelledby="nav-all-tab">
     <div class="table-responsive">
       <table class="table table-hover table-striped">
-        <caption>To-Do List</caption>
+        <caption>List of All items</caption>
         <thead class="thead-dark">
           <tr>
             <th scope="col"><a href="/sortby/title"
