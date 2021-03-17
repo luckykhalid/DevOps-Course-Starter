@@ -1,6 +1,6 @@
 from todo_app.data.Status import Status
 from todo_app.data.FieldNames import FieldNames
-from todo_app.util import change_key_in_list_of_dicts, join_lists_of_dicts
+from todo_app.utils import change_key_in_list_of_dicts, join_lists_of_dicts
 import requests
 import os
 

@@ -22,19 +22,20 @@
 
 <nav>
   <div class="nav nav-tabs" id="nav-tab" role="tablist">
-    <a class="nav-item nav-link active" id="nav-todo-tab" data-toggle="tab" href="#nav-todo" role="tab"
-      aria-controls="nav-todo" aria-selected="true">To Do</a>
-    <a class="nav-item nav-link" id="nav-doing-tab" data-toggle="tab" href="#nav-doing" role="tab"
-      aria-controls="nav-doing" aria-selected="false">Doing</a>
-    <a class="nav-item nav-link" id="nav-done-tab" data-toggle="tab" href="#nav-done" role="tab"
-      aria-controls="nav-done" aria-selected="false">Done</a>
-    <a class="nav-item nav-link" id="nav-all-tab" data-toggle="tab" href="#nav-all" role="tab" aria-controls="nav-all"
-      aria-selected="false">All</a>
+    <a class="nav-item nav-link{{view_model.get_active_tab_class('To Do')}}" id="nav-todo-tab" data-toggle="tab"
+      href="#nav-todo" role="tab" aria-controls="nav-todo" aria-selected="true">To Do</a>
+    <a class="nav-item nav-link{{view_model.get_active_tab_class('Doing')}}" id="nav-doing-tab" data-toggle="tab"
+      href="#nav-doing" role="tab" aria-controls="nav-doing" aria-selected="false">Doing</a>
+    <a class="nav-item nav-link{{view_model.get_active_tab_class('Done')}}" id="nav-done-tab" data-toggle="tab"
+      href="#nav-done" role="tab" aria-controls="nav-done" aria-selected="false">Done</a>
+    <a class="nav-item nav-link{{view_model.get_active_tab_class('All')}}" id="nav-all-tab" data-toggle="tab"
+      href="#nav-all" role="tab" aria-controls="nav-all" aria-selected="false">All</a>
   </div>
 </nav>
 
 <div class="tab-content" id="nav-tabContent">
-  <div class="tab-pane fade show active" id="nav-todo" role="tabpanel" aria-labelledby="nav-todo-tab">
+  <div class="tab-pane fade{{view_model.get_active_tab_content_class('To Do')}}" id="nav-todo" role="tabpanel"
+    aria-labelledby="nav-todo-tab">
     <div class="table-responsive">
       <table class="table table-hover table-striped">
         <caption>To-Do List</caption>
@@ -74,7 +75,8 @@
       </table>
     </div>
   </div>
-  <div class="tab-pane fade" id="nav-doing" role="tabpanel" aria-labelledby="nav-doing-tab">
+  <div class="tab-pane fade{{view_model.get_active_tab_content_class('Doing')}}" id="nav-doing" role="tabpanel"
+    aria-labelledby="nav-doing-tab">
     <div class="table-responsive">
       <table class="table table-hover table-striped">
         <caption>To-Do List</caption>
@@ -114,7 +116,8 @@
       </table>
     </div>
   </div>
-  <div class="tab-pane fade" id="nav-done" role="tabpanel" aria-labelledby="nav-done-tab">
+  <div class="tab-pane fade{{view_model.get_active_tab_content_class('Done')}}" id="nav-done" role="tabpanel"
+    aria-labelledby="nav-done-tab">
     <div class="table-responsive">
       <table class="table table-hover table-striped">
         <caption>To-Do List</caption>
@@ -159,7 +162,8 @@
       </table>
     </div>
   </div>
-  <div class="tab-pane fade" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
+  <div class="tab-pane fade{{view_model.get_active_tab_content_class('All')}}" id="nav-all" role="tabpanel"
+    aria-labelledby="nav-all-tab">
     <div class="table-responsive">
       <table class="table table-hover table-striped">
         <caption>To-Do List</caption>

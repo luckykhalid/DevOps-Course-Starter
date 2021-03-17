@@ -1,5 +1,7 @@
 """Unit tests for ViewModel.py"""
 
+from datetime import datetime
+from todo_app.utils import to_utc_datetime_object
 from todo_app.data.Item import Item
 from todo_app.ViewModel import ViewModel
 import pytest
@@ -9,11 +11,11 @@ import pytest
 def view_model() -> ViewModel:
     items = []
     items.append(Item('Id01', 'Item Name 01',
-                      'To Do', '2021-03-16T12:30:01.070Z'))
+                      'To Do', to_utc_datetime_object('2021-03-16T12:30:01.070Z')))
     items.append(Item('Id02', 'Item Name 02',
-                      'Doing', '2021-03-15T12:30:01.070Z'))
+                      'Doing', to_utc_datetime_object('2021-03-15T12:30:01.070Z')))
     items.append(Item('Id03', 'Item Name 03',
-                      'Done', '2021-03-14T12:30:01.070Z'))
+                      'Done', to_utc_datetime_object('2021-03-14T12:30:01.070Z')))
     return ViewModel(items, None)
 
 
@@ -40,10 +42,37 @@ def test_items_done(view_model):
     assert items[0].status == 'Done'
 
 
-def test_active_tab(view_model):
-    active_tab = 'To Do'
-    assert view_model.active_tab == active_tab
+def test_show_all_done_items(view_model):
+    assert view_model.show_all_done_items
 
-    active_tab = 'Doing'
-    view_model.active_tab = active_tab
-    assert view_model.active_tab == active_tab
+    # if 5 or more items then don't show all items
+    view_model.items.append(
+        Item('Id03', 'Item Name 03', 'Done', to_utc_datetime_object('2021-03-14T12:30:01.070Z')))
+    view_model.items.append(
+        Item('Id03', 'Item Name 03', 'Done', to_utc_datetime_object('2021-03-14T12:30:01.070Z')))
+    view_model.items.append(
+        Item('Id03', 'Item Name 03', 'Done', to_utc_datetime_object('2021-03-14T12:30:01.070Z')))
+    view_model.items.append(
+        Item('Id03', 'Item Name 03', 'Done', to_utc_datetime_object('2021-03-14T12:30:01.070Z')))
+
+    assert not view_model.show_all_done_items
+
+
+def test_items_done_recent(view_model):
+    items = view_model.items_done_recent
+    assert len(items) == 0
+
+    # if 5 or more items then don't show all items
+    view_model.items.append(
+        Item('Id03', 'Item Name 03', 'Done', datetime.now()))
+    view_model.items.append(
+        Item('Id03', 'Item Name 03', 'Done', datetime.now()))
+    view_model.items.append(
+        Item('Id03', 'Item Name 03', 'Done', datetime.now()))
+    view_model.items.append(
+        Item('Id03', 'Item Name 03', 'Done', datetime.now()))
+    view_model.items.append(
+        Item('Id03', 'Item Name 03', 'Done', datetime.now()))
+
+    items = view_model.items_done_recent
+    assert len(items) == 5
