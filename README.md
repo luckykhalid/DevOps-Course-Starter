@@ -62,3 +62,15 @@ You should see output similar to the following:
  * Debugger PIN: 226-556-590
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
+
+## Tests
+
+You can run both unit and integration tests suites using pytest. Run this from the root directory:
+
+`$ poetry run pytest`
+
+Or you can run them from VSCode:
+
+Click the conical flask icon on the activity bar on the left edge of VSCode. Click the refresh icon at the top of the panel to rediscover tests. Click the play icon at the top to run all tests. Click the play icon next to a file or test name to run that file or test individually.
+* Intellisense annotations for running/debugging each test should also appear above the test functions in the code.
+* If test discovery fails, check that Poetry has installed your dependencies and that the Python interpreter is selected correctly - you should be using the executable from the .venv folder.
