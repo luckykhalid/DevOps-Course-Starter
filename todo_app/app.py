@@ -4,13 +4,20 @@ from flask import Flask, render_template, request, redirect, send_from_directory
 from todo_app.flask_config import Config
 import os
 
-app = Flask(__name__)
-app.config.from_object(Config)
+
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(Config)
+    return app
+
+
+app = create_app()
 
 
 @app.route('/')
-def index():    
-    item_view_model = ViewModel(Items.get_items(), Items.get_current_sort_order())
+def index():
+    item_view_model = ViewModel(
+        Items.get_items(), Items.get_current_sort_order())
     return render_template('index.html', view_model=item_view_model)
 
 
