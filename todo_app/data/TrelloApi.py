@@ -3,6 +3,7 @@ from todo_app.data.FieldNames import FieldNames
 from todo_app.utils import change_key_in_list_of_dicts, join_lists_of_dicts
 import requests
 import os
+import uuid
 
 
 class TrelloApi:
@@ -44,9 +45,10 @@ class TrelloApi:
         cls.PARAMS_GET_LISTS_FIELDS = {
             FieldNames.FIELDS: f'{FieldNames.NAME},{FieldNames.BOARD_ID}'}
         cls.PARAMS_GET_LISTS = cls.PARAMS_KEY_TOKEN | cls.PARAMS_GET_LISTS_FIELDS
-        cls.URL_GET_LISTS = f'{cls.URL_ROOT}{FieldNames.BOARDS}/{cls.BOARD_ID}/{FieldNames.LISTS}'
 
+        cls.URL_GET_LISTS = f'{cls.URL_ROOT}{FieldNames.BOARDS}/{cls.BOARD_ID}/{FieldNames.LISTS}'
         cls.URL_CARDS = f'{cls.URL_ROOT}{FieldNames.CARDS}'
+        cls.URL_BOARDS = f'{cls.URL_ROOT}{FieldNames.BOARDS}'
 
     @classmethod
     def get_lists(cls) -> list:
@@ -135,4 +137,23 @@ class TrelloApi:
     def done_item(item_id):
         list_id = TrelloApi.get_list_id_done()
         response = TrelloApi.update_item_list(item_id, list_id)
+        return response
+
+    @staticmethod
+    def create_board(board_name):
+        params = TrelloApi.PARAMS_KEY_TOKEN | {FieldNames.NAME: board_name}
+        response = requests.post(
+            url=TrelloApi.URL_BOARDS, params=params).json()
+        return response
+
+    @staticmethod
+    def create_board_temp():
+        response = TrelloApi.create_board(uuid.uuid4().hex).json()
+        return response.id
+
+    @staticmethod
+    def delete_board(board_id):
+        url = f'{TrelloApi.URL_BOARDS}/{board_id}'
+        response = requests.delete(
+            url=url, params=TrelloApi.PARAMS_KEY_TOKEN).json()
         return response
