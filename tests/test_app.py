@@ -17,17 +17,18 @@ def client():
     test_app = create_app()
     # Use the app to create a test_client that can be used in our tests.
     with test_app.test_client() as client:
-        print('Before yeild')
         yield client
-        print('After yeild')
 
 
 @patch('requests.get')
 def test_index_page_mocked(mock_get_requests, client):
     # Replace call to requests.get(url) with our own function
-    print('Executing test')
     mock_get_requests.side_effect = mock_get_lists
     response = client.get('/')
+    assert response.status_code == 200
+    assert b'I completed my Lunch, Brilliant! :)' in response.data
+    assert b'This is added from Trello website' in response.data
+    assert b'Happy New Item' in response.data
 
 
 def mock_get_lists(url, params):
