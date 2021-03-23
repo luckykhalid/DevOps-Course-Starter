@@ -6,42 +6,47 @@ import os
 
 
 class TrelloApi:
-    """Trello API Calls."""
-    TRELLO_KEY = os.environ.get('TRELLO_KEY')
-    if not TRELLO_KEY:
-        raise ValueError(
-            "No TRELLO_KEY set for Trello API calls. Did you follow the setup instructions?")
 
-    TRELLO_TOKEN = os.environ.get('TRELLO_TOKEN')
-    if not TRELLO_TOKEN:
-        raise ValueError(
-            "No TRELLO_TOKEN set for Trello API calls. Did you follow the setup instructions?")
-
-    BOARD_ID = os.environ.get('BOARD_ID')
-    if not TRELLO_TOKEN:
-        raise ValueError(
-            "No BOARD_ID set for Trello API calls. Did you follow the setup instructions?")
+    URL_ROOT = 'https://api.trello.com/1/'
 
     LIST_TODO_ID = None
     LIST_DOING_ID = None
     LIST_DONE_ID = None
 
-    PARAMS_KEY_TOKEN = {'key': TRELLO_KEY, 'token': TRELLO_TOKEN}
-    URL_ROOT = 'https://api.trello.com/1/'
-
-    PARAMS_GET_CARDS_FIELDS = {
-        FieldNames.FIELDS: f'{FieldNames.NAME},{FieldNames.LIST_ID},{FieldNames.DATE_LAST_ACTIVITY}'}
-    PARAMS_GET_CARDS = PARAMS_KEY_TOKEN | PARAMS_GET_CARDS_FIELDS
-    URL_GET_CARDS = f'{URL_ROOT}boards/{BOARD_ID}/cards'
-
-    PARAMS_GET_LISTS_FIELDS = {
-        FieldNames.FIELDS: f'{FieldNames.NAME},idBoard'}
-    PARAMS_GET_LISTS = PARAMS_KEY_TOKEN | PARAMS_GET_LISTS_FIELDS
-    URL_GET_LISTS = f'{URL_ROOT}boards/{BOARD_ID}/lists'
-
-    URL_CARDS = f'{URL_ROOT}cards'
-
     LISTS = None
+
+    @classmethod
+    def init(cls):
+        """Trello API Calls."""
+        cls.TRELLO_KEY = os.environ.get('TRELLO_KEY')
+        if not cls.TRELLO_KEY:
+            raise ValueError(
+                "No TRELLO_KEY set for Trello API calls. Did you follow the setup instructions?")
+
+        cls.TRELLO_TOKEN = os.environ.get('TRELLO_TOKEN')
+        if not cls.TRELLO_TOKEN:
+            raise ValueError(
+                "No TRELLO_TOKEN set for Trello API calls. Did you follow the setup instructions?")
+
+        cls.BOARD_ID = os.environ.get('BOARD_ID')
+        if not cls.TRELLO_TOKEN:
+            raise ValueError(
+                "No BOARD_ID set for Trello API calls. Did you follow the setup instructions?")
+
+        cls.PARAMS_KEY_TOKEN = {
+            'key': cls.TRELLO_KEY, 'token': cls.TRELLO_TOKEN}
+
+        cls.PARAMS_GET_CARDS_FIELDS = {
+            FieldNames.FIELDS: f'{FieldNames.NAME},{FieldNames.LIST_ID},{FieldNames.DATE_LAST_ACTIVITY}'}
+        cls.PARAMS_GET_CARDS = cls.PARAMS_KEY_TOKEN | cls.PARAMS_GET_CARDS_FIELDS
+        cls.URL_GET_CARDS = f'{cls.URL_ROOT}{FieldNames.BOARDS}/{cls.BOARD_ID}/{FieldNames.CARDS}'
+
+        cls.PARAMS_GET_LISTS_FIELDS = {
+            FieldNames.FIELDS: f'{FieldNames.NAME},{FieldNames.BOARD_ID}'}
+        cls.PARAMS_GET_LISTS = cls.PARAMS_KEY_TOKEN | cls.PARAMS_GET_LISTS_FIELDS
+        cls.URL_GET_LISTS = f'{cls.URL_ROOT}{FieldNames.BOARDS}/{cls.BOARD_ID}/{FieldNames.LISTS}'
+
+        cls.URL_CARDS = f'{cls.URL_ROOT}{FieldNames.CARDS}'
 
     @classmethod
     def get_lists(cls) -> list:
