@@ -121,3 +121,5 @@ env/
 
 ## VS Code ###
 .vscode/
+
+geckodriver.log

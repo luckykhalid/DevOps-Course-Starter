@@ -142,18 +142,19 @@ class TrelloApi:
     @staticmethod
     def create_board(board_name):
         params = TrelloApi.PARAMS_KEY_TOKEN | {FieldNames.NAME: board_name}
+        #print(f'URL: {TrelloApi.URL_BOARDS} , PARAMS: {params}')
         response = requests.post(
             url=TrelloApi.URL_BOARDS, params=params).json()
         return response
 
     @staticmethod
     def create_board_temp():
-        response = TrelloApi.create_board(uuid.uuid4().hex).json()
-        return response.id
+        response = TrelloApi.create_board(uuid.uuid4().hex)
+        return response[FieldNames.ID]
 
     @staticmethod
     def delete_board(board_id):
         url = f'{TrelloApi.URL_BOARDS}/{board_id}'
         response = requests.delete(
-            url=url, params=TrelloApi.PARAMS_KEY_TOKEN).json()
+            url=url, params=TrelloApi.PARAMS_KEY_TOKEN)
         return response
