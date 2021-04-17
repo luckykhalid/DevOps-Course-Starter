@@ -81,4 +81,6 @@ You can run End to End tests suites using pytest. Run this from the root directo
 
 `$ poetry run pytest tests_e2e`
 
-Or you can change the tests folder configered in `.vscode/settings.json` to `tests_e2e` and then run the tests from VSCode.
+Or you can change the `tests` folder configered in `.vscode/settings.json` to `tests_e2e` and then run the tests from VSCode.
+
+NOTE: Do not run E2E tests when web application is also running as this will interfere with the environment variables resulting in inocrrect test execution.
