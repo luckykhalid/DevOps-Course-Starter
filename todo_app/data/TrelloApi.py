@@ -10,14 +10,13 @@ class TrelloApi:
 
     URL_ROOT = 'https://api.trello.com/1/'
 
-    LIST_TODO_ID = None
-    LIST_DOING_ID = None
-    LIST_DONE_ID = None
-
-    LISTS = None
-
     @classmethod
     def init(cls):
+        cls.LIST_TODO_ID = None
+        cls.LIST_DOING_ID = None
+        cls.LIST_DONE_ID = None
+        cls.LISTS = None
+
         """Trello API Calls."""
         cls.TRELLO_KEY = os.environ.get('TRELLO_KEY')
         if not cls.TRELLO_KEY:
@@ -30,6 +29,7 @@ class TrelloApi:
                 "No TRELLO_TOKEN set for Trello API calls. Did you follow the setup instructions?")
 
         cls.BOARD_ID = os.environ.get('BOARD_ID')
+        print(f'Board Id being set is: {cls.BOARD_ID}')
         if not cls.TRELLO_TOKEN:
             raise ValueError(
                 "No BOARD_ID set for Trello API calls. Did you follow the setup instructions?")
@@ -148,8 +148,9 @@ class TrelloApi:
         return response
 
     @staticmethod
-    def create_board_temp():
+    def create_temp_board_set_env():
         response = TrelloApi.create_board(uuid.uuid4().hex)
+        os.environ['BOARD_ID'] = response[FieldNames.ID]
         return response[FieldNames.ID]
 
     @staticmethod
@@ -158,3 +159,7 @@ class TrelloApi:
         response = requests.delete(
             url=url, params=TrelloApi.PARAMS_KEY_TOKEN)
         return response
+
+    @classmethod
+    def delete_borad_current(cls):
+        return cls.delete_board(cls.BOARD_ID)
