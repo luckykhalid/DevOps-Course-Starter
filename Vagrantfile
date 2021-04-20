@@ -80,11 +80,12 @@ Vagrant.configure("2") do |config|
     echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.profile
     echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.profile
     echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n  eval "$(pyenv init -)"\nfi' >> ~/.profile
-    # Restart shell
-    exec "$SHELL"
+    
+    # Load in the env changes for the current shell session
+    source ~/.profile
     
     # Install Python using pyenv and check version
-    echo 'Installing python using pyenv...'
+    echo 'Installing python using pyenv...'    
     pyenv install 3.9.4
     pyenv global 3.9.4
     python --version
