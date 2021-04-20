@@ -127,3 +127,7 @@ geckodriver.log
 
 ## vagrant files##
 .vagrant
+
+## Application Logs ##
+logs.txt
+applog.txt
