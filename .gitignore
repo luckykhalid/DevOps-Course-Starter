@@ -122,4 +122,8 @@ env/
 ## VS Code ###
 .vscode/
 
+## Selenium driver logs##
 geckodriver.log
+
+## vagrant files##
+.vagrant
