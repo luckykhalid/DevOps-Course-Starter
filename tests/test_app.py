@@ -31,17 +31,6 @@ def test_index_page_mocked(mock_get_requests, client):
     assert b'Happy New Item' in response.data
 
 
-@patch('requests.post')
-def test_create_board(mock_post_requests, client):
-    mock_post_requests.side_effect = mock_create_board
-    board_name = 'A New Test Board'
-
-    new_board = TrelloApi.create_board(board_name)
-
-    assert new_board[FieldNames.ID] == '6059ec106aec31192a803aa6'
-    assert new_board[FieldNames.NAME] == board_name
-
-
 @patch('requests.delete')
 def test_delete_board(mock_delete_requests, client):
     mock_delete_requests.side_effect = mock_delete_board
@@ -68,20 +57,7 @@ def mock_get_lists(url, params):
     return response
 
 
-def mock_create_board(url, params):
-    mock_file = None
 
-    if url == TrelloApi.URL_BOARDS:
-        mock_file = 'new_board'
-    else:
-        return None
-
-    response = Mock()
-    with open(f'{os.getcwd()}/tests/data/{mock_file}.json') as json_file:
-        new_board = json.load(json_file)
-        new_board[FieldNames.NAME] = params[FieldNames.NAME]
-        response.json.return_value = new_board
-    return response
 
 
 def mock_delete_board(url, params):

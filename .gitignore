@@ -124,6 +124,7 @@ env/
 
 ## Selenium driver logs##
 geckodriver.log
+geckodriver.exe
 
 ## vagrant files##
 .vagrant
