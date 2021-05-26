@@ -68,7 +68,7 @@ Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser
 ### Unit and Integration Tests
 You can run both unit and integration tests suites using pytest. Run this from the root directory:
 
-`$ poetry run pytest`
+`$ poetry run pytest tests`
 
 Or you can run them from VSCode:
 
@@ -77,7 +77,13 @@ Click the conical flask icon on the activity bar on the left edge of VSCode. Cli
 * If test discovery fails, check that Poetry has installed your dependencies and that the Python interpreter is selected correctly - you should be using the executable from the .venv folder.
 
 ### End to End Tests
-You can run End to End tests suites using pytest. Run this from the root directory:
+You can run End to End tests suites using pytest. Check following dependencies are met:
+* Firefox is installed on your system
+* [`geckodriver`](https://github.com/mozilla/geckodriver/releases) is available ideally in the system/path or at least in the project folder.
+
+
+
+Run this from the root directory:
 
 `$ poetry run pytest tests_e2e`
 

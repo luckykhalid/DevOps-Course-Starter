@@ -5,7 +5,7 @@ from todo_app.data.TrelloApi import TrelloApi
 from todo_app.utils import to_utc_datetime_object
 
 
-"""This is a wraper class hiding the underneath Trello API."""
+"""This is a wrapper class hiding the underneath Trello API."""
 
 
 class Items:
