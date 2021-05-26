@@ -2,9 +2,10 @@ from todo_app.data.sort_manager import get_current_sort_order, set_current_sort_
 from todo_app.data.FieldNames import FieldNames
 from todo_app.data.Item import Item
 from todo_app.data.TrelloApi import TrelloApi
+from todo_app.utils import to_utc_datetime_object
 
 
-"""This class represents Items wrapper hiding underneath API. UI always calls this class rather than direct interacting with backend API."""
+"""This is a wrapper class hiding the underneath Trello API."""
 
 
 class Items:
@@ -14,8 +15,8 @@ class Items:
         trello_items = TrelloApi.get_items_lists()
         items = []
         for trello_item in trello_items:
-            items.append(
-                Item(trello_item[FieldNames.FIELD_NAME_ID], trello_item[FieldNames.FIELD_NAME_NAME], trello_item[FieldNames.FIELD_NAME_STATUS]))
+            items.append(Item(trello_item[FieldNames.ID], trello_item[FieldNames.NAME],
+                              trello_item[FieldNames.STATUS], to_utc_datetime_object(trello_item[FieldNames.DATE_LAST_ACTIVITY])))
         items = sort(items)
         return items
 
@@ -28,8 +29,8 @@ class Items:
         return TrelloApi.delete_item(item_id)
 
     @staticmethod
-    def start_item(item_id):
-        return TrelloApi.start_item(item_id)
+    def doing_item(item_id):
+        return TrelloApi.doing_item(item_id)
 
     @staticmethod
     def done_item(item_id):

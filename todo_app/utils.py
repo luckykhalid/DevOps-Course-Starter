@@ -1,6 +1,13 @@
 
 
+from datetime import datetime
+
+
 def join_lists_of_dicts(main_list, joining_list, join_key):
+    """
+    This function performs left outer join between two given lists based on the common field in both lists `join_key`.
+    `main_list` is updated to include all other fields from `joining_list` for every matching dict between the two lists.
+    """
     for row in main_list:
         join_value = row[join_key]
         joining_row = find_dict_in_list(joining_list, join_key, join_value)
@@ -18,3 +25,7 @@ def change_key_in_list_of_dicts(list, old_key, new_key):
 def find_dict_in_list(list, key, value):
     found_item = next((item for item in list if item[key] == value), None)
     return found_item
+
+
+def to_utc_datetime_object(utc_datetime_str: str) -> datetime:
+    return datetime.strptime(utc_datetime_str, '%Y-%m-%dT%H:%M:%S.%fZ')

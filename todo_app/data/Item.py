@@ -1,9 +1,11 @@
 """This class represents single item object."""
+from dataclasses import dataclass
+from datetime import datetime
 
 
+@dataclass(frozen=True)
 class Item:
-
-    def __init__(self, id, title, status):
-        self.id = id
-        self.title = title
-        self.status = status
+    id: str
+    title: str
+    status: str
+    date_last_activity: datetime
