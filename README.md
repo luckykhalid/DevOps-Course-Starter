@@ -45,7 +45,7 @@ You can read the documentation for Trello's REST API [here](https://developer.at
 
 
 ## Running the App
-
+### Running Locally Without VM
 Once the all dependencies have been installed, start the Flask app in development mode within the poetry environment by running:
 ```bash
 $ poetry run flask run
@@ -62,6 +62,23 @@ You should see output similar to the following:
  * Debugger PIN: 226-556-590
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
+
+### Running Locally Inside VM
+
+ * Install [`Virtual Box`](https://www.virtualbox.org/)
+ * Install [`Vagrant`](https://www.vagrantup.com/)
+ * Run this command `vagrant up` to start VM running this To Do app available at [`http://localhost:5000/`](http://localhost:5000/).
+ 
+ Some useful Vagrant commands are:
+ ```bash
+ * "vagrant up" - Starts your VM, creating and provisioning it automatically if required.
+ * "vagrant provision" - Runs any VM provisioning steps specified in the Vagrantfile. Provisioning steps are one-off operations that adjust the system provided by the box.
+ * "vagrant suspend" - Suspends any running VM. The VM will be restarted on the next vagrant up command.
+ * "vagrant destroy" - Destroys the VM. It will be fully recreated the next time you run vagrant up.
+ * "vagrant halt" - Gracefully shuts down the VM.
+ * "vagrant ssh" - Ssh into the VM.
+
+```
 
 ## Tests
 
