@@ -2,9 +2,9 @@ FROM python:3.9-slim as base
 RUN apt-get update && apt-get install -y curl \
     && curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
 WORKDIR /app
-COPY . .
 ENV PATH="/root/.poetry/bin:$PATH"
 EXPOSE 5000
+COPY . .
 
 FROM base as dev
 RUN poetry install
