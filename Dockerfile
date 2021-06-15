@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install -y curl \
 WORKDIR /app
 COPY . .
 ENV PATH="/root/.poetry/bin:$PATH"
-RUN poetry install
+RUN poetry install --no-dev
 EXPOSE 5000
-ENTRYPOINT ["poetry", "run", "flask", "run", "--host", "0.0.0.0"]
+ENTRYPOINT ["poetry", "run", "gunicorn", "-b", "0.0.0.0:5000", "todo_app.app:create_app()"]
 
