@@ -1,0 +1,15 @@
+.github
+.pytest*
+.vagrant
+.vscode
+.env.template
+.env.test
+.git*
+*.txt
+.gitignore
+.dockerignore
+Dockerfile
+README.md
+Vagrantfile
+geckodriver.exe
+geckodriver.log
