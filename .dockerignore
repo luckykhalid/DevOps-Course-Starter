@@ -3,9 +3,7 @@
 .vagrant
 .vscode
 .env.template
-.env.test
 .git*
-.env
 *.txt
 .gitignore
 .dockerignore
