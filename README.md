@@ -24,8 +24,19 @@ The project uses a virtual environment to isolate package dependencies. To creat
 ```bash
 $ poetry install
 ```
+#### Troubleshoot Poetry
+In case VS Code is not able to locate Python from your virtual environment then you can find its location by running following shell command:
+```bash
+$ poetry show -v
+```
+This should show current installed location of the virtual environment. Please select Python from this location.
 
-### Setup Enviuronment Configuration
+If the above command throws an error then the virtual environment might have gotten corrupted in which case its best to remove and recreate it by running following commands:
+```bash
+$ poetry env remove python
+$ poetry install
+```
+### Setup Environment Configuration
 You'll also need to clone a new `.env` file from the `.env.template` to store local configuration options. This is a one-time operation on first setup:
 
 ```bash
@@ -98,9 +109,11 @@ Or simply run following command
  ### Run tests in tests docker container
 Use following docker commands to build and run docker container in `test` mode
 ```bash
- docker build --target test --tag todo_app:test .
- docker run --mount type=bind,source="$(pwd)"/todo_app,target=/app/todo_app todo_app:test
+ docker run  --env-file .env.test todo_app:test tests # (unit/integration tests)
+ docker run  --env-file .env todo_app:test tests_e2e # (end to end tests)
 ```
+### KNOWN ISSUES
+ * E2E tests do not run inside container as there seems to be an issue with firefox installation. Its fix is being worked upon at this stage.
 ### Run with Gunicorn in Production mode
 Use following docker commands to build and run docker container in `prod` mode
 ```bash

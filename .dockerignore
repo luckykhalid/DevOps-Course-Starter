@@ -13,3 +13,6 @@ README.md
 Vagrantfile
 geckodriver.exe
 geckodriver.log
+.env
+.env.test
+**/__pycache__

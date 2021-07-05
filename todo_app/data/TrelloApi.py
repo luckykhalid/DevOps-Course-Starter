@@ -142,10 +142,10 @@ class TrelloApi:
     @staticmethod
     def create_board(board_name):
         params = TrelloApi.PARAMS_KEY_TOKEN | {FieldNames.NAME: board_name}
-        print(f'URL: {TrelloApi.URL_BOARDS} , PARAMS: {params}')
+        #print(f'URL: {TrelloApi.URL_BOARDS} , PARAMS: {params}')
         response = requests.post(
             url=TrelloApi.URL_BOARDS, params=params)
-        print(f'TrelloApi post response: {response}')
+        #print(f'TrelloApi post response: {response}')
         return response.json()
 
     @staticmethod
