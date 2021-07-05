@@ -24,8 +24,19 @@ The project uses a virtual environment to isolate package dependencies. To creat
 ```bash
 $ poetry install
 ```
+#### Troubleshoot Poetry
+In case VS Code is not able to locate Python from your virtual environment then you can find its location by running following shell command:
+```bash
+$ poetry show -v
+```
+This should show current installed location of the virtual environment. Please select Python from this location.
 
-### Setup Enviuronment Configuration
+If the above command throws an error then the virtual environment might have gotten corrupted in which case its best to remove and recreate it by running following commands:
+```bash
+$ poetry env remove python
+$ poetry install
+```
+### Setup Environment Configuration
 You'll also need to clone a new `.env` file from the `.env.template` to store local configuration options. This is a one-time operation on first setup:
 
 ```bash
@@ -44,8 +55,8 @@ Update the `.env` file with Trello's API Key, Token and Board Id against these v
 You can read the documentation for Trello's REST API [here](https://developer.atlassian.com/cloud/trello/rest/api-group-actions/).
 
 
-## Running the App
-### Running Locally Without VM
+## Running the App Locally
+### Running Locally in dev mode Without VM
 Once the all dependencies have been installed, start the Flask app in development mode within the poetry environment by running:
 ```bash
 $ poetry run flask run
@@ -63,7 +74,11 @@ You should see output similar to the following:
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
-### Running Locally Inside VM
+### Running locally in prod mode without VM
+```bash
+poetry run gunicorn -b 127.0.0.1:5000 "todo_app.app:create_app()"
+```
+### Running the App inside VM
 
  * Install [`Virtual Box`](https://www.virtualbox.org/)
  * Install [`Vagrant`](https://www.vagrantup.com/)
@@ -79,9 +94,35 @@ Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser
  * "vagrant ssh" - Ssh into the VM.
 
 ```
+## Running the App inside Docker Container
 
-## Tests
+### Run with flask in Dev Mode
+Use following docker commands to build and run docker container in `dev` mode
+```bash
+ docker build --target dev --tag todo_app:dev .
+ docker run -d -p 5000:5000 --env-file ./.env --mount type=bind,source="$(pwd)"/todo_app,target=/app/todo_app todo_app:dev
+```
+Or simply run following command
+```bash
+ docker-compose up -d
+```
+ ### Run tests in tests docker container
+Use following docker commands to build and run docker container in `test` mode
+```bash
+ docker run  --env-file .env.test todo_app:test tests # (unit/integration tests)
+ docker run  --env-file .env todo_app:test tests_e2e # (end to end tests)
+```
+### KNOWN ISSUES
+ * E2E tests do not run inside container as there seems to be an issue with firefox installation. Its fix is being worked upon at this stage.
+### Run with Gunicorn in Production mode
+Use following docker commands to build and run docker container in `prod` mode
+```bash
+ docker build --target prod --tag todo_app:prod .
+ docker run -d -p 5000:5000 --env-file ./.env todo_app:prod
+```
+NOTE: To view the container logs, you'll need to use `docker logs <CONTAINER>` or remove `-d` flag from docker run/up commands.
 
+## Running Tests Locally
 ### Unit and Integration Tests
 You can run both unit and integration tests suites using pytest. Run this from the root directory:
 
@@ -97,8 +138,6 @@ Click the conical flask icon on the activity bar on the left edge of VSCode. Cli
 You can run End to End tests suites using pytest. Check following dependencies are met:
 * Firefox is installed on your system
 * [`geckodriver`](https://github.com/mozilla/geckodriver/releases) is available ideally in the system/path or at least in the project folder.
-
-
 
 Run this from the root directory:
 

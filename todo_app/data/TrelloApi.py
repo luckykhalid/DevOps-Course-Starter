@@ -144,8 +144,9 @@ class TrelloApi:
         params = TrelloApi.PARAMS_KEY_TOKEN | {FieldNames.NAME: board_name}
         #print(f'URL: {TrelloApi.URL_BOARDS} , PARAMS: {params}')
         response = requests.post(
-            url=TrelloApi.URL_BOARDS, params=params).json()
-        return response
+            url=TrelloApi.URL_BOARDS, params=params)
+        #print(f'TrelloApi post response: {response}')
+        return response.json()
 
     @staticmethod
     def create_temp_board_set_env():

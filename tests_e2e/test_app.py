@@ -6,8 +6,8 @@ import os
 import pytest
 from threading import Thread
 from dotenv import find_dotenv, load_dotenv
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.firefox.options import Options
+
 
 
 @pytest.fixture(scope='module')
@@ -34,9 +34,23 @@ def app_with_temp_board():
 
 @pytest.fixture(scope="module")
 def driver():
-    with webdriver.Firefox() as driver:
+    options = Options()
+    options.headless = True
+    # options.binary_location = '/usr/lib/firefox'
+    with webdriver.Firefox(options=options) as driver:
         yield driver
 
+
+def test_create_delete_board():
+    # Use real config instead of the 'test' version
+    file_path = find_dotenv('.env')
+    load_dotenv(file_path, override=True)
+    TrelloApi.init()
+    board_id = TrelloApi.create_temp_board_set_env()
+    assert board_id
+    assert os.environ.get('BOARD_ID') == board_id
+    response = TrelloApi.delete_board(board_id)
+    assert response.ok
 
 def test_task_journey(driver, app_with_temp_board):
     driver.get('http://localhost:5000/')
