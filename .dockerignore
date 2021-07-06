@@ -11,7 +11,7 @@ Dockerfile
 docker-compose.yml
 README.md
 Vagrantfile
-geckodriver.exe
+*.exe
 geckodriver.log
 .env
 .env.test

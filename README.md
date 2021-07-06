@@ -109,6 +109,7 @@ Or simply run following command
  ### Run tests in tests docker container
 Use following docker commands to build and run docker container in `test` mode
 ```bash
+ docker build --target test --tag todo_app:test .
  docker run  --env-file .env.test todo_app:test tests # (unit/integration tests)
  docker run  --env-file .env todo_app:test tests_e2e # (end to end tests)
 ```
@@ -136,8 +137,8 @@ Click the conical flask icon on the activity bar on the left edge of VSCode. Cli
 
 ### End to End Tests
 You can run End to End tests suites using pytest. Check following dependencies are met:
-* Firefox is installed on your system
-* [`geckodriver`](https://github.com/mozilla/geckodriver/releases) is available ideally in the system/path or at least in the project folder.
+* Chrome is installed on your system
+* [`Chrome Driver`](https://sites.google.com/chromium.org/driver/downloads?authuser=0) is available ideally in the system/path or at least in the project folder.
 
 Run this from the root directory:
 
