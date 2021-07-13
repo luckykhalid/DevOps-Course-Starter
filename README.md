@@ -113,15 +113,15 @@ Use following docker commands to build and run docker container in `test` mode
  docker run  --env-file .env.test todo_app:test tests # (unit/integration tests)
  docker run  --env-file .env todo_app:test tests_e2e # (end to end tests)
 ```
-### KNOWN ISSUES
- * E2E tests do not run inside container as there seems to be an issue with firefox installation. Its fix is being worked upon at this stage.
 ### Run with Gunicorn in Production mode
 Use following docker commands to build and run docker container in `prod` mode
 ```bash
  docker build --target prod --tag todo_app:prod .
  docker run -d -p 5000:5000 --env-file ./.env todo_app:prod
 ```
-NOTE: To view the container logs, you'll need to use `docker logs <CONTAINER>` or remove `-d` flag from docker run/up commands.
+NOTE:
+ * To view the container logs, you'll need to use `docker logs <CONTAINER>` or remove `-d` flag from docker run/up commands.
+ * `Gunicorn` does not run on Windows so any attempt to run it locally on Windows will fail.
 
 ## Running Tests Locally
 ### Unit and Integration Tests
@@ -147,3 +147,19 @@ Run this from the root directory:
 Or you can change the `tests` folder configered in `.vscode/settings.json` to `tests_e2e` and then run the tests from VSCode.
 
 NOTE: Do not run E2E tests when web application is also running as this will interfere with the environment variables resulting in inocrrect test execution.
+
+## Setting up CI/CD with Travis
+### One Time Travis Setup
+Follow these steps once to setup CI/CD pipeline with [`Travis CI`](https://travis-ci.com/):
+ * Go to [`Travis CI`](https://travis-ci.com/) and Sign up with GitHub.
+ * Accept the Authorization of Travis CI. You’ll be redirected to GitHub.
+ * Click on your profile picture in the top right of your Travis Dashboard, click Settings and then the green Activate button, and select the repositories you want to use with Travis CI.
+ * To use Travis commands locally, such as to encrypt environment variables, install [`Ruby Gem`](https://rubyinstaller.org/downloads/) using default settings.
+ * Test gem has been installed correctly by running this command: `gem -v`
+ * Install Travis locally by running this command:
+    `gem install travis`
+ * Login to Travis using GitHub token by running following command:
+ ```bash
+    travis login --pro --github-token GIT_HUB_TOKEN # replace GIT_HUB_TOKEN with actual token
+ ```
+ * 

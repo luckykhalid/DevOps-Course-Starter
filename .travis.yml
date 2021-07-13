@@ -10,5 +10,5 @@ services:
 script:
 - docker build --target test --tag todo_app:test .
 - docker run --env-file .env.test todo_app:test tests
-- docker run todo_app:test tests_e2e
+- docker run -e SECRET_KEY -e TRELLO_KEY -e TRELLO_TOKEN -e BOARD_ID todo_app:test tests_e2e
 
