@@ -1,6 +1,7 @@
 script:
 - docker build --target test --tag todo_app:test .
-- docker run  --env-file .env.test todo_app:test tests
+- docker run --env-file .env.test todo_app:test tests
+- docker run todo_app:test tests_e2e
 env:
   global:
   - secure: JjbU69ZIQ63AoiN9iBwg3QdbVOmV/mJKdv62CjaliD1iP7Szm0mr8ZZ3zpquxdi+JCVzBqc9nQOmKBtSc+DAK3dtFnr/zq6kboSEexzj92orBgsB4fLyJKky8I0POTLyv/6CGEWKfuF1g1XFjHou/8DQLc6YQ6JSn/lIojPXuJrawb7Dz9HXq87SAZH43m5UPnev0JhlI1ePZiWPPPsgeDKCewioUBWafjx1O6NlI3Ael093HYlST+RgzW4mAWK1j3/fAHLlQlOn6yW+VvZhyaqToQ0cyqM0GQYIwo53q/ssjiUeaiEQKI7qpH/zhxfHaRJ0qfHrBxnMf69WC08V1DjlBuUwKOuWDU9VxeCcXFYxHdPApSmw68C5bMr7baaYeHmUrpeldox6gFyElxj8QLiFAFIEC4Qi3x24m8er8FtP8dPgSyfttBdF6znAPQFDKWPA4XuIN2x9IARbITElcH0tEAg8YmkK0ImCANV3x/gzMlRSyEiUzI3o+IYtmf66xa4yvW2ldCfFWaTAPIbVSPOKHCm+SFZEhfP8YbagTpzJGkHEmuG7ezMmBkN/F12jwNS1zE0w4KDF0TvaRjgzltawvKmuE5fy9pp3QHGy6m5W+b8v/NwneM4f7EifXXwMNAAxEbiFwSEaZHqNQaodAq/QIdBKqv0NJfbj+UJD08k=
