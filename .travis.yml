@@ -1,2 +1,4 @@
 script:
 - docker build --target test --tag todo_app:test .
+- docker run  --env-file .env.test todo_app:test tests # (unit/integration tests)
+#- docker run  --env-file .env todo_app:test tests_e2e # (end to end tests)
