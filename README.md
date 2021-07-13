@@ -166,3 +166,5 @@ Follow these steps once to setup CI/CD pipeline with [`Travis CI`](https://travi
  ```bash
     travis encrypt --pro VAR1="VAR1_VALUE" --add # replace VAR1 and VAR1_VALUE with actual key/value pair
  ```
+ ### One Time Travis Setup
+ Notifications are sent to Slack channel. Recofnigure to your own channel if desired.
