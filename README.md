@@ -151,15 +151,18 @@ NOTE: Do not run E2E tests when web application is also running as this will int
 ## Setting up CI/CD with Travis
 ### One Time Travis Setup
 Follow these steps once to setup CI/CD pipeline with [`Travis CI`](https://travis-ci.com/):
- * Go to [`Travis CI`](https://travis-ci.com/) and Sign up with GitHub.
- * Accept the Authorization of Travis CI. You’ll be redirected to GitHub.
- * Click on your profile picture in the top right of your Travis Dashboard, click Settings and then the green Activate button, and select the repositories you want to use with Travis CI.
- * To use Travis commands locally, such as to encrypt environment variables, install [`Ruby Gem`](https://rubyinstaller.org/downloads/) using default settings.
- * Test gem has been installed correctly by running this command: `gem -v`
- * Install Travis locally by running this command:
+ 1. Go to [`Travis CI`](https://travis-ci.com/) and Sign up with GitHub. 
+ 2. Accept the Authorization of Travis CI. You’ll be redirected to GitHub.
+ 3. Click on your profile picture in the top right of your Travis Dashboard, click Settings and then the green Activate button, and select the repositories you want to use with Travis CI.
+ 4. To use Travis commands locally, such as to encrypt environment variables, install [`Ruby Gem`](https://rubyinstaller.org/downloads/) using default settings.
+ 5. Test gem has been installed correctly by running this command: `gem -v`
+ 6. Install Travis locally by running this command:
     `gem install travis`
- * Login to Travis using GitHub token by running following command:
+ 7. Login to Travis using GitHub token by running following command:
  ```bash
     travis login --pro --github-token GIT_HUB_TOKEN # replace GIT_HUB_TOKEN with actual token
  ```
- * 
+ 8. Encrypt secrets and add them to the `.travis.yml` file by running following command for each secret:
+ ```bash
+    travis encrypt --pro VAR1="VAR1_VALUE" --add # replace VAR1 and VAR1_VALUE with actual key/value pair
+ ```
