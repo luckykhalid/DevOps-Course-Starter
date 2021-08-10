@@ -144,14 +144,14 @@ Run this from the root directory:
 
 `$ poetry run pytest tests_e2e`
 
-Or you can change the `tests` folder configered in `.vscode/settings.json` to `tests_e2e` and then run the tests from VSCode.
+Or you can change the `tests` folder configured in `.vscode/settings.json` to `tests_e2e` and then run the tests from VSCode.
 
-NOTE: Do not run E2E tests when web application is also running as this will interfere with the environment variables resulting in inocrrect test execution.
+NOTE: Do not run E2E tests when web application is also running as this will interfere with the environment variables resulting in incorrect test execution.
 
 ## Setting up CI/CD with Travis
 ### One Time Travis Setup
 Follow these steps once to setup CI/CD pipeline with [`Travis CI`](https://travis-ci.com/):
- 1. Go to [`Travis CI`](https://travis-ci.com/) and Sign up with GitHub. 
+ 1. Go to [`Travis CI`](https://travis-ci.com/) and sign-up with GitHub. 
  2. Accept the Authorization of Travis CI. You’ll be redirected to GitHub.
  3. Click on your profile picture in the top right of your Travis Dashboard, click Settings and then the green Activate button, and select the repositories you want to use with Travis CI.
  4. To use Travis commands locally, such as to encrypt environment variables, install [`Ruby Gem`](https://rubyinstaller.org/downloads/) using default settings.
@@ -167,5 +167,5 @@ Follow these steps once to setup CI/CD pipeline with [`Travis CI`](https://travi
     travis encrypt --pro VAR1="VAR1_VALUE" --add # replace VAR1 and VAR1_VALUE with actual key/value pair
  ```
  ### One Time Travis Setup
-  * All notifications are sent to Slack channel. Recofnigure `.travis.yml` file to send notification to your own channel(s) if desired.
+  * All notifications are sent to Slack channel. Reconfigure `.travis.yml` file to send notification to your own channel(s) if desired.
   * Failure notifications are sent to email addresses configured in the `.travis.yml` file. Change as desired.

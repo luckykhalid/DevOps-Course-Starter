@@ -10,7 +10,6 @@ script:
 - docker build --target test --tag todo_app:test .
 - docker run --env-file .env.test todo_app:test tests
 - docker run -e SECRET_KEY -e TRELLO_KEY -e TRELLO_TOKEN -e BOARD_ID todo_app:test tests_e2e
-#- docker run todo_app:test tests_e2e
 notifications:
   slack:
     secure: o5cEaHOFMzW435cV5zT/4MaoyHC3X3DS9091yDH6SxwLy6F/rngAy5EwDZ53opq/YdWYyGhlumsiZFfVyI2qpyZSkE2Epk9p35YT0Gdx/x9oad91G8PeyaWSBN2GWfceZ/qBxTfamyACUPr2ItWi7oPw65RnYM/kRcbfmXnxC9bqQcDX0bLWVDRZtVmmsZJ0kNnCwznsBb9gpVV7Vz3ZVhv9QvFoYPyIDdyMT2vlYHu/iQ8FJIX9eKuYuqViklUiwWYIejUqp7892x3m5Bywm7e0Y0NqXmWbXsiW8MizQsn9E6M93Ed4+xNyKWz7f6O7GvVZm1GmdyH5FPB3Nz38FxOy6e4bYC8r399DJISZl0VMYtqDhKndoqRvSpR4tvvmad5x37mAMs2o1IpRc2OQTJ5Rtz54Hqw+gAHa3lvyFuz1QvMjaZnp9zXLy6dJYF6VIJu6FKDKQJwLbiYio18EqkxauxUGM0VB+12JiVds53aXNqlPkqopzhNdCKnSUlKH0yho6SJzzyYRnKG9vOGaIbx88Sf+PrEIYylXdFlsfH/I3bhFMkRN2EoHZpYaaDXPqxk/IXCUHNHU39cuu9CpQYFXt3rlirljBD/o2Oi3oiMXT36jFL37Oc4C3jxiv2cj0LLacgB/e0qwGqhjqjLerKiYPjh1vvdOt9aGvpXcIAA=
