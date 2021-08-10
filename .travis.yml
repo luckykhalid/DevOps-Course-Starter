@@ -13,7 +13,7 @@ script:
 #- docker run --env-file .env.test todo_app:test tests
 #- docker run -e SECRET_KEY -e TRELLO_KEY -e TRELLO_TOKEN -e BOARD_ID todo_app:test tests_e2e
 - echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
-#- docker build --target prod --tag $DOCKER_USER/todo_app:latest --tag $DOCKER_USER/todo_app:$TRAVIS_COMMIT .
+- docker build --target prod --tag $DOCKER_USER/todo_app:latest --tag $DOCKER_USER/todo_app:$TRAVIS_COMMIT .
 - docker push $DOCKER_USER/todo_app
 #- docker push --help
 notifications:
