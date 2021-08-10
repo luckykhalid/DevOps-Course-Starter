@@ -34,5 +34,5 @@ ENTRYPOINT ["poetry", "run", "pytest"]
 FROM base as prod
 COPY . .
 RUN rm -r tests tests_e2e && poetry install --no-dev
-ENTRYPOINT ["poetry", "run", "gunicorn", "-b", "0.0.0.0:5000", "todo_app.app:create_app()"]
+ENTRYPOINT ["poetry", "run", "gunicorn", "-b", "0.0.0.0:$PORT", "todo_app.app:create_app()"]
 
