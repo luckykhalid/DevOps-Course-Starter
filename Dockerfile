@@ -33,6 +33,9 @@ ENTRYPOINT ["poetry", "run", "pytest"]
 
 FROM base as prod
 COPY . .
-RUN rm -r tests tests_e2e && poetry install --no-dev
-ENTRYPOINT ["poetry", "run", "gunicorn", "-b", "0.0.0.0:$PORT", "todo_app.app:create_app()"]
+RUN rm -r tests tests_e2e \
+  && poetry config virtualenvs.create false --local \
+  && poetry install --no-dev \
+  && chmod +x ./entrypoint.sh
+ENTRYPOINT ./entrypoint.sh
 
