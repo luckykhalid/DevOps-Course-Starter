@@ -6,15 +6,21 @@ env:
   - secure: I9YCyTjhIkracIXLp29l+hyoGa1cJnVaFELVtG0guv+GpUpuUIxVBMbR7v4EXElX6W/ihGgOf1xKZVdwDSpBPqsn2qKZhTBJkNIfmPqKavlWUcfHT+HBeVybt4QqkmumuoyXLZOfyfvc/M1otlhdSpiJ3kqTp9jeBDoyxT4nwRLnw8dtF4r4gRaolr3TfRrOkndAMuV8QttMzT2g91YoNBVlB8e9WzCTpY+ilnjbgUR73qNJVuT3P88vsh/8vPeTtB2QAum8KK//kcjoKwW75MoT8osR5g3ahU/0OdbGDJsSuCgGyo7Wil1BoiHvpswZplTbxuyq5xFULZhkOelnFF3Be43B4DOO+zQMD8zAAavUO2ZUXO6j6qlmoJNJx1dtT7ZeEwNv3pQSNfcVpwd8olgKeR0NLFd67xgwDly2uCNL7o7/S1Kcc0B0FdaOo2AoxUU/+cldThXhyt4ceoqIe9LtS/xyFCwAJW1d+MFlg1jBCQ2/Jhrh/YNCAsDqndDIUMruecLDVNrZvx9pBEiOBE3aoIK5Qa+lZXTv+o61i2NUeC/g9b8wE44rEKoxRrI+rNVI8JfNaKcD9/10eUQqjcx+dlL31TCtwZydUid2DpjHh4c6QgYxAYTRQeCen2WSi/NOnJXFEoBlluWIOhfqWuihkk0dwf7ZXevueiLX9Q0=
   - DOCKER_USER=khalidashraf
   - secure: WrccS5O4eSH8/HKUukA+cJxa+2wCkj/f4lYgWBeGFpoX2xFVICYiYfp5cHSL6VYFCieq24LCufdhB7JvJ+JWjbmmrElC4aluNSfRgpwQBlN7OTVmMwCEzII3Uu8tIww8md7/mIdG/6YBSDPWFPo17tFI69bx0t1AXUWts3WLHTuVilp3EFrlZXpnUKR3d91hSQ+9hG3UnGP8fLAlC/D2b/3gVuCZ7tv9zrcQWh4zFDYIjxT6SKeiOOwwlC9i9qGb6pcDxFxHjMVgXtLU1ue6Gh9KPXyd3WRyPmKd/mxrH8qCw6tad+/gsSk25Vkue+dKQs8F4+Qkc8L2IwcdwIq8ty12Wfu2Wc7GSC7mSCdwq1AySRqOVcAWIlCSGPHP7Rv3bC7RQ0i1CQaRlV4ch/3LfXBva1DfFG01gAKqimmwvT0yCxN8g+MT7pnYfSofnCFFZsuCpahyT1B36wkB9hBAxeUYRO1vi1+scu48J++YfXBqXyvgZm+CnsHv1UsWAYdt5YT1VRnOumJ564wZS64x4MUyKqsFDZvdpB6VICmtwJYk2fcQ4UQ1jL6Hvkezqh7BJew1Osw3LSRr3Y/90iywMAF70/bEKS0E3s2xZVVfblxDOEtlBoEFIgNyBR/TX2fQ2Vi2xo9i0gtV8JtFmwUaYnKzmEsckGaTSyruuYAgbjs=
+  - secure: vJZ0wo1fdvGVKSymwWBaigQ7SH6aKQkAlNID+bfHnSL5PSkbTitZwiZdgTEfmgiDVS7MEa8M1/Vof02K8A8nh3A0RSqCTl0InzWneiHGlSj1HyS8k2JOyyzNSwTaxHOwSiEXQ7W7Q+1H6+341IJWktNrtVbDXyI/wptai7+ctTgTz6j/dzPwEDss/7rmo5itnNQab/Cdu4Mt7RDIDM0ULbown/1LBWPsDAykWS/QbSaIEltHVhs/2H86QW+CyctI5oawAh3u++lNzqV6GAQbG/Sk5xA0x1z4C458jKzXfyf2JVw9a8Iupoko2VFnOHdExQfcqilBs/7fCwl/dYrYAETiAPpq6PhfGkZI7Az63tHwqPosIVIXMREk/Ums4LAK9Wk6VZAXqqWJVqqY0d0KJiG0J38VNE3maSkrMNR/CtT6CBoE3FmxlbAaYnTDbyYBn5NX/uZ6k9cO+h6GYvCCMXcjYCbm1w7jKkqPawmSrpfVshy+4sqX6NitUuWJLGP84CBohKZRERlVCeFbYt85GKxblDD51/ylhGRW7OTP5JaVCRhCEq5EmAk3U9HLojPIyIYEYh5xufJq0hMJPE+wZiPf9n8kZdtegbIvI9qdzI3gTdsjEMX7sjfdan3txZfdu1t2cHGilT+okkgFbZL8k0Q6Ea6EzbDZec16DQlRTcg=
 services:
 - docker
 script:
-- docker build --target test --tag todo_app:test .
-- docker run --env-file .env.test todo_app:test tests
-- docker run -e SECRET_KEY -e TRELLO_KEY -e TRELLO_TOKEN -e BOARD_ID todo_app:test tests_e2e
+#- docker build --target test --tag todo_app:test .
+#- docker run --env-file .env.test todo_app:test tests
+#- docker run -e SECRET_KEY -e TRELLO_KEY -e TRELLO_TOKEN -e BOARD_ID todo_app:test tests_e2e
 - echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
 - docker build --target prod --tag $DOCKER_USER/todo_app:latest --tag $DOCKER_USER/todo_app:$TRAVIS_COMMIT .
 - docker push $DOCKER_USER/todo_app
+- docker pull $DOCKER_USER/todo_app
+- docker tag $DOCKER_USER/todo_app registry.heroku.com/$DOCKER_USER-todo-app/web
+- docker login --username=_ --password=$HEROKU_AUTH_TOKEN registry.heroku.com
+- docker push registry.heroku.com/$DOCKER_USER-todo-app/web
+- heroku container:release web -a $DOCKER_USER-todo-app
 notifications:
   slack:
     secure: o5cEaHOFMzW435cV5zT/4MaoyHC3X3DS9091yDH6SxwLy6F/rngAy5EwDZ53opq/YdWYyGhlumsiZFfVyI2qpyZSkE2Epk9p35YT0Gdx/x9oad91G8PeyaWSBN2GWfceZ/qBxTfamyACUPr2ItWi7oPw65RnYM/kRcbfmXnxC9bqQcDX0bLWVDRZtVmmsZJ0kNnCwznsBb9gpVV7Vz3ZVhv9QvFoYPyIDdyMT2vlYHu/iQ8FJIX9eKuYuqViklUiwWYIejUqp7892x3m5Bywm7e0Y0NqXmWbXsiW8MizQsn9E6M93Ed4+xNyKWz7f6O7GvVZm1GmdyH5FPB3Nz38FxOy6e4bYC8r399DJISZl0VMYtqDhKndoqRvSpR4tvvmad5x37mAMs2o1IpRc2OQTJ5Rtz54Hqw+gAHa3lvyFuz1QvMjaZnp9zXLy6dJYF6VIJu6FKDKQJwLbiYio18EqkxauxUGM0VB+12JiVds53aXNqlPkqopzhNdCKnSUlKH0yho6SJzzyYRnKG9vOGaIbx88Sf+PrEIYylXdFlsfH/I3bhFMkRN2EoHZpYaaDXPqxk/IXCUHNHU39cuu9CpQYFXt3rlirljBD/o2Oi3oiMXT36jFL37Oc4C3jxiv2cj0LLacgB/e0qwGqhjqjLerKiYPjh1vvdOt9aGvpXcIAA=
