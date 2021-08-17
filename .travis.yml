@@ -6,6 +6,7 @@ env:
   - secure: I9YCyTjhIkracIXLp29l+hyoGa1cJnVaFELVtG0guv+GpUpuUIxVBMbR7v4EXElX6W/ihGgOf1xKZVdwDSpBPqsn2qKZhTBJkNIfmPqKavlWUcfHT+HBeVybt4QqkmumuoyXLZOfyfvc/M1otlhdSpiJ3kqTp9jeBDoyxT4nwRLnw8dtF4r4gRaolr3TfRrOkndAMuV8QttMzT2g91YoNBVlB8e9WzCTpY+ilnjbgUR73qNJVuT3P88vsh/8vPeTtB2QAum8KK//kcjoKwW75MoT8osR5g3ahU/0OdbGDJsSuCgGyo7Wil1BoiHvpswZplTbxuyq5xFULZhkOelnFF3Be43B4DOO+zQMD8zAAavUO2ZUXO6j6qlmoJNJx1dtT7ZeEwNv3pQSNfcVpwd8olgKeR0NLFd67xgwDly2uCNL7o7/S1Kcc0B0FdaOo2AoxUU/+cldThXhyt4ceoqIe9LtS/xyFCwAJW1d+MFlg1jBCQ2/Jhrh/YNCAsDqndDIUMruecLDVNrZvx9pBEiOBE3aoIK5Qa+lZXTv+o61i2NUeC/g9b8wE44rEKoxRrI+rNVI8JfNaKcD9/10eUQqjcx+dlL31TCtwZydUid2DpjHh4c6QgYxAYTRQeCen2WSi/NOnJXFEoBlluWIOhfqWuihkk0dwf7ZXevueiLX9Q0=
   - DOCKER_USER=khalidashraf
   - secure: WrccS5O4eSH8/HKUukA+cJxa+2wCkj/f4lYgWBeGFpoX2xFVICYiYfp5cHSL6VYFCieq24LCufdhB7JvJ+JWjbmmrElC4aluNSfRgpwQBlN7OTVmMwCEzII3Uu8tIww8md7/mIdG/6YBSDPWFPo17tFI69bx0t1AXUWts3WLHTuVilp3EFrlZXpnUKR3d91hSQ+9hG3UnGP8fLAlC/D2b/3gVuCZ7tv9zrcQWh4zFDYIjxT6SKeiOOwwlC9i9qGb6pcDxFxHjMVgXtLU1ue6Gh9KPXyd3WRyPmKd/mxrH8qCw6tad+/gsSk25Vkue+dKQs8F4+Qkc8L2IwcdwIq8ty12Wfu2Wc7GSC7mSCdwq1AySRqOVcAWIlCSGPHP7Rv3bC7RQ0i1CQaRlV4ch/3LfXBva1DfFG01gAKqimmwvT0yCxN8g+MT7pnYfSofnCFFZsuCpahyT1B36wkB9hBAxeUYRO1vi1+scu48J++YfXBqXyvgZm+CnsHv1UsWAYdt5YT1VRnOumJ564wZS64x4MUyKqsFDZvdpB6VICmtwJYk2fcQ4UQ1jL6Hvkezqh7BJew1Osw3LSRr3Y/90iywMAF70/bEKS0E3s2xZVVfblxDOEtlBoEFIgNyBR/TX2fQ2Vi2xo9i0gtV8JtFmwUaYnKzmEsckGaTSyruuYAgbjs=
+  - HEROKU_APP=khalidashraf-todo-app
 services:
 - docker
 script:
@@ -19,14 +20,13 @@ script:
 - docker build --target prod --tag $DOCKER_USER/todo_app:latest --tag $DOCKER_USER/todo_app:$TRAVIS_COMMIT .
 - docker push $DOCKER_USER/todo_app
 
-# Pull latest prod docker image from Docker repo and push to Heroku repo
-- docker pull $DOCKER_USER/todo_app
-- docker tag $DOCKER_USER/todo_app registry.heroku.com/$DOCKER_USER-todo-app/web
+# Push same image to Heroku repo
+- docker tag $DOCKER_USER/todo_app registry.heroku.com/$HEROKU_APP/web
 - docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com
-- docker push registry.heroku.com/$DOCKER_USER-todo-app/web
+- docker push registry.heroku.com/$HEROKU_APP/web
 
 # Release/Deploy to Heroku
-- heroku container:release web -a khalidashraf-todo-app
+- heroku container:release web -a $HEROKU_APP
 
 notifications:
   slack:
