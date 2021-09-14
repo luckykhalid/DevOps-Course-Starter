@@ -164,10 +164,9 @@ Follow these steps once to setup CI/CD pipeline with [`Travis CI`](https://travi
  ```bash
     travis encrypt --pro VAR1="VAR1_VALUE" --add # replace VAR1 and VAR1_VALUE with actual key/value pair
  ```
- ### One Time Travis Setup
-  * All notifications are sent to Slack channel. Reconfigure `.travis.yml` file to send notification to your own channel(s) if desired.
-  * Failure notifications are sent to email addresses configured in the `.travis.yml` file. Change as desired.
-  * Encrypt these ENV variables in the travis pipeline file. This is one off setup:
+ 9. All notifications are sent to Slack channel. Reconfigure `.travis.yml` file to send notification to your own channel(s) if desired.
+ 10. Failure notifications are sent to email addresses configured in the `.travis.yml` file. Change as desired.
+ 11. Encrypt these ENV variables in the travis pipeline file. This is one off setup:
   ```bash
       travis encrypt --pro SECRET_KEY="REPLACE_THIS_VALUE" --add # replace REPLACE_THIS_VALUE with the actual value
       travis encrypt --pro MONGO_USER="REPLACE_THIS_VALUE" --add # replace REPLACE_THIS_VALUE with the actual value

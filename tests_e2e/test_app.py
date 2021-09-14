@@ -13,7 +13,7 @@ def app_with_temp_db():
     # Use real config instead of the 'test' version
     file_path = find_dotenv('.env')
     load_dotenv(file_path, override=True)
-    # Create the new temp board & update the board id environment variable
+    # Use test temp db
     MongoDbApi.init('devops_test')
 
     # construct the new application
