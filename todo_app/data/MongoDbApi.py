@@ -11,7 +11,7 @@ class MongoDbApi:
     MONGO_URL = 'cluster0.p7ckx.mongodb.net'
 
     @classmethod
-    def init(cls):
+    def init(cls, db_name=None):
         """Set MongoDB ENV Variables."""
 
         cls.MONGO_USER = os.environ.get('MONGO_USER')
@@ -24,9 +24,12 @@ class MongoDbApi:
             raise ValueError(
                 "No MONGO_PASS set for MongoDB calls. Did you follow the setup instructions?")
 
-        cls.MONGO_DB = os.environ.get('MONGO_DB')
+        if not db_name:
+            cls.MONGO_DB = os.environ.get('MONGO_DB')
+        else:
+            cls.MONGO_DB = db_name
         print(f'Mongo DB being set is: {cls.MONGO_DB}')
-        if not cls.MONGO_PASS:
+        if not cls.MONGO_DB:
             raise ValueError(
                 "No MONGO_DB set for MongoDB calls. Did you follow the setup instructions?")
 

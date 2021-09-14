@@ -20,10 +20,10 @@ def client():
         yield client
 
 
-@patch('requests.get')
-def test_index_page_mocked(mock_get_requests, client):
+@patch('pymongo.collection.Collection.find')
+def test_index_page_mocked(mock_find, client):
     # Replace call to requests.get(url) with our own function
-    mock_get_requests.side_effect = mock_get_lists
+    mock_find.side_effect = mock_get_items
     response = client.get('/')
     assert response.status_code == 200
     assert b'I completed my Lunch, Brilliant! :)' in response.data
@@ -31,38 +31,8 @@ def test_index_page_mocked(mock_get_requests, client):
     assert b'Happy New Item' in response.data
 
 
-@patch('requests.delete')
-def test_delete_board(mock_delete_requests, client):
-    mock_delete_requests.side_effect = mock_delete_board
-    board_id = 'A Test Board'
-
-    response = MongoDbApi.delete_board(board_id)
-
-    assert response.status_code == 200
-
-
-def mock_get_lists(url, params):
-    mock_file = None
-
-    if url == MongoDbApi.URL_GET_LISTS:
-        mock_file = FieldNames.LISTS
-    elif url == MongoDbApi.URL_GET_CARDS:
-        mock_file = FieldNames.CARDS
-    else:
-        return None
-
-    response = Mock()
-    with open(f'{os.getcwd()}/tests/data/{mock_file}.json') as json_file:
-        response.json.return_value = json.load(json_file)
-    return response
-
-
-
-
-
-def mock_delete_board(url, params):
-    response = Mock()
-    with open(f'{os.getcwd()}/tests/data/delete_board.json') as json_file:
-        response.json.return_value = json.load(json_file)
-        response.status_code = 200
-    return response
+def mock_get_items():
+    items = Mock()
+    with open(f'{os.getcwd()}/tests/data/items.json') as json_file:
+        items = json.load(json_file)
+    return items
