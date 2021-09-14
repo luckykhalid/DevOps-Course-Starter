@@ -1,5 +1,5 @@
 import time
-from todo_app.data.TrelloApi import TrelloApi
+from todo_app.data.MongoDbApi import MongoDbApi
 from todo_app.app import create_app
 from selenium import webdriver
 import os
@@ -14,8 +14,8 @@ def app_with_temp_board():
     file_path = find_dotenv('.env')
     load_dotenv(file_path, override=True)
     # Create the new temp board & update the board id environment variable
-    TrelloApi.init()
-    TrelloApi.create_temp_board_set_env()
+    MongoDbApi.init()
+    MongoDbApi.create_temp_board_set_env()
 
     # construct the new application
     app = create_app()
@@ -26,8 +26,8 @@ def app_with_temp_board():
     yield app
     # Tear Down
     thread.join(1)
-    print(f'Board Id before deleting is: {TrelloApi.BOARD_ID}')
-    TrelloApi.delete_borad_current()
+    print(f'Board Id before deleting is: {MongoDbApi.MONGO_DB}')
+    MongoDbApi.delete_borad_current()
 
 
 @pytest.fixture(scope="module")
@@ -44,11 +44,11 @@ def test_create_delete_board():
     # Use real config instead of the 'test' version
     file_path = find_dotenv('.env')
     load_dotenv(file_path, override=True)
-    TrelloApi.init()
-    board_id = TrelloApi.create_temp_board_set_env()
+    MongoDbApi.init()
+    board_id = MongoDbApi.create_temp_board_set_env()
     assert board_id
-    assert os.environ.get('BOARD_ID') == board_id
-    response = TrelloApi.delete_board(board_id)
+    assert os.environ.get('MONGO_DB') == board_id
+    response = MongoDbApi.delete_board(board_id)
     assert response.ok
 
 

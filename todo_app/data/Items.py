@@ -1,40 +1,39 @@
 from todo_app.data.sort_manager import get_current_sort_order, set_current_sort_order, sort
 from todo_app.data.FieldNames import FieldNames
 from todo_app.data.Item import Item
-from todo_app.data.TrelloApi import TrelloApi
-from todo_app.utils import to_utc_datetime_object
+from todo_app.data.MongoDbApi import MongoDbApi
 
 
-"""This is a wrapper class hiding the underneath Trello API."""
+"""This is a wrapper class hiding the underneath MongoDB API."""
 
 
 class Items:
 
     @staticmethod
     def get_items():
-        trello_items = TrelloApi.get_items_lists()
+        db_items = MongoDbApi.get_items()
         items = []
-        for trello_item in trello_items:
-            items.append(Item(trello_item[FieldNames.ID], trello_item[FieldNames.NAME],
-                              trello_item[FieldNames.STATUS], to_utc_datetime_object(trello_item[FieldNames.DATE_LAST_ACTIVITY])))
+        for db_item in db_items:
+            items.append(Item(db_item[FieldNames.ID], db_item[FieldNames.TITLE],
+                              db_item[FieldNames.STATUS], db_item[FieldNames.DATE_LAST_ACTIVITY]))
         items = sort(items)
         return items
 
     @staticmethod
-    def add_item(item_name):
-        return TrelloApi.add_item(item_name)
+    def add_item(item_title):
+        return MongoDbApi.add_item(item_title)
 
     @staticmethod
     def delete_item(item_id):
-        return TrelloApi.delete_item(item_id)
+        return MongoDbApi.delete_item(item_id)
 
     @staticmethod
     def doing_item(item_id):
-        return TrelloApi.doing_item(item_id)
+        return MongoDbApi.doing_item(item_id)
 
     @staticmethod
     def done_item(item_id):
-        return TrelloApi.done_item(item_id)
+        return MongoDbApi.done_item(item_id)
 
     @staticmethod
     def get_current_sort_order():

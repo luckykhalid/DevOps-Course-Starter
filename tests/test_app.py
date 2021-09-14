@@ -1,4 +1,4 @@
-from todo_app.data.TrelloApi import TrelloApi
+from todo_app.data.MongoDbApi import MongoDbApi
 from todo_app.data.FieldNames import FieldNames
 from todo_app.app import create_app
 from dotenv import find_dotenv, load_dotenv
@@ -27,7 +27,7 @@ def test_index_page_mocked(mock_get_requests, client):
     response = client.get('/')
     assert response.status_code == 200
     assert b'I completed my Lunch, Brilliant! :)' in response.data
-    assert b'This is added from Trello website' in response.data
+    assert b'This is added from Mongo DB website' in response.data
     assert b'Happy New Item' in response.data
 
 
@@ -36,7 +36,7 @@ def test_delete_board(mock_delete_requests, client):
     mock_delete_requests.side_effect = mock_delete_board
     board_id = 'A Test Board'
 
-    response = TrelloApi.delete_board(board_id)
+    response = MongoDbApi.delete_board(board_id)
 
     assert response.status_code == 200
 
@@ -44,9 +44,9 @@ def test_delete_board(mock_delete_requests, client):
 def mock_get_lists(url, params):
     mock_file = None
 
-    if url == TrelloApi.URL_GET_LISTS:
+    if url == MongoDbApi.URL_GET_LISTS:
         mock_file = FieldNames.LISTS
-    elif url == TrelloApi.URL_GET_CARDS:
+    elif url == MongoDbApi.URL_GET_CARDS:
         mock_file = FieldNames.CARDS
     else:
         return None
