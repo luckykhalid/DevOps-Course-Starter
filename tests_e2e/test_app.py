@@ -38,7 +38,7 @@ def driver():
         yield driver
 
 
-def test_task_journey(driver, app_with_temp_board):
+def test_task_journey(driver, app_with_temp_db):
     driver.get('http://localhost:5000/')
     assert driver.title == 'To-Do App'
     driver.implicitly_wait(3)
