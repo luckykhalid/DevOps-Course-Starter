@@ -20,7 +20,7 @@ deploy:
   provider: script
   script: bash ./build-deploy.sh
   on:
-    branch: project09
+    branch: master
 
 notifications:
   slack:
