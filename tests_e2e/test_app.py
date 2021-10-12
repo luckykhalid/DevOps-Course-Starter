@@ -14,10 +14,10 @@ def app_with_temp_db():
     file_path = find_dotenv('.env')
     load_dotenv(file_path, override=True)
     # Use test temp db
-    MongoDbApi.init('devops_test')
+    #MongoDbApi.init('devops_test')
 
     # construct the new application
-    app = create_app()
+    app = create_app('devops_test')
     # start the app in its own thread.
     thread = Thread(target=lambda: app.run(use_reloader=False))
     thread.daemon = True

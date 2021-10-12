@@ -6,10 +6,10 @@ from todo_app.flask_config import Config
 import os
 
 
-def create_app():
+def create_app(db_name=None):
     app = Flask(__name__)
     app.config.from_object(Config())
-    MongoDbApi.init()
+    MongoDbApi.init(db_name)
 
     @app.route('/')
     def index():  # pylint:disable=unused-variable
