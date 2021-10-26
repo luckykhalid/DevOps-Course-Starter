@@ -1,4 +1,4 @@
-from todo_app.data.TrelloApi import TrelloApi
+from todo_app.data.MongoDbApi import MongoDbApi
 from todo_app.ViewModel import ViewModel
 from todo_app.data.Items import Items
 from flask import Flask, render_template, request, redirect, send_from_directory
@@ -6,10 +6,10 @@ from todo_app.flask_config import Config
 import os
 
 
-def create_app():
+def create_app(db_name=None):
     app = Flask(__name__)
     app.config.from_object(Config())
-    TrelloApi.init()
+    MongoDbApi.init(db_name)
 
     @app.route('/')
     def index():  # pylint:disable=unused-variable

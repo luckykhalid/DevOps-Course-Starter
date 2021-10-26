@@ -1,5 +1,5 @@
 import time
-from todo_app.data.TrelloApi import TrelloApi
+from todo_app.data.MongoDbApi import MongoDbApi
 from todo_app.app import create_app
 from selenium import webdriver
 import os
@@ -9,16 +9,15 @@ from dotenv import find_dotenv, load_dotenv
 
 
 @pytest.fixture(scope='module')
-def app_with_temp_board():
+def app_with_temp_db():
     # Use real config instead of the 'test' version
     file_path = find_dotenv('.env')
     load_dotenv(file_path, override=True)
-    # Create the new temp board & update the board id environment variable
-    TrelloApi.init()
-    TrelloApi.create_temp_board_set_env()
+    # Use test temp db
+    #MongoDbApi.init('devops_test')
 
     # construct the new application
-    app = create_app()
+    app = create_app('devops_test')
     # start the app in its own thread.
     thread = Thread(target=lambda: app.run(use_reloader=False))
     thread.daemon = True
@@ -26,8 +25,7 @@ def app_with_temp_board():
     yield app
     # Tear Down
     thread.join(1)
-    print(f'Board Id before deleting is: {TrelloApi.BOARD_ID}')
-    TrelloApi.delete_borad_current()
+    print(f'Test DB is : {MongoDbApi.MONGO_DB}')
 
 
 @pytest.fixture(scope="module")
@@ -40,19 +38,7 @@ def driver():
         yield driver
 
 
-def test_create_delete_board():
-    # Use real config instead of the 'test' version
-    file_path = find_dotenv('.env')
-    load_dotenv(file_path, override=True)
-    TrelloApi.init()
-    board_id = TrelloApi.create_temp_board_set_env()
-    assert board_id
-    assert os.environ.get('BOARD_ID') == board_id
-    response = TrelloApi.delete_board(board_id)
-    assert response.ok
-
-
-def test_task_journey(driver, app_with_temp_board):
+def test_task_journey(driver, app_with_temp_db):
     driver.get('http://localhost:5000/')
     assert driver.title == 'To-Do App'
     driver.implicitly_wait(3)
@@ -69,13 +55,12 @@ def test_task_journey(driver, app_with_temp_board):
     input_task_title.submit()
     time.sleep(1)
     assert task_name in driver.page_source
-    #elem = driver.find_element_by_xpath(f'//th[contains(text(), "{task_name}")]')
-    #assert elem != None
 
     # Navigate to the ToDo Tab
     tab_todo = driver.find_element_by_id("nav-todo-tab")
     tab_todo.click()
     time.sleep(1)
+
     # Start the new ToDo task
     start_button = driver.find_element_by_xpath(start_button_text)
     start_button.click()
@@ -86,6 +71,7 @@ def test_task_journey(driver, app_with_temp_board):
     tab_doing = driver.find_element_by_id("nav-doing-tab")
     tab_doing.click()
     time.sleep(1)
+
     # Complete the Doing task
     done_button = driver.find_element_by_css_selector(
         done_button_text)
@@ -103,6 +89,7 @@ def test_task_journey(driver, app_with_temp_board):
     tab_doing = driver.find_element_by_id("nav-doing-tab")
     tab_doing.click()
     time.sleep(1)
+
     # Delete the Doing task
     delete_button = driver.find_element_by_xpath(delete_button_text)
     delete_button.click()
