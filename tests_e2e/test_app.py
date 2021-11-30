@@ -15,7 +15,7 @@ def app_with_temp_db():
     load_dotenv(file_path, override=True)
     # Use test temp db
     #MongoDbApi.init('devops_test')
-
+    os.environ['LOGIN_DISABLED'] = 'True'
     # construct the new application
     app = create_app('devops_test')
     # start the app in its own thread.
