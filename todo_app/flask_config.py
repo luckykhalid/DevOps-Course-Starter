@@ -10,6 +10,4 @@ class Config:
             raise ValueError(
                 "No SECRET_KEY set for Flask application. Did you follow the setup instructions?")
 
-       
         self.LOGIN_DISABLED = os.environ.get('LOGIN_DISABLED')
-        
