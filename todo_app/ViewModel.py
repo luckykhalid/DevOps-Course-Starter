@@ -4,10 +4,11 @@ from todo_app.data.Status import Status
 
 
 class ViewModel:
-    def __init__(self, items, sort_order):
+    def __init__(self, items, sort_order, has_write_permission):
         self._items = items
         self._sort_order = sort_order
         self._active_tab = Status.DONE.value
+        self._has_write_permission = has_write_permission
 
     @property
     def items(self):
@@ -28,7 +29,7 @@ class ViewModel:
     @property
     def items_done_recent(self):
         return [item for item in self.items_done if item.date_last_activity.date() == datetime.today().date()]
-    
+
     @property
     def items_done_older(self):
         return [item for item in self.items_done if item.date_last_activity.date() < datetime.today().date()]
@@ -36,6 +37,10 @@ class ViewModel:
     @property
     def sort_order(self):
         return self._sort_order
+
+    @property
+    def hide_write_actions(self):
+        return not self._has_write_permission
 
     @property
     def active_tab(self):
