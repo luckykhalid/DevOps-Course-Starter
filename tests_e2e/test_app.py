@@ -93,7 +93,7 @@ def test_task_journey(driver, app_with_temp_db):
     # Delete the Doing task
     delete_button = driver.find_element_by_xpath(delete_button_text)
     delete_button.click()
-    time.sleep(3)
+    time.sleep(10)
     assert task_name not in driver.page_source
 
     # Navigate to the All Tab
