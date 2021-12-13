@@ -176,10 +176,8 @@ Follow these steps once to setup CI/CD pipeline with [`Travis CI`](https://travi
  10. Failure notifications are sent to email addresses configured in the `.travis.yml` file. Change as desired.
  11. Encrypt these ENV variables in the travis pipeline file. This is one off setup:
   ```bash
-      travis encrypt --pro SECRET_KEY="REPLACE_THIS_VALUE" --add # replace REPLACE_THIS_VALUE with the actual value
-      travis encrypt --pro MONGO_USER="REPLACE_THIS_VALUE" --add # replace REPLACE_THIS_VALUE with the actual value
-      travis encrypt --pro MONGO_PASS="REPLACE_THIS_VALUE" --add # replace REPLACE_THIS_VALUE with the actual value
-      travis encrypt --pro MONGO_DB="REPLACE_THIS_VALUE" --add # replace REPLACE_THIS_VALUE with the actual value
+      travis encrypt --pro SECRET_KEY="REPLACE_THIS_VALUE" --add # replace REPLACE_THIS_VALUE with the actual value      
+      travis encrypt --pro MONGO_PASS="REPLACE_THIS_VALUE" --add # replace REPLACE_THIS_VALUE with the actual value      
       travis encrypt --pro DOCKER_PASS="REPLACE_THIS_VALUE" --add # replace REPLACE_THIS_VALUE with the actual value
       travis encrypt --pro OAUTH_CLIENT_ID="REPLACE_THIS_VALUE" --add # replace REPLACE_THIS_VALUE with the actual value
       travis encrypt --pro OAUTH_CLIENT_SECRET="REPLACE_THIS_VALUE" --add # replace REPLACE_THIS_VALUE with the actual value
