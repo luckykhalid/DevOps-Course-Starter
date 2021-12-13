@@ -30,14 +30,14 @@ def create_app(db_name=None):
     @app.route('/', methods=['POST'])
     @login_required
     def create_item():  # pylint:disable=unused-variable
-        if current_user.has_write_permission():
+        if app.config['LOGIN_DISABLED'] or current_user.has_write_permission():
             Items.add_item(request.form['title'])
         return redirect('/')
 
     @app.route('/actions/<action>/<id>')
     @login_required
     def perform_item_action(action, id):  # pylint:disable=unused-variable
-        if current_user.has_write_permission():
+        if app.config['LOGIN_DISABLED'] or current_user.has_write_permission():
             if action == 'doing':
                 Items.doing_item(id)
             elif action == 'done':
@@ -54,7 +54,7 @@ def create_app(db_name=None):
     @app.route('/deleteitem/<id>')
     @login_required
     def remove_item(id):  # pylint:disable=unused-variable
-        if current_user.has_write_permission():
+        if app.config['LOGIN_DISABLED'] or current_user.has_write_permission():
             Items.delete_item(id)
         return redirect('/')
 
