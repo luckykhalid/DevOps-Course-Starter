@@ -7,6 +7,12 @@ env:
   - DOCKER_USER=khalidashraf
   - secure: WrccS5O4eSH8/HKUukA+cJxa+2wCkj/f4lYgWBeGFpoX2xFVICYiYfp5cHSL6VYFCieq24LCufdhB7JvJ+JWjbmmrElC4aluNSfRgpwQBlN7OTVmMwCEzII3Uu8tIww8md7/mIdG/6YBSDPWFPo17tFI69bx0t1AXUWts3WLHTuVilp3EFrlZXpnUKR3d91hSQ+9hG3UnGP8fLAlC/D2b/3gVuCZ7tv9zrcQWh4zFDYIjxT6SKeiOOwwlC9i9qGb6pcDxFxHjMVgXtLU1ue6Gh9KPXyd3WRyPmKd/mxrH8qCw6tad+/gsSk25Vkue+dKQs8F4+Qkc8L2IwcdwIq8ty12Wfu2Wc7GSC7mSCdwq1AySRqOVcAWIlCSGPHP7Rv3bC7RQ0i1CQaRlV4ch/3LfXBva1DfFG01gAKqimmwvT0yCxN8g+MT7pnYfSofnCFFZsuCpahyT1B36wkB9hBAxeUYRO1vi1+scu48J++YfXBqXyvgZm+CnsHv1UsWAYdt5YT1VRnOumJ564wZS64x4MUyKqsFDZvdpB6VICmtwJYk2fcQ4UQ1jL6Hvkezqh7BJew1Osw3LSRr3Y/90iywMAF70/bEKS0E3s2xZVVfblxDOEtlBoEFIgNyBR/TX2fQ2Vi2xo9i0gtV8JtFmwUaYnKzmEsckGaTSyruuYAgbjs=
   - HEROKU_APP=khalidashraf-todo-app
+  - OAUTH_CLIENT_ID=29b6ec30f353fd737024
+  - OAUTH_CLIENT_SECRET=33b3e83b42f9c4c27e7d7cd78947c17001aedb03
+  - OAUTH_AUTHENTICATE_URL=https://github.com/login/oauth/authorize
+  - OAUTH_REDIRECT_URL=http://127.0.0.1:5000/login/callback
+  - OAUTH_ACCESS_TOKEN_URL=https://github.com/login/oauth/access_token
+  - OAUTH_USER_URL=https://api.github.com/user
 services:
 - docker
   
@@ -14,7 +20,7 @@ script:
   # Build test image and test the code
   - docker build --target test --tag todo_app:test .
   - docker run --env-file .env.test todo_app:test tests
-  - docker run -e SECRET_KEY -e MONGO_USER -e MONGO_PASS todo_app:test tests_e2e
+  - docker run -e SECRET_KEY -e MONGO_USER -e MONGO_PASS -e OAUTH_CLIENT_ID -e OAUTH_CLIENT_SECRET -e OAUTH_AUTHENTICATE_URL -e OAUTH_REDIRECT_URL -e OAUTH_ACCESS_TOKEN_URL -e OAUTH_USER_URL todo_app:test tests_e2e
 
 deploy:
   provider: script
