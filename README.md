@@ -181,6 +181,7 @@ Follow these steps once to setup CI/CD pipeline with [`Travis CI`](https://travi
       travis encrypt --pro MONGO_PASS="REPLACE_THIS_VALUE" --add # replace REPLACE_THIS_VALUE with the actual value
       travis encrypt --pro MONGO_DB="REPLACE_THIS_VALUE" --add # replace REPLACE_THIS_VALUE with the actual value
       travis encrypt --pro DOCKER_PASS="REPLACE_THIS_VALUE" --add # replace REPLACE_THIS_VALUE with the actual value
+      travis encrypt --pro OAUTH_CLIENT_ID="REPLACE_THIS_VALUE" --add # replace REPLACE_THIS_VALUE with the actual value
       travis encrypt --pro OAUTH_CLIENT_SECRET="REPLACE_THIS_VALUE" --add # replace REPLACE_THIS_VALUE with the actual value
   ```
 ### One Time Heroku (CD) Setup  
