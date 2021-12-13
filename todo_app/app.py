@@ -19,9 +19,9 @@ def create_app(db_name=None):
     @login_required
     def index():  # pylint:disable=unused-variable
         item_view_model = None
-        if current_user.is_anonymous:
+        if app.config['LOGIN_DISABLED']:
             item_view_model = ViewModel(
-                Items.get_items(), Items.get_current_sort_order(), None)
+                Items.get_items(), Items.get_current_sort_order(), True)
         else:
             item_view_model = ViewModel(Items.get_items(
             ), Items.get_current_sort_order(), current_user.has_write_permission())
