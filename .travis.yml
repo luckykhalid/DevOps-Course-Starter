@@ -13,6 +13,7 @@ env:
   - OAUTH_REDIRECT_URL=http://127.0.0.1:5000/login/callback
   - OAUTH_ACCESS_TOKEN_URL=https://github.com/login/oauth/access_token
   - OAUTH_USER_URL=https://api.github.com/user
+  - ROLE_WRITER_USERS=luckykhalid
 services:
 - docker
   
@@ -20,7 +21,7 @@ script:
   # Build test image and test the code
   - docker build --target test --tag todo_app:test .
   - docker run --env-file .env.test todo_app:test tests
-  - docker run -e SECRET_KEY -e MONGO_USER -e MONGO_PASS -e OAUTH_CLIENT_ID -e OAUTH_CLIENT_SECRET -e OAUTH_AUTHENTICATE_URL -e OAUTH_REDIRECT_URL -e OAUTH_ACCESS_TOKEN_URL -e OAUTH_USER_URL todo_app:test tests_e2e
+  - docker run -e SECRET_KEY -e MONGO_USER -e MONGO_PASS -e OAUTH_CLIENT_ID -e OAUTH_CLIENT_SECRET -e OAUTH_AUTHENTICATE_URL -e OAUTH_REDIRECT_URL -e OAUTH_ACCESS_TOKEN_URL -e OAUTH_USER_URL -e ROLE_WRITER_USERS todo_app:test tests_e2e
 
 deploy:
   provider: script
