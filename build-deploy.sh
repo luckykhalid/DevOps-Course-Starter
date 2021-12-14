@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Stop the execution of the script if a command has an error
 set -e
 
 # Build prod Docker image and push to Docker repo
