@@ -14,6 +14,7 @@ env:
   - OAUTH_ACCESS_TOKEN_URL=https://github.com/login/oauth/access_token
   - OAUTH_USER_URL=https://api.github.com/user
   - ROLE_WRITER_USERS=luckykhalid
+  - secure: o07K66NujuOdC5Sd0t+sDoejkD8fJ199WNXoS4f7irWuVoilAgs35+qW/SahvyOW/tYzhHKq5XXjFVwrL0UCUHCu1O02ApDFJO0/JUdl5erXHCbxWLDyL2Lz6B3qYZ3j2UlZU5iJ0fXd30/caZcOmSCDL4ifRJRFFLV2/iMYv5dUcf0jmiorAL9cTkl+6i4VqaCOmzAEWGTcc2kqhKDzIeW+ldpcT6syUTkIEH2Np5zYINwZ2teSexQpVU0HYJ4EGFUv86wsZKWQTM45Ix0C0l7zvcfqbiDVU1jJ8hgzPTN5rL+/zTzEZX2oWrbDHDAqRf0T3AzKZ3dEX0/CfSUnX1yAGkYwPjsUq8kAsAB9n0lkaQ4vasjoyFqJ39jHObKhx60ph+Rpb4tuREhUOOXc7M9daHAaIhcmlookeUAz647Fc2OkJ2NrXMoi3KX7Z4+Qo75KMxP2U7VPkqZOL01gS8cKQV9YVRkx2InONUlNDCnU/lRUVsLk2ScO7mNwI/xWB820fSpai9K853vfW+R64h5Au18N311HuUaM7PwQOVhVT+nk4GtnHV8Y3dXYiQCRgwYSwWCztzsfRhFrF/S9TfpMqKbfaOnsOC9rkGvFclOij6DojVbmwARChk5oQSepa6QBoJXfSYUdZui9EYEWFrQMb3Fzkp43jqHvqYv+1Ec=
 services:
 - docker
   
@@ -22,6 +23,7 @@ script:
   - docker build --target test --tag todo_app:test .
   - docker run --env-file .env.test todo_app:test tests
   - docker run -e SECRET_KEY -e MONGO_USER -e MONGO_PASS -e OAUTH_CLIENT_ID -e OAUTH_CLIENT_SECRET -e OAUTH_AUTHENTICATE_URL -e OAUTH_REDIRECT_URL -e OAUTH_ACCESS_TOKEN_URL -e OAUTH_USER_URL -e ROLE_WRITER_USERS todo_app:test tests_e2e
+  - bash ./webhook.sh
 
 deploy:
   provider: script
