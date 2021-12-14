@@ -1,3 +1,5 @@
 #!/bin/bash
 
-curl -dH -X POST "$WEBHOOK_URL"
+set -e
+
+curl -dH -X POST "${WEBHOOK_URL}"
