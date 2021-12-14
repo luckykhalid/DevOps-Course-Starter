@@ -20,11 +20,12 @@ services:
 - docker
   
 script:  
-  # Build test image and test the code
-  - bash ./webhook.sh
+  # Build test image and test the code  
   - docker build --target test --tag todo_app:test .
   - docker run --env-file .env.test todo_app:test tests
   - docker run -e SECRET_KEY -e MONGO_USER -e MONGO_PASS -e OAUTH_CLIENT_ID -e OAUTH_CLIENT_SECRET -e OAUTH_AUTHENTICATE_URL -e OAUTH_REDIRECT_URL -e OAUTH_ACCESS_TOKEN_URL -e OAUTH_USER_URL -e ROLE_WRITER_USERS todo_app:test tests_e2e
+  # Redeploy to Azure
+  - bash ./webhook.sh
   
 
 deploy:
