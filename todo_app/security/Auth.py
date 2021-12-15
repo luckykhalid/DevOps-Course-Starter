@@ -44,7 +44,7 @@ class Auth:
 
     @classmethod
     def unauthenticated(cls):
-        return cls.client.prepare_request_uri(cls.OAUTH_AUTHENTICATE_URL, redirect_uri=cls.OAUTH_REDIRECT_URL)
+        return cls.client.prepare_request_uri(cls.OAUTH_AUTHENTICATE_URL)
 
     @classmethod
     def login_callback(cls, request):
