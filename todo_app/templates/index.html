@@ -8,7 +8,7 @@
 </div>
 
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-12{{' d-none' if view_model.hide_write_actions  else ''}}">
     <h2>Add New To-Do Item</h2>
     <form action="/" method="post" class="form-group">
       <div class="input-group mb-3">
@@ -59,16 +59,18 @@
             <td>
               {% if item.status == 'To Do'%}
               <a href="{{url_for('perform_item_action', action='doing', id=item.id)}}"
-                class="btn btn-outline-secondary btn-sm">Start</a>
+                class="btn btn-outline-secondary btn-sm{{' d-none' if view_model.hide_write_actions  else ''}}">Start</a>
               {% elif item.status == 'Doing'%}
               <a href="{{url_for('perform_item_action', action='done', id=item.id)}}"
-                class="btn btn-outline-secondary btn-sm">Done</a>
+                class="btn btn-outline-secondary btn-sm{{' d-none' if view_model.hide_write_actions  else ''}}">Done</a>
               {% elif item.status == 'Done'%}
               <a href="{{url_for('perform_item_action', action='doing', id=item.id)}}"
-                class="btn btn-outline-secondary btn-sm">Restart</a>
+                class="btn btn-outline-secondary btn-sm{{' d-none' if view_model.hide_write_actions  else ''}}">Restart</a>
               {% endif %}
             </td>
-            <td><a href="/deleteitem/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Delete</a></td>
+            <td><a href="/deleteitem/{{ item.id }}"
+                class="btn btn-outline-secondary btn-sm{{' d-none' if view_model.hide_write_actions  else ''}}">Delete</a>
+            </td>
           </tr>
           {%endfor%}
         </tbody>
@@ -100,16 +102,18 @@
             <td>
               {% if item.status == 'To Do'%}
               <a href="{{url_for('perform_item_action', action='doing', id=item.id)}}"
-                class="btn btn-outline-secondary btn-sm">Start</a>
+                class="btn btn-outline-secondary btn-sm{{' d-none' if view_model.hide_write_actions  else ''}}">Start</a>
               {% elif item.status == 'Doing'%}
               <a href="{{url_for('perform_item_action', action='done', id=item.id)}}"
-                class="btn btn-outline-secondary btn-sm">Done</a>
+                class="btn btn-outline-secondary btn-sm{{' d-none' if view_model.hide_write_actions  else ''}}">Done</a>
               {% elif item.status == 'Done'%}
               <a href="{{url_for('perform_item_action', action='doing', id=item.id)}}"
-                class="btn btn-outline-secondary btn-sm">Restart</a>
+                class="btn btn-outline-secondary btn-sm{{' d-none' if view_model.hide_write_actions  else ''}}">Restart</a>
               {% endif %}
             </td>
-            <td><a href="/deleteitem/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Delete</a></td>
+            <td><a href="/deleteitem/{{ item.id }}"
+                class="btn btn-outline-secondary btn-sm{{' d-none' if view_model.hide_write_actions  else ''}}">Delete</a>
+            </td>
           </tr>
           {%endfor%}
         </tbody>
@@ -148,16 +152,18 @@
             <td>
               {% if item.status == 'To Do'%}
               <a href="{{url_for('perform_item_action', action='doing', id=item.id)}}"
-                class="btn btn-outline-secondary btn-sm">Start</a>
+                class="btn btn-outline-secondary btn-sm{{' d-none' if view_model.hide_write_actions  else ''}}">Start</a>
               {% elif item.status == 'Doing'%}
               <a href="{{url_for('perform_item_action', action='done', id=item.id)}}"
-                class="btn btn-outline-secondary btn-sm">Done</a>
+                class="btn btn-outline-secondary btn-sm{{' d-none' if view_model.hide_write_actions  else ''}}">Done</a>
               {% elif item.status == 'Done'%}
               <a href="{{url_for('perform_item_action', action='doing', id=item.id)}}"
-                class="btn btn-outline-secondary btn-sm">Restart</a>
+                class="btn btn-outline-secondary btn-sm{{' d-none' if view_model.hide_write_actions  else ''}}">Restart</a>
               {% endif %}
             </td>
-            <td><a href="/deleteitem/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Delete</a></td>
+            <td><a href="/deleteitem/{{ item.id }}"
+                class="btn btn-outline-secondary btn-sm{{' d-none' if view_model.hide_write_actions  else ''}}">Delete</a>
+            </td>
           </tr>
           {%endfor%}
         </tbody>
@@ -194,16 +200,18 @@
                 <td>
                   {% if item.status == 'To Do'%}
                   <a href="{{url_for('perform_item_action', action='doing', id=item.id)}}"
-                    class="btn btn-outline-secondary btn-sm">Start</a>
+                    class="btn btn-outline-secondary btn-sm{{' d-none' if view_model.hide_write_actions  else ''}}">Start</a>
                   {% elif item.status == 'Doing'%}
                   <a href="{{url_for('perform_item_action', action='done', id=item.id)}}"
-                    class="btn btn-outline-secondary btn-sm">Done</a>
+                    class="btn btn-outline-secondary btn-sm{{' d-none' if view_model.hide_write_actions  else ''}}">Done</a>
                   {% elif item.status == 'Done'%}
                   <a href="{{url_for('perform_item_action', action='doing', id=item.id)}}"
-                    class="btn btn-outline-secondary btn-sm">Restart</a>
+                    class="btn btn-outline-secondary btn-sm{{' d-none' if view_model.hide_write_actions  else ''}}">Restart</a>
                   {% endif %}
                 </td>
-                <td><a href="/deleteitem/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Delete</a></td>
+                <td><a href="/deleteitem/{{ item.id }}"
+                    class="btn btn-outline-secondary btn-sm{{' d-none' if view_model.hide_write_actions  else ''}}">Delete</a>
+                </td>
               </tr>
               {%endfor%}
             </tbody>
@@ -239,16 +247,18 @@
               <td>
                 {% if item.status == 'To Do'%}
                 <a href="{{url_for('perform_item_action', action='doing', id=item.id)}}"
-                  class="btn btn-outline-secondary btn-sm">Start</a>
+                  class="btn btn-outline-secondary btn-sm{{' d-none' if view_model.hide_write_actions  else ''}}">Start</a>
                 {% elif item.status == 'Doing'%}
                 <a href="{{url_for('perform_item_action', action='done', id=item.id)}}"
-                  class="btn btn-outline-secondary btn-sm">Done</a>
+                  class="btn btn-outline-secondary btn-sm{{' d-none' if view_model.hide_write_actions  else ''}}">Done</a>
                 {% elif item.status == 'Done'%}
                 <a href="{{url_for('perform_item_action', action='doing', id=item.id)}}"
-                  class="btn btn-outline-secondary btn-sm">Restart</a>
+                  class="btn btn-outline-secondary btn-sm{{' d-none' if view_model.hide_write_actions  else ''}}">Restart</a>
                 {% endif %}
               </td>
-              <td><a href="/deleteitem/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Delete</a></td>
+              <td><a href="/deleteitem/{{ item.id }}"
+                  class="btn btn-outline-secondary btn-sm{{' d-none' if view_model.hide_write_actions  else ''}}">Delete</a>
+              </td>
             </tr>
             {%endfor%}
           </tbody>
@@ -283,16 +293,18 @@
             <td>
               {% if item.status == 'To Do'%}
               <a href="{{url_for('perform_item_action', action='doing', id=item.id)}}"
-                class="btn btn-outline-secondary btn-sm">Start</a>
+                class="btn btn-outline-secondary btn-sm{{' d-none' if view_model.hide_write_actions  else ''}}">Start</a>
               {% elif item.status == 'Doing'%}
               <a href="{{url_for('perform_item_action', action='done', id=item.id)}}"
-                class="btn btn-outline-secondary btn-sm">Done</a>
+                class="btn btn-outline-secondary btn-sm{{' d-none' if view_model.hide_write_actions  else ''}}">Done</a>
               {% elif item.status == 'Done'%}
               <a href="{{url_for('perform_item_action', action='doing', id=item.id)}}"
-                class="btn btn-outline-secondary btn-sm">Restart</a>
+                class="btn btn-outline-secondary btn-sm{{' d-none' if view_model.hide_write_actions  else ''}}">Restart</a>
               {% endif %}
             </td>
-            <td><a href="/deleteitem/{{ item.id }}" class="btn btn-outline-secondary btn-sm">Delete</a></td>
+            <td><a href="/deleteitem/{{ item.id }}"
+                class="btn btn-outline-secondary btn-sm{{' d-none' if view_model.hide_write_actions  else ''}}">Delete</a>
+            </td>
           </tr>
           {%endfor%}
         </tbody>

@@ -14,8 +14,8 @@ def app_with_temp_db():
     file_path = find_dotenv('.env')
     load_dotenv(file_path, override=True)
     # Use test temp db
-    #MongoDbApi.init('devops_test')
-
+    # MongoDbApi.init('devops_test')
+    os.environ['LOGIN_DISABLED'] = 'True'
     # construct the new application
     app = create_app('devops_test')
     # start the app in its own thread.
@@ -93,7 +93,7 @@ def test_task_journey(driver, app_with_temp_db):
     # Delete the Doing task
     delete_button = driver.find_element_by_xpath(delete_button_text)
     delete_button.click()
-    time.sleep(1)
+    time.sleep(3)
     assert task_name not in driver.page_source
 
     # Navigate to the All Tab

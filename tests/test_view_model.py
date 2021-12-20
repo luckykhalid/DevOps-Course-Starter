@@ -16,7 +16,7 @@ def view_model() -> ViewModel:
                       'Doing', to_utc_datetime_object('2021-03-15T12:30:01.070Z')))
     items.append(Item('Id03', 'Item Name 03',
                       'Done', to_utc_datetime_object('2021-03-14T12:30:01.070Z')))
-    return ViewModel(items, None)
+    return ViewModel(items, None, True)
 
 
 def test_items(view_model):
