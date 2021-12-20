@@ -15,29 +15,27 @@ def create_app(db_name=None):
     MongoDbApi.init(db_name)
     Auth.init()
 
+    def can_write():
+        return app.config['LOGIN_DISABLED'] or current_user.has_write_permission()
+
     @app.route('/')
     @login_required
     def index():  # pylint:disable=unused-variable
-        item_view_model = None
-        if app.config['LOGIN_DISABLED']:
-            item_view_model = ViewModel(
-                Items.get_items(), Items.get_current_sort_order(), True)
-        else:
-            item_view_model = ViewModel(Items.get_items(
-            ), Items.get_current_sort_order(), current_user.has_write_permission())
+        item_view_model = ViewModel(
+            Items.get_items(), Items.get_current_sort_order(), can_write())
         return render_template('index.html', view_model=item_view_model)
 
     @app.route('/', methods=['POST'])
     @login_required
     def create_item():  # pylint:disable=unused-variable
-        if app.config['LOGIN_DISABLED'] or current_user.has_write_permission():
+        if can_write():
             Items.add_item(request.form['title'])
         return redirect('/')
 
     @app.route('/actions/<action>/<id>')
     @login_required
     def perform_item_action(action, id):  # pylint:disable=unused-variable
-        if app.config['LOGIN_DISABLED'] or current_user.has_write_permission():
+        if can_write():
             if action == 'doing':
                 Items.doing_item(id)
             elif action == 'done':
@@ -54,7 +52,7 @@ def create_app(db_name=None):
     @app.route('/deleteitem/<id>')
     @login_required
     def remove_item(id):  # pylint:disable=unused-variable
-        if app.config['LOGIN_DISABLED'] or current_user.has_write_permission():
+        if can_write():
             Items.delete_item(id)
         return redirect('/')
 
