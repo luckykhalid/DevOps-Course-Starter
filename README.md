@@ -194,7 +194,6 @@ Follow these steps once to setup CI/CD pipeline with [`Travis CI`](https://travi
       heroku config:set `cat .env | grep OAUTH_CLIENT_ID` -a khalidashraf-todo-app
       heroku config:set `cat .env | grep OAUTH_CLIENT_SECRET` -a khalidashraf-todo-app
       heroku config:set `cat .env | grep OAUTH_AUTHENTICATE_URL` -a khalidashraf-todo-app
-      heroku config:set `cat .env | grep OAUTH_REDIRECT_URL` -a khalidashraf-todo-app
       heroku config:set `cat .env | grep OAUTH_ACCESS_TOKEN_URL` -a khalidashraf-todo-app
       heroku config:set `cat .env | grep OAUTH_USER_URL` -a khalidashraf-todo-app
       heroku config:set `cat .env | grep ROLE_WRITER_USERS` -a khalidashraf-todo-app
