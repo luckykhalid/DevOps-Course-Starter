@@ -9,4 +9,4 @@ docker login --username=_ --password="${HEROKU_API_KEY}" registry.heroku.com
 docker push registry.heroku.com/"${HEROKU_APP}"/web
 
 # Release/Deploy to Heroku
-heroku container:release web -a "${HEROKU_APP}"
+#heroku container:release web -a "${HEROKU_APP}"
