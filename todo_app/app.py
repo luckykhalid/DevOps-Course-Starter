@@ -18,13 +18,10 @@ def create_app(db_name=None):
     @app.route('/')
     @login_required
     def index():  # pylint:disable=unused-variable
-        item_view_model = None
-        if app.config['LOGIN_DISABLED']:
-            item_view_model = ViewModel(
-                Items.get_items(), Items.get_current_sort_order(), True)
-        else:
-            item_view_model = ViewModel(Items.get_items(
-            ), Items.get_current_sort_order(), current_user.has_write_permission())
+        can_write = app.config['LOGIN_DISABLED'] or current_user.has_write_permission()
+        item_view_model = ViewModel(
+                Items.get_items(), Items.get_current_sort_order(), can_write)
+        return render_template('index.html', view_model=item_view_model)
         return render_template('index.html', view_model=item_view_model)
 
     @app.route('/', methods=['POST'])
