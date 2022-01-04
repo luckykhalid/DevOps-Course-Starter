@@ -8,34 +8,28 @@ from bson.objectid import ObjectId
 
 class MongoDbApi:
 
-    MONGO_URL = 'khalid-devops.mongo.cosmos.azure.com:10255'
+    DEFAULT_MONGO_DB = 'devops'
 
     @classmethod
     def init(cls, db_name=None):
         """Set MongoDB ENV Variables."""
 
-        cls.MONGO_USER = os.environ.get('MONGO_USER')
-        if not cls.MONGO_USER:
+        cls.MONGODB_CONNECTION_STRING = os.environ.get(
+            'MONGODB_CONNECTION_STRING')
+        if not cls.MONGODB_CONNECTION_STRING:
             raise ValueError(
-                "No MONGO_USER set for MongoDB calls. Did you follow the setup instructions?")
-
-        cls.MONGO_PASS = os.environ.get('MONGO_PASS')
-        if not cls.MONGO_PASS:
-            raise ValueError(
-                "No MONGO_PASS set for MongoDB calls. Did you follow the setup instructions?")
+                "No MONGODB_CONNECTION_STRING set for MongoDB calls. Did you follow the setup instructions?")
 
         if not db_name:
-            cls.MONGO_DB = os.environ.get('MONGO_DB')
+            cls.MONGO_DB = cls.DEFAULT_MONGO_DB
         else:
             cls.MONGO_DB = db_name
         print(f'Mongo DB being set is: {cls.MONGO_DB}')
         if not cls.MONGO_DB:
             raise ValueError(
-                "No MONGO_DB set for MongoDB calls. Did you follow the setup instructions?")
+                "No MONGO_DB set for MongoDB calls. Error in the code, please fix!")
 
-        cls.MONGO_CONN_STR = f'mongodb://{cls.MONGO_USER}:{cls.MONGO_PASS}@{cls.MONGO_URL}/{cls.MONGO_DB}?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@khalid-devops@'
-
-        client = pymongo.MongoClient(cls.MONGO_CONN_STR)
+        client = pymongo.MongoClient(cls.MONGODB_CONNECTION_STRING)
         cls.db = client[cls.MONGO_DB]
 
     @classmethod

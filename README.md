@@ -50,7 +50,7 @@ The `.env` file is used by flask to set environment variables when running `flas
 
 We're going to be using Mongo DB to save and fetch to-do tasks. In order to save to MongoDB, you need to first [create an account](https://www.mongodb.com/try). There is a free tier, which is suitable for our purposes. If you choose the "I'm learning MongoDB" option at sign-up then the set-up instructions are very intuitive.
 
-Update the `.env` file with Mongo DB's variables `MONGO_USER`, `MONGO_PASS` and `MONGO_DB`.
+Update the `.env` file with Mongo DB's connection string `MONGODB_CONNECTION_STRING`.
 
 ### Setup OAuth Account and Setup Environment Variables
 
@@ -177,7 +177,7 @@ Follow these steps once to setup CI/CD pipeline with [`Travis CI`](https://travi
  11. Encrypt these ENV variables in the travis pipeline file. This is one off setup:
   ```bash
       travis encrypt --pro SECRET_KEY='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value      
-      travis encrypt --pro MONGO_PASS='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value      
+      travis encrypt --pro MONGODB_CONNECTION_STRING='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value      
       travis encrypt --pro DOCKER_PASS='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value
       travis encrypt --pro OAUTH_CLIENT_ID='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value
       travis encrypt --pro OAUTH_CLIENT_SECRET='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value
@@ -187,9 +187,7 @@ Follow these steps once to setup CI/CD pipeline with [`Travis CI`](https://travi
   * Upload these ENV variables to Heroku application `khalidashraf-todo-app`. You can change this to your own app name in Heroku.
   ```bash
       heroku config:set `cat .env | grep SECRET_KEY` -a khalidashraf-todo-app
-      heroku config:set `cat .env | grep MONGO_USER` -a khalidashraf-todo-app
-      heroku config:set `cat .env | grep MONGO_PASS` -a khalidashraf-todo-app
-      heroku config:set `cat .env | grep MONGO_DB` -a khalidashraf-todo-app
+      heroku config:set `cat .env | grep MONGODB_CONNECTION_STRING` -a khalidashraf-todo-app      
       heroku config:set `cat .env | grep OAUTH_CLIENT_ID` -a khalidashraf-todo-app
       heroku config:set `cat .env | grep OAUTH_CLIENT_SECRET` -a khalidashraf-todo-app
       heroku config:set `cat .env | grep OAUTH_AUTHENTICATE_URL` -a khalidashraf-todo-app      
