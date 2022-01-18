@@ -25,11 +25,6 @@ class Auth:
             raise ValueError(
                 "No OAUTH_AUTHENTICATE_URL set for OAuth calls. Did you follow the setup instructions?")
 
-        cls.OAUTH_REDIRECT_URL = os.environ.get('OAUTH_REDIRECT_URL')
-        if not cls.OAUTH_REDIRECT_URL:
-            raise ValueError(
-                "No OAUTH_REDIRECT_URL set for OAuth calls. Did you follow the setup instructions?")
-
         cls.OAUTH_ACCESS_TOKEN_URL = os.environ.get('OAUTH_ACCESS_TOKEN_URL')
         if not cls.OAUTH_ACCESS_TOKEN_URL:
             raise ValueError(
@@ -44,7 +39,7 @@ class Auth:
 
     @classmethod
     def unauthenticated(cls):
-        return cls.client.prepare_request_uri(cls.OAUTH_AUTHENTICATE_URL, redirect_uri=cls.OAUTH_REDIRECT_URL)
+        return cls.client.prepare_request_uri(cls.OAUTH_AUTHENTICATE_URL)
 
     @classmethod
     def login_callback(cls, request):

@@ -176,13 +176,12 @@ Follow these steps once to setup CI/CD pipeline with [`Travis CI`](https://travi
  10. Failure notifications are sent to email addresses configured in the `.travis.yml` file. Change as desired.
  11. Encrypt these ENV variables in the travis pipeline file. This is one off setup:
   ```bash
-      travis encrypt --pro SECRET_KEY="REPLACE_THIS_VALUE" --add # replace REPLACE_THIS_VALUE with the actual value
-      travis encrypt --pro MONGO_USER="REPLACE_THIS_VALUE" --add # replace REPLACE_THIS_VALUE with the actual value
-      travis encrypt --pro MONGO_PASS="REPLACE_THIS_VALUE" --add # replace REPLACE_THIS_VALUE with the actual value
-      travis encrypt --pro MONGO_DB="REPLACE_THIS_VALUE" --add # replace REPLACE_THIS_VALUE with the actual value
-      travis encrypt --pro DOCKER_PASS="REPLACE_THIS_VALUE" --add # replace REPLACE_THIS_VALUE with the actual value
-      travis encrypt --pro OAUTH_CLIENT_ID="REPLACE_THIS_VALUE" --add # replace REPLACE_THIS_VALUE with the actual value
-      travis encrypt --pro OAUTH_CLIENT_SECRET="REPLACE_THIS_VALUE" --add # replace REPLACE_THIS_VALUE with the actual value
+      travis encrypt --pro SECRET_KEY='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value      
+      travis encrypt --pro MONGO_PASS='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value      
+      travis encrypt --pro DOCKER_PASS='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value
+      travis encrypt --pro OAUTH_CLIENT_ID='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value
+      travis encrypt --pro OAUTH_CLIENT_SECRET='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value
+      travis encrypt --pro WEBHOOK_URL='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value, escape $ symbol with \
   ```
 ### One Time Heroku (CD) Setup  
   * Upload these ENV variables to Heroku application `khalidashraf-todo-app`. You can change this to your own app name in Heroku.
@@ -193,8 +192,7 @@ Follow these steps once to setup CI/CD pipeline with [`Travis CI`](https://travi
       heroku config:set `cat .env | grep MONGO_DB` -a khalidashraf-todo-app
       heroku config:set `cat .env | grep OAUTH_CLIENT_ID` -a khalidashraf-todo-app
       heroku config:set `cat .env | grep OAUTH_CLIENT_SECRET` -a khalidashraf-todo-app
-      heroku config:set `cat .env | grep OAUTH_AUTHENTICATE_URL` -a khalidashraf-todo-app
-      heroku config:set `cat .env | grep OAUTH_REDIRECT_URL` -a khalidashraf-todo-app
+      heroku config:set `cat .env | grep OAUTH_AUTHENTICATE_URL` -a khalidashraf-todo-app      
       heroku config:set `cat .env | grep OAUTH_ACCESS_TOKEN_URL` -a khalidashraf-todo-app
       heroku config:set `cat .env | grep OAUTH_USER_URL` -a khalidashraf-todo-app
       heroku config:set `cat .env | grep ROLE_WRITER_USERS` -a khalidashraf-todo-app

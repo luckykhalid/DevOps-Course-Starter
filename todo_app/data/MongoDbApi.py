@@ -8,7 +8,7 @@ from bson.objectid import ObjectId
 
 class MongoDbApi:
 
-    MONGO_URL = 'cluster0.p7ckx.mongodb.net'
+    MONGO_URL = 'khalid-devops.mongo.cosmos.azure.com:10255'
 
     @classmethod
     def init(cls, db_name=None):
@@ -33,7 +33,7 @@ class MongoDbApi:
             raise ValueError(
                 "No MONGO_DB set for MongoDB calls. Did you follow the setup instructions?")
 
-        cls.MONGO_CONN_STR = f'mongodb+srv://{cls.MONGO_USER}:{cls.MONGO_PASS}@{cls.MONGO_URL}/{cls.MONGO_DB}?w=majority'
+        cls.MONGO_CONN_STR = f'mongodb://{cls.MONGO_USER}:{cls.MONGO_PASS}@{cls.MONGO_URL}/{cls.MONGO_DB}?ssl=true&retrywrites=false&replicaSet=globaldb&maxIdleTimeMS=120000&appName=@khalid-devops@'
 
         client = pymongo.MongoClient(cls.MONGO_CONN_STR)
         cls.db = client[cls.MONGO_DB]
