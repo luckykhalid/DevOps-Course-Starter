@@ -37,13 +37,22 @@ $ poetry env remove python
 $ poetry install
 ```
 ### Setup Environment Configuration
-You'll also need to clone a new `.env` file from the `.env.template` to store local configuration options. This is a one-time operation on first setup:
+You'll need to clone a new `.env` file from the `.env.template` to store local configuration options. This is a one-time operation on first setup:
 
 ```bash
 $ cp .env.template .env  # (first time only)
 ```
 
 The `.env` file is used by flask to set environment variables when running `flask run`. This enables things like development mode (which also enables features like hot reloading when you make a file change). There's also a [SECRET_KEY](https://flask.palletsprojects.com/en/1.1.x/config/#SECRET_KEY) variable which is used to encrypt the flask session cookie.
+
+### Setup Terraform Variables
+You'll also need to clone a new `terraform.tfvars` file from the `terraform.tfvars.template` to store terraform variable values locally. This is a one-time operation on first setup:
+
+```bash
+$ cp terraform.tfvars.template terraform.tfvars  # (first time only)
+```
+
+The `terraform.tfvars` file is used by terraform to set environment variables that change between environments. Please provide values for all variables used in the terraform variables file `variables.tf`
 
 
 ### Create a Mongo DB Account
@@ -175,13 +184,15 @@ Follow these steps once to setup CI/CD pipeline with [`Travis CI`](https://travi
  9. All notifications are sent to Slack channel. Reconfigure `.travis.yml` file to send notification to your own channel(s) if desired.
  10. Failure notifications are sent to email addresses configured in the `.travis.yml` file. Change as desired.
  11. Encrypt these ENV variables in the travis pipeline file. This is one off setup:
+      NOTE: 1) Encrypt in Git Bash as DOS treats querystrings as separate commands resulting in invalid encrypted value
+            2) Escape special characters such as $ and & symbols with backslash \
   ```bash
       travis encrypt --pro SECRET_KEY='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value      
       travis encrypt --pro MONGODB_CONNECTION_STRING='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value      
       travis encrypt --pro DOCKER_PASS='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value
       travis encrypt --pro OAUTH_CLIENT_ID='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value
       travis encrypt --pro OAUTH_CLIENT_SECRET='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value
-      travis encrypt --pro WEBHOOK_URL='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value, escape $ symbol with \
+      travis encrypt --pro WEBHOOK_URL='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value, escape $ and & symbols with \
   ```
 ### One Time Heroku (CD) Setup  
   * Upload these ENV variables to Heroku application `khalidashraf-todo-app`. You can change this to your own app name in Heroku.

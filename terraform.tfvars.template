@@ -1,0 +1,9 @@
+prefix = "khalid"
+secret_key = "123456"
+oauth_client_id = "123456"
+oauth_client_secret = "123456"
+
+oauth_authenticate_url = "https://github.com/login/oauth/authorize"
+oauth_access_token_url = "https://github.com/login/oauth/access_token"
+oauth_user_url = "https://api.github.com/user"
+role_writer_users = "luckykhalid"

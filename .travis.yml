@@ -21,7 +21,7 @@ script:
   - docker run --env-file .env.test todo_app:test tests
   - docker run -e SECRET_KEY -e MONGODB_CONNECTION_STRING -e OAUTH_CLIENT_ID -e OAUTH_CLIENT_SECRET -e OAUTH_AUTHENTICATE_URL -e OAUTH_ACCESS_TOKEN_URL -e OAUTH_USER_URL -e ROLE_WRITER_USERS todo_app:test tests_e2e
   # Redeploy to Azure
-  - bash ./webhook.sh  
+  #- bash ./webhook.sh  
 
 
 deploy:
