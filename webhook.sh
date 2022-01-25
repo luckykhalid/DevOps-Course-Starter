@@ -9,4 +9,5 @@ docker build --target prod --tag "${DOCKER_USER}"/todo_app:latest --tag "${DOCKE
 docker push "${DOCKER_USER}"/todo_app
 
 # Notify Azure to get latest docker image and restart the app
-curl -dH -X POST "$(terraform output -raw webhook_url)" --fail
+#curl -dH -X POST "$(terraform output -raw webhook_url)" --fail
+curl -dH -X POST "${WEBHOOK_URL}" --fail
