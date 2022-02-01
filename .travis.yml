@@ -26,8 +26,7 @@ script:
   - docker run --env-file .env.test todo_app:test tests
   - docker run -e SECRET_KEY -e MONGODB_CONNECTION_STRING -e OAUTH_CLIENT_ID -e OAUTH_CLIENT_SECRET -e OAUTH_AUTHENTICATE_URL -e OAUTH_ACCESS_TOKEN_URL -e OAUTH_USER_URL -e ROLE_WRITER_USERS todo_app:test tests_e2e
   # Redeploy to Azure
-  #- bash ./webhook.sh  
-  - terraform apply -var "prefix=khalid" -var "secret_key=$SECRET_KEY" -var "oauth_client_id=$OAUTH_CLIENT_ID" -var "oauth_client_secret=$OAUTH_CLIENT_SECRET" -var "oauth_authenticate_url=$OAUTH_AUTHENTICATE_URL" -var "oauth_access_token_url=$OAUTH_ACCESS_TOKEN_URL" -var "oauth_user_url=$OAUTH_USER_URL" -var "role_writer_users=$ROLE_WRITER_USERS" -auto-approve
+  #- bash ./webhook.sh
 
 install:
 - wget https://releases.hashicorp.com/terraform/"$TF_VERSION"/terraform_"$TF_VERSION"_linux_amd64.zip
@@ -35,6 +34,9 @@ install:
 - sudo mv terraform /usr/local/bin/
 - rm terraform_"$TF_VERSION"_linux_amd64.zip
 - terraform init
+
+before_deploy:
+- terraform apply -var "prefix=khalid" -var "secret_key=$SECRET_KEY" -var "oauth_client_id=$OAUTH_CLIENT_ID" -var "oauth_client_secret=$OAUTH_CLIENT_SECRET" -var "oauth_authenticate_url=$OAUTH_AUTHENTICATE_URL" -var "oauth_access_token_url=$OAUTH_ACCESS_TOKEN_URL" -var "oauth_user_url=$OAUTH_USER_URL" -var "role_writer_users=$ROLE_WRITER_USERS" -auto-approve
 
 deploy:
   provider: script
