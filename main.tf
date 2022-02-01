@@ -5,6 +5,12 @@ terraform {
       version = ">= 2.49"
     }
   }
+  backend "azurerm" {
+    resource_group_name  = "OpenCohort1_KhalidAshraf_ProjectExercise"
+    storage_account_name = "tfstate28504"
+    container_name       = "tfstate"
+    key                  = "terraform.tfstate"
+  }
 }
 
 provider "azurerm" {
