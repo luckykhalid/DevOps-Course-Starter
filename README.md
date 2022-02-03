@@ -186,6 +186,17 @@ Follow these steps once to setup CI/CD pipeline with [`Travis CI`](https://travi
  11. Encrypt these ENV variables in the travis pipeline file. This is one off setup:
       NOTE: 1) Encrypt in Git Bash as DOS treats querystrings as separate commands resulting in invalid encrypted value
             2) Escape special characters such as $ and & symbols with backslash \
+  
+  `ARM_CLIENT_SECRET` is the password when we run this command in bash:
+  ```bash
+      az ad sp create-for-rbac --name "khalid-service-principal" --role Contributor --scopes /subscriptions/d33b95c7-af3c-4247-9661-aa96d47fccc0/resourceGroups/OpenCohort1_KhalidAshraf_ProjectExercise
+  ```
+  Mappings are:
+   ARM_CLIENT_ID = appId
+   ARM_TENANT_ID = tenant
+   ARM_SUBSCRIPTION_ID = the one used when issuing principal creation command
+   ARM_CLIENT_SECRET = password
+  
   ```bash
       travis encrypt --pro SECRET_KEY='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value      
       travis encrypt --pro MONGODB_CONNECTION_STRING='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value      
@@ -193,6 +204,7 @@ Follow these steps once to setup CI/CD pipeline with [`Travis CI`](https://travi
       travis encrypt --pro OAUTH_CLIENT_ID='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value
       travis encrypt --pro OAUTH_CLIENT_SECRET='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value
       travis encrypt --pro WEBHOOK_URL='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value, escape $ and & symbols with \
+      travis encrypt --pro ARM_CLIENT_SECRET='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value, escape $ and & symbols with \
   ```
 ### One Time Heroku (CD) Setup  
   * Upload these ENV variables to Heroku application `khalidashraf-todo-app`. You can change this to your own app name in Heroku.
