@@ -37,7 +37,7 @@ $ poetry env remove python
 $ poetry install
 ```
 ### Setup Environment Configuration
-You'll also need to clone a new `.env` file from the `.env.template` to store local configuration options. This is a one-time operation on first setup:
+You'll need to clone a new `.env` file from the `.env.template` to store local configuration options. This is a one-time operation on first setup:
 
 ```bash
 $ cp .env.template .env  # (first time only)
@@ -45,12 +45,21 @@ $ cp .env.template .env  # (first time only)
 
 The `.env` file is used by flask to set environment variables when running `flask run`. This enables things like development mode (which also enables features like hot reloading when you make a file change). There's also a [SECRET_KEY](https://flask.palletsprojects.com/en/1.1.x/config/#SECRET_KEY) variable which is used to encrypt the flask session cookie.
 
+### Setup Terraform Variables if Deploying Infrastructure from Local System
+If you want to deploy infrastructure from the local system then you'll also need to clone a new `terraform.tfvars` file from the `terraform.tfvars.template` to store terraform variable values locally. This is a one-time operation on first setup:
+
+```bash
+$ cp terraform.tfvars.template terraform.tfvars  # (first time only)
+```
+
+The `terraform.tfvars` file is used by terraform to set environment variables that change between environments. Please provide values for all variables used in the terraform variables file `variables.tf`
+
 
 ### Create a Mongo DB Account
 
 We're going to be using Mongo DB to save and fetch to-do tasks. In order to save to MongoDB, you need to first [create an account](https://www.mongodb.com/try). There is a free tier, which is suitable for our purposes. If you choose the "I'm learning MongoDB" option at sign-up then the set-up instructions are very intuitive.
 
-Update the `.env` file with Mongo DB's variables `MONGO_USER`, `MONGO_PASS` and `MONGO_DB`.
+Update the `.env` file with Mongo DB's connection string `MONGODB_CONNECTION_STRING`.
 
 ### Setup OAuth Account and Setup Environment Variables
 
@@ -175,21 +184,33 @@ Follow these steps once to setup CI/CD pipeline with [`Travis CI`](https://travi
  9. All notifications are sent to Slack channel. Reconfigure `.travis.yml` file to send notification to your own channel(s) if desired.
  10. Failure notifications are sent to email addresses configured in the `.travis.yml` file. Change as desired.
  11. Encrypt these ENV variables in the travis pipeline file. This is one off setup:
+      NOTE: 1) Encrypt in Git Bash as DOS treats querystrings as separate commands resulting in invalid encrypted value
+            2) Escape special characters such as $ and & symbols with backslash \
+  
+  `ARM_CLIENT_SECRET` is the password when we run this command in bash:
+  ```bash
+      az ad sp create-for-rbac --name "khalid-service-principal" --role Contributor --scopes /subscriptions/d33b95c7-af3c-4247-9661-aa96d47fccc0/resourceGroups/OpenCohort1_KhalidAshraf_ProjectExercise
+  ```
+  Mappings are:
+   ARM_CLIENT_ID = appId
+   ARM_TENANT_ID = tenant
+   ARM_SUBSCRIPTION_ID = the one used when issuing principal creation command
+   ARM_CLIENT_SECRET = password
+  
   ```bash
       travis encrypt --pro SECRET_KEY='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value      
-      travis encrypt --pro MONGO_PASS='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value      
+      travis encrypt --pro MONGODB_CONNECTION_STRING='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value      
       travis encrypt --pro DOCKER_PASS='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value
       travis encrypt --pro OAUTH_CLIENT_ID='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value
       travis encrypt --pro OAUTH_CLIENT_SECRET='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value
-      travis encrypt --pro WEBHOOK_URL='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value, escape $ symbol with \
+      travis encrypt --pro WEBHOOK_URL='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value, escape $ and & symbols with \
+      travis encrypt --pro ARM_CLIENT_SECRET='REPLACE_THIS_VALUE' --add # replace REPLACE_THIS_VALUE with the actual value, escape $ and & symbols with \
   ```
 ### One Time Heroku (CD) Setup  
   * Upload these ENV variables to Heroku application `khalidashraf-todo-app`. You can change this to your own app name in Heroku.
   ```bash
       heroku config:set `cat .env | grep SECRET_KEY` -a khalidashraf-todo-app
-      heroku config:set `cat .env | grep MONGO_USER` -a khalidashraf-todo-app
-      heroku config:set `cat .env | grep MONGO_PASS` -a khalidashraf-todo-app
-      heroku config:set `cat .env | grep MONGO_DB` -a khalidashraf-todo-app
+      heroku config:set `cat .env | grep MONGODB_CONNECTION_STRING` -a khalidashraf-todo-app      
       heroku config:set `cat .env | grep OAUTH_CLIENT_ID` -a khalidashraf-todo-app
       heroku config:set `cat .env | grep OAUTH_CLIENT_SECRET` -a khalidashraf-todo-app
       heroku config:set `cat .env | grep OAUTH_AUTHENTICATE_URL` -a khalidashraf-todo-app      
