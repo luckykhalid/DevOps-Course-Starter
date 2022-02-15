@@ -38,7 +38,8 @@ before_deploy:
 
 deploy:
   provider: script
-  script: bash ./build-deploy.sh    
+  script: bash ./build-deploy.sh
+  skip_cleanup: true
   on:
     all_branches: true
     condition: $TRAVIS_BRANCH =~ ^(master|project12)$
