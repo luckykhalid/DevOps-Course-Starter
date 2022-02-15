@@ -58,8 +58,6 @@ resource "azurerm_app_service" "main" {
 data "azurerm_cosmosdb_account" "main" {
   name                = "${var.prefix}-devops"
   resource_group_name = data.azurerm_resource_group.main.name
-  #capabilities { name = "EnableServerless" }
-  #capabilities { name = "EnableMongo" }
 }
 
 resource "azurerm_cosmosdb_mongo_database" "main" {

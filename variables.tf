@@ -10,9 +10,11 @@ variable "oauth_client_id" {
 }
 variable "oauth_client_secret" {
   description = "OAUTH CLIENT SECRET"
+  sensitive = true
 }
 variable "secret_key" {
   description = "SECRET KEY"
+  sensitive = true
 }
 
 variable "oauth_authenticate_url"{

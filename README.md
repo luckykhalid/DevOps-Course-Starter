@@ -45,8 +45,8 @@ $ cp .env.template .env  # (first time only)
 
 The `.env` file is used by flask to set environment variables when running `flask run`. This enables things like development mode (which also enables features like hot reloading when you make a file change). There's also a [SECRET_KEY](https://flask.palletsprojects.com/en/1.1.x/config/#SECRET_KEY) variable which is used to encrypt the flask session cookie.
 
-### Setup Terraform Variables
-You'll also need to clone a new `terraform.tfvars` file from the `terraform.tfvars.template` to store terraform variable values locally. This is a one-time operation on first setup:
+### Setup Terraform Variables if Deploying Infrastructure from Local System
+If you want to deploy infrastructure from the local system then you'll also need to clone a new `terraform.tfvars` file from the `terraform.tfvars.template` to store terraform variable values locally. This is a one-time operation on first setup:
 
 ```bash
 $ cp terraform.tfvars.template terraform.tfvars  # (first time only)
