@@ -41,9 +41,9 @@ deploy:
   script: bash ./build-deploy.sh
   skip_cleanup: true
   on:
-    all_branches: true
-    condition: $TRAVIS_BRANCH =~ ^(master|project12)$
-    #branch: master
+    branch: 
+      - master
+      - project12
 
 notifications:
   slack:
