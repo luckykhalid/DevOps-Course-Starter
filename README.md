@@ -109,6 +109,36 @@ poetry run gunicorn -b 127.0.0.1:5000 "todo_app.app:create_app()"
  * "vagrant ssh" - Ssh into the VM.
 
 ```
+
+### Running the App locally inside minikube cluster
+* Install minikube cluseter from [`here`](https://minikube.sigs.k8s.io/docs/start/) and run following command in an admin terminal to start it:
+```bash
+ minikube start
+```
+
+Run following commands to create docker image of the app and load it in the minikube cluster:
+```bash
+ docker build --target prod --tag todo-app:prod .
+ minikube image load todo-app:prod
+```
+
+Run following command to encrypt and store the sensitive environment variables as secret in minikube:
+```bash
+ kubectl create secret generic todo-app-secrets \
+  --from-literal=MONGODB_CONNECTION_STRING='REPLACE-WITH-ACTUAL-VALUE' \
+  --from-literal=OAUTH_CLIENT_ID='REPLACE-WITH-ACTUAL-VALUE' \
+  --from-literal=OAUTH_CLIENT_SECRET='REPLACE-WITH-ACTUAL-VALUE' \
+  --from-literal=SECRET_KEY='REPLACE-WITH-ACTUAL-VALUE' \
+  --from-literal=LOGGLY_TOKEN='REPLACE-WITH-ACTUAL-VALUE'
+```
+
+Run following commands to run the app inside minikube cluster:
+```bash
+ kubectl apply -f deployment.yaml
+ kubectl apply -f service.yaml
+ kubectl port-forward service/module-14 5000:5000
+```
+
 ## Running the App inside Docker Container
 
 ### Run with flask in Dev Mode
