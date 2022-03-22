@@ -1,0 +1,13 @@
+# service.yaml
+kind: Service
+apiVersion: v1
+metadata:
+  name: module-14
+spec:
+  type: NodePort
+  selector:
+    app: module-14
+  ports:
+  - protocol: TCP
+    port: 5000
+    targetPort: 5000

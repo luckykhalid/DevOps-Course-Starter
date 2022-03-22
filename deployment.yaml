@@ -1,0 +1,35 @@
+# deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: module-14
+spec:
+  selector:
+    matchLabels:
+      app: module-14
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: module-14
+    spec:
+      containers:
+        - name: todo-app
+          image: todo-app:prod
+          imagePullPolicy: Never
+          env:          
+          - name: OAUTH_ACCESS_TOKEN_URL
+            value: "https://github.com/login/oauth/access_token"
+          - name: OAUTH_AUTHENTICATE_URL
+            value: "https://github.com/login/oauth/authorize"          
+          - name: OAUTH_USER_URL
+            value: "https://api.github.com/user"
+          - name: ROLE_WRITER_USERS
+            value: "luckykhalid"          
+          - name: LOG_LEVEL
+            value: "DEBUG"          
+          envFrom:
+          - secretRef:
+              name: todo-app-secrets
+          ports:
+          - containerPort: 5000
