@@ -7,16 +7,26 @@ from todo_app.flask_config import Config
 import os
 from flask_login import LoginManager, login_required, current_user
 from todo_app.security.Auth import Auth
+from loggly.handlers import HTTPSHandler
+from logging import Formatter
+
 
 
 def create_app(db_name=None):
     app = Flask(__name__)
     app.config.from_object(Config())
+    app.logger.setLevel(app.config['LOG_LEVEL'])
+    if app.config['LOGGLY_TOKEN'] is not None:
+        handler = HTTPSHandler(f'https://logs-01.loggly.com/inputs/{app.config["LOGGLY_TOKEN"]}/tag/todo-app')
+        handler.setFormatter(Formatter("[%(asctime)s] %(levelname)s in %(module)s: %(message)s"))
+        app.logger.addHandler(handler)
     MongoDbApi.init(db_name)
     Auth.init()
 
     def can_write():
-        return app.config['LOGIN_DISABLED'] or current_user.has_write_permission()
+        can_current_user_write = app.config['LOGIN_DISABLED'] or current_user.has_write_permission()
+        app.logger.info("Does current user have write permission? %s", can_current_user_write)
+        return can_current_user_write
 
     @app.route('/')
     @login_required
@@ -30,6 +40,7 @@ def create_app(db_name=None):
     def create_item():  # pylint:disable=unused-variable
         if can_write():
             Items.add_item(request.form['title'])
+            app.logger.info("New item '%s' successfully created.", request.form['title'])
         return redirect('/')
 
     @app.route('/actions/<action>/<id>')
@@ -38,8 +49,10 @@ def create_app(db_name=None):
         if can_write():
             if action == 'doing':
                 Items.doing_item(id)
+                app.logger.debug("Item status for '%s' successfully changed to 'Doing'.", id)
             elif action == 'done':
                 Items.done_item(id)
+                app.logger.debug("Item status for '%s' successfully changed to 'Done'.", id)
 
         return redirect('/')
 
@@ -54,6 +67,7 @@ def create_app(db_name=None):
     def remove_item(id):  # pylint:disable=unused-variable
         if can_write():
             Items.delete_item(id)
+            app.logger.debug("Item '%s' successfully deleted.", id)
         return redirect('/')
 
     @app.route('/favicon.ico')
@@ -64,6 +78,7 @@ def create_app(db_name=None):
 
     @login_manager.unauthorized_handler
     def unauthenticated():
+        app.logger.debug("Current user is not authenticated.")
         return redirect(Auth.unauthenticated())
 
     @login_manager.user_loader
@@ -73,6 +88,7 @@ def create_app(db_name=None):
     @app.route('/login/callback')
     def login_callback():  # pylint:disable=unused-variable
         Auth.login_callback(request)
+        app.logger.debug("Current user has been authenticated.")
         return redirect('/')
 
     login_manager.init_app(app)

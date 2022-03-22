@@ -17,6 +17,8 @@ env:
   - ARM_SUBSCRIPTION_ID=d33b95c7-af3c-4247-9661-aa96d47fccc0
   - secure: Xz3vhgVvuGdZcWOAwB5g6/UbDRBrEnFqxTx9cQMuPCQ70eNurJgmWRijqavlw0TlgyS0lDBZ1w17t+Fewsz9HWSHC0bj2WBDO/o3Lz+s/DteVvixiO6fxBUvC2uL9fU0apABkECC5h113z6WWteZ4xqVl4OkrQ3z3xaxyPGkQg6epwWmzwdY5fzXeeOGQfVwH41TLBMlE7F5OeXc1qUutNKLuM2gxK0WI4DobB6hWVp+teCQ3zJ1vndc2wIBp8cBAQ8dXZPla8DR/DNG6hMBccEpGQJ4GNJ4hdSWQI23u0s9wwvKh3mJwYZ8IkvFIIs9OnM1cT500JV99E09S1+/lARmDsFnWaO523tUb0C2vzIwPedWYB4wSvBjweg8jArhyKIZuW/JCIFU9BM+y3q0BisNPmhU2WhY/VGQ+zBGbFIY/YwjozP2w+RwhVCiKLLmqNgR7tquFhcP7Ie3Dn8IW+hYjMYhv0aLpnOnU5MjMGWGTw/dDtiKhZto4mPv6eIGUw0SccdfBaXs9Uh0fSUDO3vdkB6SMpAD8Tn8oU6qi/QeceHfpy5lb0NWsQgr9NlY4iKGMhfB7AvIsiRSrM1JDiafrdjaUxUzdD02L9uG24rIMMf9GkvHxLbb/tUl2yLAe+smqrKARckNgGSw+Faq0G0zt3/zAOMg4iXXjTKt59s=
   - TF_VERSION=0.14.7
+  - LOG_LEVEL=WARN
+  - secure: EgJ0e/MtppM60M1tNFkXNsm/XA1o17RVktzJjOg48CdBjZ9xgQVGGQrU+/Ey5FFjpX8bEj0oxLNw7Bs1eYGKqWq5jjYoP+oDDLYW2zPsUPNkQUihuCDldgSqW47eSexZdyHL6dwMe5VnIc8bAZhFurUNYjGR1+hWjZk3YP1GezpgBZF4/OZSRN9KUcF6LvOFoUxJ0lRgh4Q3bm1V8kVTGJ66fe3PRBt0zXZX/d+K21VMTUyx5dRjqneGOgSioPasHYWFmRN7zuFc5z+KSIisxzQfvgI+HtrBJpBThvB7raUa8/wLwZOIYPKMZ9wwlG0aOU9X+LTq7lVX2bYOTz3w3QaNrQDmtkyhgcT+ptqXo75NXcdf0zdO8+K8blL6/b83JFKEsJMrVF8AEmuoMCF9NzBxzLqa4txcEiSmVr5Y9+IyVVRiMqpXh24dKe+na5MaRT8PqvERMdvzS3WQOqdRJALG+TTuUoDUTyQl7TLlivgBCAqgGhMoMALCbQYk1XnYzAoFnx7McMPTp6OjVlkfQ41KtXckNINKuZg3Mh/MfiiyCfnvG5wrMJvCDhdtpF6Z+Ysle/1/EE04F/vpPs8p3MEvm0vXb2w/qvda0W84JG4rg/Mn2aKyKLJdra1gQm2iBFn+3CL85KuEAh08Jhq6B6QtJkqm/EM0FUV2gqFe5Gw=
 services:
 - docker
   
@@ -24,7 +26,7 @@ script:
   # Build test image and test the code  
   - docker build --target test --tag todo_app:test .
   - docker run --env-file .env.test todo_app:test tests
-  - docker run -e SECRET_KEY -e MONGODB_CONNECTION_STRING -e OAUTH_CLIENT_ID -e OAUTH_CLIENT_SECRET -e OAUTH_AUTHENTICATE_URL -e OAUTH_ACCESS_TOKEN_URL -e OAUTH_USER_URL -e ROLE_WRITER_USERS todo_app:test tests_e2e
+  - docker run -e SECRET_KEY -e MONGODB_CONNECTION_STRING -e OAUTH_CLIENT_ID -e OAUTH_CLIENT_SECRET -e OAUTH_AUTHENTICATE_URL -e OAUTH_ACCESS_TOKEN_URL -e OAUTH_USER_URL -e ROLE_WRITER_USERS -e LOG_LEVEL -e LOGGLY_TOKEN todo_app:test tests_e2e
 
 install:
 - wget https://releases.hashicorp.com/terraform/"$TF_VERSION"/terraform_"$TF_VERSION"_linux_amd64.zip
@@ -34,7 +36,7 @@ install:
 - terraform init
 
 before_deploy:
-- terraform apply -var "prefix=khalid" -var "secret_key=$SECRET_KEY" -var "oauth_client_id=$OAUTH_CLIENT_ID" -var "oauth_client_secret=$OAUTH_CLIENT_SECRET" -var "oauth_authenticate_url=$OAUTH_AUTHENTICATE_URL" -var "oauth_access_token_url=$OAUTH_ACCESS_TOKEN_URL" -var "oauth_user_url=$OAUTH_USER_URL" -var "role_writer_users=$ROLE_WRITER_USERS" -auto-approve
+- terraform apply -var "prefix=khalid" -var "secret_key=$SECRET_KEY" -var "oauth_client_id=$OAUTH_CLIENT_ID" -var "oauth_client_secret=$OAUTH_CLIENT_SECRET" -var "oauth_authenticate_url=$OAUTH_AUTHENTICATE_URL" -var "oauth_access_token_url=$OAUTH_ACCESS_TOKEN_URL" -var "oauth_user_url=$OAUTH_USER_URL" -var "role_writer_users=$ROLE_WRITER_USERS" -var "log_level=$LOG_LEVEL" -var "loggly_token=$LOGGLY_TOKEN" -auto-approve
 
 deploy:
   provider: script

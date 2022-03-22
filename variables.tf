@@ -33,3 +33,11 @@ variable "role_writer_users"{
   description = "ROLE WRITER USERS"
 } 
 
+variable "loggly_token" {
+  description = "LOGGLY TOKEN"
+  sensitive = true
+}
+
+variable "log_level" {
+  description = "LOG LEVEL"
+}

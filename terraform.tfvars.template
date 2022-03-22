@@ -7,3 +7,6 @@ oauth_authenticate_url = "https://github.com/login/oauth/authorize"
 oauth_access_token_url = "https://github.com/login/oauth/access_token"
 oauth_user_url = "https://api.github.com/user"
 role_writer_users = "luckykhalid"
+
+log_level = "WARN"
+loggly_token = "4bdae33333333aaa508222"

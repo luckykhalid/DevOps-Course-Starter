@@ -52,6 +52,8 @@ resource "azurerm_app_service" "main" {
     "OAUTH_ACCESS_TOKEN_URL"     = "${var.oauth_access_token_url}"
     "OAUTH_USER_URL"             = "${var.oauth_user_url}"
     "ROLE_WRITER_USERS"          = "${var.role_writer_users}"
+    "LOG_LEVEL"                  = "${var.log_level}"
+    "LOGGLY_TOKEN"               = "${var.loggly_token}"
   }
 }
 
